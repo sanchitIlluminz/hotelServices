@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/grey_dark"
+    android:padding="40dp">
+
+    <ImageView
+        android:id="@+id/ivError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/inter_bold"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_xs"
+        tools:text="Hi, Ms.Monica" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="36dp"
+        android:fontFamily="@font/inter_medium"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        tools:text="Have a nice stay at Empire Hotels"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnError"
+        style="@style/AppButton.Unelivated.PrimaryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Let's Explore" />
+
+</LinearLayout>

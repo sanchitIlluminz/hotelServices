@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:minHeight="64dp"
+    android:padding="8dp"
+    android:background="@drawable/background_delivery_item"
+    android:clickable="true"
+    android:focusable="true"
+    >
+
+    <LinearLayout
+        android:id="@+id/llDeliveryTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_delivery_time"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        >
+        <TextView
+            android:id="@+id/tvTimeValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_medium"
+            android:textSize="@dimen/text_xxhuge"
+            android:textColor="@color/add_button_background_color"
+            tools:text="15"
+            android:gravity="bottom"
+            android:includeFontPadding="false"
+
+            />
+        <TextView
+            android:id="@+id/tvTimeUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_medium"
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/add_button_background_color"
+            tools:text="min"
+            android:includeFontPadding="false"
+            android:gravity="top"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvFoodPreparationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:textSize="@dimen/text_large"
+        android:textColor="@color/add_button_background_color"
+        android:layout_toEndOf="@id/llDeliveryTime"
+        android:layout_marginStart="12dp"
+        android:text="@string/your_food_is_preparing"
+        android:layout_marginTop="6dp"
+        />
+    <TextView
+        android:id="@+id/tvDeliveryLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_regular"
+        android:textSize="@dimen/text_default"
+        android:textColor="@color/add_button_background_color"
+        android:layout_toEndOf="@id/llDeliveryTime"
+        android:layout_marginStart="12dp"
+        tools:text="It will be delivered at 4:30pm"
+        android:layout_below="@id/tvFoodPreparationLabel"
+        />
+
+    <TextView
+        android:id="@+id/tvViewDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:textSize="@dimen/text_medium"
+        android:textColor="@color/deliver_details_color"
+        android:layout_alignParentEnd="true"
+        android:text="@string/view_details"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        />
+
+</RelativeLayout>

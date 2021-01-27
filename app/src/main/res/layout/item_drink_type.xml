@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:id="@+id/tvDrinkType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="@dimen/text_xxs"
+        android:textColor="@color/text_color"
+        tools:text="Beer"
+        android:includeFontPadding="false"/>
+    <TextView
+        android:id="@+id/tvTotalDrinks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_regular"
+        android:textSize="@dimen/text_huge"
+        android:textColor="@color/text_color"
+        android:includeFontPadding="false"/>
+
+</LinearLayout>

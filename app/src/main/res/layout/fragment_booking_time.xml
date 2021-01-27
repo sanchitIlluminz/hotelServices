@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.home.bookTable.BookingTimeFragment">
+
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/rvHour"
+      android:layout_width="106dp"
+      android:layout_height="192dp"
+      android:layout_alignParentStart="true"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+      android:orientation="vertical"
+      tools:listitem="@layout/item_booking_time"
+      tools:itemCount="5"
+
+      />
+  <View
+      android:id="@+id/containerHr"
+      android:layout_width="106dp"
+      android:layout_height="72dp"
+      android:layout_centerVertical="true"
+      android:layout_alignParentStart="true"
+      android:background="@drawable/background_booking_time"/>
+  <TextView
+      android:id="@+id/tvColon"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/colon"
+      android:fontFamily="@font/inter_bold"
+      android:textSize="50sp"
+      android:gravity="center"
+      android:textColor="@color/colorPrimary"
+      android:layout_centerVertical="true"
+      android:layout_toEndOf="@id/containerHr"
+      android:layout_marginStart="24dp"
+      android:layout_marginEnd="24dp"/>
+
+
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/rvMin"
+      android:layout_width="106dp"
+      android:layout_height="192dp"
+      android:layout_toEndOf="@id/tvColon"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+      android:orientation="vertical"
+      tools:listitem="@layout/item_booking_time"
+      tools:itemCount="5"
+      />
+  <View
+      android:id="@+id/containerMin"
+      android:layout_width="106dp"
+      android:layout_height="72dp"
+      android:layout_centerVertical="true"
+      android:layout_toEndOf="@id/tvColon"
+      android:background="@drawable/background_booking_time"/>
+
+  <TextView
+      android:id="@+id/tvTime"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:fontFamily="@font/inter_medium"
+      android:textSize="@dimen/text_xxs"
+      android:textColor="@color/colorPrimary"
+      android:text="AM"
+      android:textAllCaps="true"
+      android:layout_toEndOf="@id/containerMin"
+      android:layout_centerVertical="true"
+      android:layout_marginStart="24dp"/>
+
+</RelativeLayout>

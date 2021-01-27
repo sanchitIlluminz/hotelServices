@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flCheckboxBackground"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:stateListAnimator="@animator/touch_state_list_animator">
+
+    <ImageView
+        android:id="@+id/ivCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="0"
+        android:scaleY="0"
+        tools:ignore="ContentDescription"
+        tools:layout_height="24dp"
+        tools:layout_width="24dp"
+        tools:src="#000000" />
+</FrameLayout>

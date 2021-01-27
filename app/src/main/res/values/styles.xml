@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.Splash">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimary</item>
+    </style>
+
+    <style name="InstantClassDetailsTheme" parent="AppTheme.DarkStatusBar">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="ToolbarTitleStyle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/text_xhuge</item>
+        <item name="fontFamily">@font/inter_semi_bold</item>
+    </style>
+
+    <!-- set the rounded drawable as background to your bottom sheet -->
+    <style name="BottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/background_delivery_time</item>
+    </style>
+
+    <style name="BaseBottomSheetDialog" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="AppBottomSheetDialog" parent="BaseBottomSheetDialog" />
+
+    <style name="AppButton.Unelivated.DigitalIDVerifyNowButton">
+        <item name="android:background">@drawable/verify_now_button_bg</item>
+        <item name="android:drawableLeft">@drawable/ic_id_logo</item>
+        <item name="android:textColor">@color/au_com_digitalid_verifybtn_text_color</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="fontFamily">@font/inter_semi_bold</item>
+    </style>
+
+
+    <style name="RadioButton" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/drawable_radio_button</item>
+    </style>
+
+    <style name="MaterialRadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+
+    </style>
+
+    <style name="CustomCheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="background">@drawable/background_checkbox</item>
+        <item name="fontFamily">@font/inter_regular</item>
+        <item name="android:textColor">@color/checkbox_text_color</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:buttonTint">@color/checkbox_tint_color</item>
+        <item name="android:drawablePadding">8dp</item>
+    </style>
+
+    <!--  <style name="ratingBarBig" parent="@android:style/Widget.RatingBar">
+          <item name="android:progressDrawable">@drawable/ratingbar_big</item>
+          <item name="android:minHeight">34dp</item>
+
+      </style>
+
+      <style name="ratingBarSmall" parent="@android:style/Widget.RatingBar">
+          <item name="android:progressDrawable">@drawable/rating_bar_small</item>
+          <item name="android:minHeight">26dp</item>
+      </style>-->
+
+
+    <!-- set the rounded drawable as background to your bottom sheet -->
+    <!--<style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet_dialog_bank_account_detail</item>
+    </style>
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />-->
+</resources>

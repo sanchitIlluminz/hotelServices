@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.core.ui.custom.OtpNumberView
+        android:id="@+id/otp1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:nextFocusRight="@id/otp2" />
+
+    <com.core.ui.custom.OtpNumberView
+        android:id="@+id/otp2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:nextFocusLeft="@id/otp1"
+        android:nextFocusRight="@id/otp3" />
+
+    <com.core.ui.custom.OtpNumberView
+        android:id="@+id/otp3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:nextFocusLeft="@id/otp2"
+        android:nextFocusRight="@id/otp4" />
+
+    <com.core.ui.custom.OtpNumberView
+        android:id="@+id/otp4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:nextFocusLeft="@id/otp3" />
+
+</LinearLayout>

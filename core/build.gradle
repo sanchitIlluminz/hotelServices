@@ -1,0 +1,52 @@
+apply from: "$rootDir/common-android-library.gradle"
+
+dependencies {
+    implementation project(':error')
+
+    // AndroidX
+    implementation deps.android.appCompat
+    implementation deps.android.constraintLayout
+    implementation deps.android.coreKtx
+    implementation deps.android.fragmentKtx
+    implementation deps.android.activityKtx
+    implementation deps.android.recyclerView
+    implementation deps.android.lifecycle
+    implementation deps.android.exifInterface
+    implementation deps.android.swipeRefreshLayout
+
+    implementation deps.google.auth
+
+    // Material components
+    implementation deps.android.material
+
+    // Kotlin
+    implementation deps.kotlin.stdlib
+    implementation deps.kotlin.coroutinesCore
+    implementation deps.kotlin.coroutinesAndroid
+
+    // DI
+    implementation deps.google.dagger
+    kapt deps.google.daggerProcessor
+    implementation deps.google.daggerAndroid
+    kapt deps.google.daggerAndroidProcessor
+
+    // Retrofit
+    implementation deps.square.retrofit
+    implementation deps.square.gsonConverter
+    implementation deps.square.loggingInterceptor
+
+    implementation deps.groupie.groupie
+    implementation deps.groupie.groupieKotlin
+
+    // Image
+    implementation deps.image.glide
+    kapt deps.image.glideCompiler
+
+    // Logging
+    implementation deps.additional.timber
+
+    // Backport of Java 8's time package
+    implementation deps.additional.threeTen
+
+    implementation deps.additional.permissionDispatcher
+}

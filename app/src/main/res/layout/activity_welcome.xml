@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.welcome.WelcomeActivity"
+    android:background="@color/white">
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@color/grey_dark"
+        android:padding="40dp"
+        android:layout_centerInParent="true">
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/inter_bold"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_xs"
+        tools:text="Hi, Ms.Monica" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="@font/inter_medium"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        tools:text="Have a nice stay at Empire Hotels"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnExplore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/welcome_button_color"
+        android:minHeight="50dp"
+        android:text="@string/let_s_explore"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="@dimen/text_large"
+        android:textColor="@color/white"
+        app:cornerRadius="6dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

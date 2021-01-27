@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#E4E4E4</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorAccent">#D7E3FE</color>
+    <color name="colorControlHighlight">#20000000</color>
+
+    <color name="transparent">#00FFFFFF</color>
+    <color name="blackTransparent">#00000000</color>
+
+    <color name="text_color">#1E2230</color>
+    <color name="text_color_1">#493A12</color>
+    <color name="text_color_2">#1E2230</color>
+    <color name="text_color_3">#787D8C</color>
+    <color name="text_color_4">#1B1A1F</color>
+    <color name="toolbar_text_color">#1E2230</color>
+    <color name="ticker_text_color">#1B1A1F</color>
+
+    <color name="add_button_text_color">#1B1A1F</color>
+    <color name="add_button_background_color">#FFFFFF</color>
+    <color name="add_button_stroke_color">#BDC0CA</color>
+
+    <color name="welcome_button_color">#D36D01</color>
+
+    <color name="schedule_popup_stroke">#C3C5CF</color>
+
+    <color name="heading_text_color">#1E2230</color>
+    <color name="services_heading_text_color">#1E2230</color>
+    <color name="booking_details_background">#FFFFFF</color>
+
+    <color name="yellow">#FFF01C</color>
+    <color name="primary_light">#1E2230</color>
+    <color name="heading_text_color_1">#626A83</color>
+    <color name="heading_text_color_2">#6E7997</color>
+    <color name="heading_text_color_3">#1E2230</color>
+    <color name="heading_text_color_4">#616982</color>
+    <color name="heading_text_color_5">#1E2230</color>
+
+    <color name="text_color_food">#1E2230</color>
+    <color name="color_price">#787D8C</color>
+    <color name="color_minus">#59617B</color>
+    <color name="background_item_count">#F4F4F5</color>
+    <color name="tab_highlight">#D36D01</color>
+    <color name="tab_default_color">#787D8C</color>
+    <color name="sub_heading_text_color">#787D8C</color>
+    <color name="sub_heading_text_color_1">#787D8C</color>
+    <color name="sub_heading_text_color_2">#E4E4E4</color>
+
+    <color name="radio_button_text_color">#EFF2FF</color>
+    <color name="vertical_divider">#656C82</color>
+    <color name="green">#088C3D</color>
+
+    <color name="color_dialog_title">#1E2230</color>
+    <color name="color_dialog_subtitle">#7B829A</color>
+    <color name="color_dialog_button">#3450AD</color>
+
+    <color name="color_booking_calendar">#1E2230</color>
+    <color name="food_item_list_number">#787D8C</color>
+
+    <color name="dialog_button_color">#FFD323</color>
+    <color name="dialog_button_color1">#D36D01</color>
+
+    <color name="edt_hint_color">#9AA2BB</color>
+    <color name="booking_heading_text_color">#1E2230</color>
+    <color name="drink_dialog_vol_color">#787D8C</color>
+    <color name="calendar_date_color">#787D8C</color>
+    <color name="food_timing_color">#6E7997</color>
+
+    <color name="coupon_background">#F7FAFF</color>
+    <color name="coupon_text_color">#DE304B</color>
+    <color name="coupon_text_color_1">#334059</color>
+    <color name="coupon_text_color_2">#8D95AC</color>
+
+    <color name="deliver_details_color">#BCC3D7</color>
+    <color name="menu_button_color">#000000</color>
+    <color name="view_cart_background_color">#FFD323</color>
+
+
+    <color name="checkbox_text_color">#1E2230</color>
+    <color name="checkbox_tint_color">#00923F</color>
+
+    <color name="refer_border">#737EA1</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="whiteE5">#E5FFFFFF</color>
+    <color name="white5B">#5BFFFFFF</color>
+
+    <color name="white3D">#3DFFFFFF</color>
+    <color name="light_gray">#CFE7D6</color>
+    <color name="white14">#14FFFFFF</color>
+    <color name="white_trans_87">#DEFFFFFF</color>
+    <color name="cross_background">#33FCFCFF</color>
+    <color name="grey_dark">#52162023</color>
+    <color name="dark_gray">#4B5879</color>
+    <color name="status_initiate">#F49405</color>
+    <color name="status_completed">#0AAF51</color>
+    <color name="black">#000000</color>
+    <color name="button_text">#1B1A1F</color>
+
+    <color name="darkest_blue">#0B152D</color>
+
+    <color name="ripple1">#E3E8FF</color>
+    <color name="ripple1_foreground">#44E3E8FF</color>
+
+    <color name="imagePlaceholder">#CFD8DC</color>
+    <color name="colorDivider">#1E000000</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
+
+    <color name="unselected_indicator">#C9CDD5</color>
+    <color name="dark_black">#24253B</color>
+    <color name="logout_red">#E30E35</color>
+    <color name="text_heading_color">#24253B</color>
+    <color name="edit_text_border">#D2DBE4</color>
+    <color name="line_border">#F5F7FF</color>
+    <color name="blue">#0D4AD0</color>
+
+    <color name="shade1">#121936</color>
+    <color name="shade3">#B0B5CF</color>
+    <color name="shade4">#464C66</color>
+    <color name="shade6">#777F9F</color>
+    <color name="shade7">#121521</color>
+    <color name="shade11">#667095</color>
+    <color name="shade28">#E4E5EC</color>
+
+
+    <color name="sub_heading_color">#5F6C94</color>
+
+    <color name="error1">#E43636</color>
+    <color name="red_stroke">#F9D8DE</color>
+    <color name="red">#8A222F</color>
+    <color name="red_solid">#FFF1F3</color>
+
+    <color name="light_yellow">#F8F6D2</color>
+
+</resources>

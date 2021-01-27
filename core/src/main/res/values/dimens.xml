@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_xtiny">8sp</dimen>
+    <dimen name="text_tiny">10sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+    <dimen name="text_default">14sp</dimen>
+    <dimen name="text_medium">16sp</dimen>
+    <dimen name="text_large">18sp</dimen>
+    <dimen name="text_huge">20sp</dimen>
+    <dimen name="text_xhuge">22sp</dimen>
+    <dimen name="text_xxhuge">24sp</dimen>
+    <dimen name="text_xxxhuge">28sp</dimen>
+    <dimen name="text_xs">30sp</dimen>
+    <dimen name="text_xxs">32sp</dimen>
+
+
+    <dimen name="snackbar_icon_padding">8dp</dimen>
+
+    <dimen name="bottom_navigation_text">10sp</dimen>
+
+    <dimen name="spacing_screen_horizontal">28dp</dimen>
+    <dimen name="spacing_screen_horizontal_2">36dp</dimen>
+
+
+    <dimen name="buttonMinWidth">56dp</dimen>
+    <dimen name="buttonMinHeight">56dp</dimen>
+    <dimen name="buttonMinHeightWithoutVerticalPadding">48dp</dimen>
+</resources>

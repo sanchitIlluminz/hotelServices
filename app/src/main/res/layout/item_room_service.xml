@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="horizontal"
+    android:weightSum="4"
+    android:paddingBottom="14dp"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5">
+
+        <TextView
+            android:id="@+id/tvRestaurantLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:drawableStart="@drawable/ic_restaurant"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/restaurant"
+            android:textColor="@color/heading_text_color_1"
+            android:textSize="@dimen/text_medium"
+            />
+
+        <TextView
+            android:id="@+id/tvBreakfastLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvRestaurantLabel"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/inter_regular"
+            android:singleLine="true"
+            android:text="@string/breakfast"
+            android:textColor="@color/heading_text_color_2"
+            android:textSize="@dimen/text_large" />
+
+        <TextView
+            android:id="@+id/tvBreakfastTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tvBreakfastLabel"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/tvBreakfastLabel"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large"
+            tools:text="8am - 10 am"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginStart="4dp"/>
+
+        <TextView
+            android:id="@+id/tvLunchLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvBreakfastLabel"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/lunch"
+            android:textColor="@color/heading_text_color_2"
+            android:textSize="@dimen/text_large"
+            android:layout_alignEnd="@id/tvBreakfastLabel"/>
+
+        <TextView
+            android:id="@+id/tvLunchTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tvLunchLabel"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large"
+            android:layout_toEndOf="@id/tvLunchLabel"
+            tools:text="1pm - 2:30pm"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginStart="4dp"/>
+
+        <TextView
+            android:id="@+id/tvDinnerLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvLunchLabel"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="4dp"
+            android:layout_alignEnd="@id/tvLunchLabel"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/dinner"
+            android:textColor="@color/heading_text_color_2"
+            android:textSize="@dimen/text_large" />
+
+        <TextView
+            android:id="@+id/tvDinnerTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tvDinnerLabel"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large"
+            android:layout_toEndOf="@id/tvDinnerLabel"
+            tools:text="8pm - 11pm"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginStart="4dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_screen_horizontal"
+        android:layout_marginEnd="@dimen/spacing_screen_horizontal"
+        android:layout_weight="1.2">
+
+        <TextView
+            android:id="@+id/tvContactLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_contact"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/contact"
+            android:textColor="@color/heading_text_color_1"
+            android:textSize="@dimen/text_medium"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/tvReceptionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvContactLabel"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="4dp"
+            android:layout_toStartOf="@id/tvReceptionNumber"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/reception"
+            android:textColor="@color/heading_text_color_2"
+            android:textSize="@dimen/text_large" />
+
+        <TextView
+            android:id="@+id/tvReceptionNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tvReceptionLabel"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large"
+            tools:text="109"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/tvHotelLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvReceptionLabel"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="4dp"
+            android:layout_toStartOf="@id/tvHotelNumber"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/hotel"
+            android:textColor="@color/heading_text_color_2"
+            android:textSize="@dimen/text_large"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/tvHotelNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tvHotelLabel"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large"
+            tools:text="119"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/tvEmergencyLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvHotelLabel"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="4dp"
+            android:layout_toStartOf="@id/tvEmergencyNumber"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/emergency"
+            android:textColor="@color/heading_text_color_2"
+            android:textSize="@dimen/text_large"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/tvEmergencyNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tvEmergencyLabel"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large"
+            tools:text="219"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.3">
+
+        <TextView
+            android:id="@+id/tvNetworkLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_wifi"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/network"
+            android:textColor="@color/heading_text_color_1"
+            android:textSize="@dimen/text_medium" />
+
+        <TextView
+            android:id="@+id/tvNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNetworkLabel"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/name"
+            android:textColor="@color/heading_text_color_2"
+            android:textSize="@dimen/text_large"
+            android:maxLines="1"
+            android:layout_alignEnd="@id/tvPasswordLabel"/>
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tvNameLabel"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large"
+            tools:text="EmpireWifi1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_toEndOf="@id/tvNameLabel"
+            android:layout_marginStart="4dp"/>
+
+        <TextView
+            android:id="@+id/tvPasswordLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNameLabel"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/password"
+            android:textColor="@color/heading_text_color_2"
+            android:textSize="@dimen/text_large"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/tvPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tvPasswordLabel"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large"
+            android:layout_toEndOf="@id/tvPasswordLabel"
+            tools:text="ANM230v1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginStart="4dp"/>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlRoot"
+    android:layout_width="78dp"
+    android:layout_height="36dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:background="@drawable/background_add_button"
+    >
+
+    <FrameLayout
+        android:id="@+id/flAddText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toStartOf="@id/ivAdd"
+        android:layout_toEndOf="@id/ivRemove"
+        tools:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/inter_bold"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/add"
+            android:textColor="@color/add_button_text_color"
+            android:textSize="@dimen/text_medium"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:minHeight="36dp"
+            android:visibility="visible"
+            />
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/ivRemove"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_alignParentStart="true"
+        android:scaleType="center"
+        android:src="@drawable/ic_min"
+        android:visibility="visible"
+        tools:ignore="ContentDescription"
+        tools:visibility="visible"
+        android:layout_marginTop="4dp"
+        />
+
+    <com.robinhood.ticker.TickerView
+        android:id="@+id/quantityTicker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toStartOf="@id/ivAdd"
+        android:layout_toEndOf="@id/ivRemove"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:textColor="@color/text_color_4"
+        android:textSize="@dimen/text_medium"
+        android:background="@drawable/background_item_count"
+        android:visibility="visible"
+        tools:visibility="visible"
+        app:ticker_defaultCharacterList="number"
+        tools:text="5" />
+
+    <ImageView
+        android:id="@+id/ivAdd"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:scaleType="center"
+        android:src="@drawable/ic_plus"
+        android:visibility="visible"
+        tools:ignore="ContentDescription"
+        tools:visibility="visible"
+        app:tint="@color/ticker_text_color"
+        android:layout_marginTop="4dp"
+        />
+
+</RelativeLayout>

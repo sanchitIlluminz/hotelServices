@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1E2230</color>
+    <color name="colorPrimaryDark">#141721</color>
+
+    <color name="text_color">#E4EAFF</color>
+    <color name="add_button_text_color">#E4EAFF</color>
+    <color name="add_button_background_color">#1E2230</color>
+    <color name="add_button_stroke_color">#2B3042</color>
+
+    <color name="schedule_popup_stroke">#2B3042</color>
+
+    <color name="toolbar_text_color">#FFFFFF</color>
+    <color name="text_color_2">#EFF2FF</color>
+    <color name="text_color_3">#919DC1</color>
+    <color name="ticker_text_color">#E4EAFF</color>
+
+    <color name="booking_details_background">#1E2230</color>
+
+
+    <color name="heading_text_color">#616982</color>
+    <color name="heading_text_color_1">#BCCCFF</color>
+    <color name="heading_text_color_3">#E6E9F1</color>
+    <color name="heading_text_color_5">#FFF01C</color>
+
+
+    <color name="text_color_food">#EDF1FF</color>
+    <color name="color_price">#9AA2BB</color>
+    <color name="background_item_count">#131720</color>
+    <color name="tab_default_color">#565C70</color>
+    <color name="sub_heading_text_color">#646A7F</color>
+    <color name="sub_heading_text_color_1">#EDF1FF</color>
+    <color name="sub_heading_text_color_2">#CFE7D6</color>
+
+    <color name="color_booking_calendar">#23283A</color>
+    <color name="food_item_list_number">#616982</color>
+    <color name="dialog_button_color">#FFF01C</color>
+    <color name="dialog_button_color1">#3450AD</color>
+    <color name="booking_heading_text_color">#E4EAFF</color>
+    <color name="drink_dialog_vol_color">#7B829A</color>
+    <color name="calendar_date_color">#BCC5DF</color>
+
+    <color name="button_text">#494517</color>
+    <color name="welcome_button_color">#FFD323</color>
+
+    <color name="coupon_text_color">#2FAB45</color>
+
+    <color name="checkbox_text_color">#8D95AC</color>
+
+    <color name="menu_button_color">#D36D01</color>
+
+
+
+
+
+
+
+
+</resources>

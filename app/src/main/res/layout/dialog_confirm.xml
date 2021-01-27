@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="20dp"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="40dp"
+        android:paddingBottom="40dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal">
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_tickround"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_bold"
+            android:textSize="@dimen/text_xxhuge"
+            android:textColor="@color/color_dialog_title"
+            android:layout_below="@id/ivImage"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            tools:text="@string/reservation_confirmed"/>
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_regular"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@color/sub_heading_text_color"
+            android:layout_below="@id/tvTitle"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            tools:text="@string/reservation_confirmed"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOkay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@color/dialog_button_color"
+            android:minHeight="50dp"
+            android:text="@string/okay"
+            style="@style/AppButton.Unelivated.PrimaryButton"
+            app:cornerRadius="6dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/tvSubtitle"
+            android:layout_marginTop="52dp"
+            />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

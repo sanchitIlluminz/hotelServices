@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RegistrationAddEditOptionView">
+        <attr name="registrationAddEdit_title" format="string" />
+        <attr name="registrationAddEdit_subTitle" format="string" />
+        <attr name="showAddEdit" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="MyCustomView">
+        <attr name="square_color" format="color"/>
+        <attr name="circle_radius" format="dimension"/>
+    </declare-styleable>
+
+</resources>

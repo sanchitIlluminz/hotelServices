@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    tools:context=".ui.home.laundry.LaundryFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:navigationIcon="@drawable/ic_backarrow"
+        app:title="@string/laundry_service"
+        app:titleTextAppearance="@style/ToolbarTextTitle"
+        app:titleTextColor="@color/text_color" />
+
+    <ImageView
+        android:id="@+id/ivDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/toolbar"
+        android:background="@color/light_gray" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivDivider"
+        android:layout_marginTop="@dimen/spacing_screen_horizontal"
+        android:background="@color/colorPrimaryDark"
+        android:textAlignment="textStart"
+        app:tabGravity="start"
+        app:tabIndicatorColor="@color/tab_highlight"
+        app:tabIndicatorFullWidth="false"
+        app:tabMaxWidth="0dp"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/tab_highlight"
+        app:tabTextAppearance="@style/CustomTabText"
+        app:tabTextColor="@color/tab_default_color" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/cartBarView"
+        android:layout_below="@id/tabLayout"
+        app:layout_anchor="@id/tabLayout" />
+
+    <com.illuminz.application.ui.custom.CartBarView
+        android:id="@+id/cartBarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

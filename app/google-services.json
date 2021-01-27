@@ -1,0 +1,115 @@
+{
+  "project_info": {
+    "project_number": "312289298791",
+    "firebase_url": "https://kkbits-34021.firebaseio.com",
+    "project_id": "kkbits-34021",
+    "storage_bucket": "kkbits-34021.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312289298791:android:1ea4358b52018f7fe407c2",
+        "android_client_info": {
+          "package_name": "com.kkbits"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "312289298791-s2i3iunncah55c6tjpdsla5udh4l7572.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kkbits",
+            "certificate_hash": "f33f4df0c29f55970be92b9cd1f5ad01fff9dda9"
+          }
+        },
+        {
+          "client_id": "312289298791-m264cecr7a7ims2rua5tptm5aace0pr4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kkbits",
+            "certificate_hash": "2edf658eec8998d28301c0b04e48b9386478ed4a"
+          }
+        },
+        {
+          "client_id": "312289298791-705fecar5v6m3bg1c768gkvm272lej0a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjihzcD0pOLlclGq0AUVEea6N3gLINstw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "312289298791-kru2vmpjnc0cknnmmehp4oga1h502jh9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "312289298791-i6rhdfqg2er48t5b0s5kqb0r3e9eoqe6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.apps.kkbits"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312289298791:android:d8cacc61a8a6b3c4e407c2",
+        "android_client_info": {
+          "package_name": "com.kkbits.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "312289298791-l624cse7aovlrbiko8vjc8uhrtno0gv0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kkbits.dev",
+            "certificate_hash": "f33f4df0c29f55970be92b9cd1f5ad01fff9dda9"
+          }
+        },
+        {
+          "client_id": "312289298791-u6b988dnhpjpklm91l0mojo247gbm687.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kkbits.dev",
+            "certificate_hash": "2edf658eec8998d28301c0b04e48b9386478ed4a"
+          }
+        },
+        {
+          "client_id": "312289298791-705fecar5v6m3bg1c768gkvm272lej0a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjihzcD0pOLlclGq0AUVEea6N3gLINstw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "312289298791-kru2vmpjnc0cknnmmehp4oga1h502jh9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "312289298791-i6rhdfqg2er48t5b0s5kqb0r3e9eoqe6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.apps.kkbits"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

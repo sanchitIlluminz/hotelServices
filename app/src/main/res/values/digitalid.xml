@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <!--live key-->
+    <string name="com.digitalid.android.sdk.clientId">ctid2ySs2kB11BID316wmsGtrf</string>
+    <!-- sand box key-->
+    <!--<string name="com.digitalid.android.sdk.clientId">ctid1bFSEWxc71TwYuORpNtBe2</string>-->
+    <bool name="com.digitalid.android.sdk.sandbox">false</bool>
+    <bool name="com.digitalid.android.sdk.strictSsl">true</bool>
+</resources>

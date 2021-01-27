@@ -1,0 +1,32 @@
+apply from: "$rootDir/common-android-library.gradle"
+
+dependencies {
+    implementation project(':error')
+
+    // Kotlin
+    implementation deps.kotlin.stdlib
+    implementation deps.kotlin.coroutinesCore
+
+    implementation deps.android.preferenceKtx
+
+    // DI
+    implementation deps.google.dagger
+    kapt deps.google.daggerProcessor
+
+    // Logging
+    implementation deps.additional.timber
+
+    // Backport of Java 8's time package
+    implementation deps.additional.threeTen
+
+    implementation deps.additional.socketIo
+
+    // Multi-lingual library
+    implementation deps.additional.lingver
+
+    // Retrofit
+    implementation deps.square.retrofit
+    implementation deps.square.gsonConverter
+    implementation deps.square.loggingInterceptor
+    implementation 'com.github.chuckerteam.chucker:library:3.2.0'
+}

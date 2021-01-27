@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#E4E4E4</color>
+
+    <color name="color_card_stroke">#0F2A4670</color>
+    <color name="big_divider">#F0F2FA</color>
+</resources>

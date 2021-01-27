@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    tools:context=".ui.home.bar.DrinksFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:navigationIcon="@drawable/ic_backarrow"
+        app:title="@string/bar_menu"
+        app:titleTextAppearance="@style/ToolbarTextTitle"
+        app:titleTextColor="@color/text_color" />
+
+    <ImageView
+        android:id="@+id/ivDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/toolbar"
+        android:background="@color/light_gray" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/cartBarView"
+        android:layout_below="@id/ivDivider"
+        android:layout_marginStart="@dimen/spacing_screen_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="@dimen/spacing_screen_horizontal"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingBottom="92dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <Button
+        android:id="@+id/btnMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/cartBarView"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/spacing_screen_horizontal_2"
+        android:backgroundTint="@color/menu_button_color"
+        android:text="@string/menu"
+        app:icon="@drawable/ic_menu" />
+
+    <com.illuminz.application.ui.custom.CartBarView
+        android:id="@+id/cartBarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+
+</RelativeLayout>

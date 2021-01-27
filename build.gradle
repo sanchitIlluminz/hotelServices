@@ -1,0 +1,169 @@
+buildscript {
+    ext.releases = [
+            'versionCode': 1,
+            'versionName': "1.0.0"
+    ]
+
+    ext.versions = [
+            'compileSdk'          : 30,
+            'minSdk'              : 21,
+            'targetSdk'           : 30,
+
+            'appCompat'           : '1.1.0',
+            'coreKtx'             : '1.2.0',
+            'constraintLayout'    : '1.1.3',
+            'lifecycle'           : '2.2.0',
+            'material'            : '1.3.0-alpha03',
+            'recyclerView'        : '1.1.0',
+            'exifInterface'       : '1.1.0',
+            'fragmentKtx'         : '1.2.5',
+            'activityKtx'         : '1.1.0',
+            'preferenceKtx'       : '1.1.0',
+            'swipeRefreshLayout'  : '1.0.0',
+            'viewPager2'          : '1.0.0',
+            'gradle'              : '4.0.0',
+            'kotlin'              : '1.3.71',
+            'coroutines'          : '1.3.5',
+
+            'dagger'              : '2.27',
+            'googleServices'      : '4.3.2',
+            'googleAuth'          : '17.0.0',
+            'googleAuthPhone'     : '17.4.0',
+
+            'retrofit'            : '2.8.1',
+            'loggingInterceptor'  : '4.4.0',
+
+            'crashlyticsPlugin'   : '1.31.2',
+            'crashlytics'         : '17.2.1',
+            'crashlyticsGradle'   : '2.2.1',
+            'firebaseCore'        : '17.2.0',
+            'firebaseAuth'        : '17.0.0',
+            'firebaseMessaging'   : '20.0.1',
+
+            'timber'              : '4.7.1',
+            'textdrawable'        : '1.0.1',
+            'glide'               : '4.11.0',
+            'threeTen'            : '1.2.3',
+            'groupie'             : '2.8.0',
+            'roundedImageView'    : '2.3.0',
+            'permissionDispatcher': '4.7.0',
+            'socketIo'            : '1.0.0',
+            'pageIndicatorView'   : '1.0.3',
+            'countryCodePicker'   : '2.4.0',
+            'libPhoneNumber'      : '8.11.3',
+            'lottie'              : '3.4.0',
+            'chuckerDebug'        : '3.2.0',
+            'chuckerRelease'      : '3.2.0',
+            'lingver'             : '1.2.0',
+            'ticker'              : '2.0.2',
+            'sourceCompatibility' : JavaVersion.VERSION_1_8,
+            'targetCompatibility' : JavaVersion.VERSION_1_8
+    ]
+
+    ext.deps = [
+            android   : [
+                    'gradlePlugin'      : "com.android.tools.build:gradle:${versions.gradle}",
+                    'material'          : "com.google.android.material:material:${versions.material}",
+                    'appCompat'         : "androidx.appcompat:appcompat:${versions.appCompat}",
+                    'constraintLayout'  : "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}",
+                    'coreKtx'           : "androidx.core:core-ktx:${versions.coreKtx}",
+                    'recyclerView'      : "androidx.recyclerview:recyclerview:${versions.recyclerView}",
+                    'exifInterface'     : "androidx.exifinterface:exifinterface:${versions.exifInterface}",
+                    'lifecycle'         : "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}",
+                    'fragmentKtx'       : "androidx.fragment:fragment-ktx:${versions.fragmentKtx}",
+                    'activityKtx'       : "androidx.activity:activity-ktx:${versions.activityKtx}",
+                    'preferenceKtx'     : "androidx.preference:preference-ktx:${versions.preferenceKtx}",
+                    'viewPager2'        : "androidx.viewpager2:viewpager2:${versions.viewPager2}",
+                    'swipeRefreshLayout': "androidx.swiperefreshlayout:swiperefreshlayout:${versions.swipeRefreshLayout}"
+            ],
+            kotlin    : [
+                    'gradlePlugin'          : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+                    'stdlib'                : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}",
+                    'coroutinesCore'        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}",
+                    'coroutinesAndroid'     : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}",
+                    'coroutinesPlayServices': "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${versions.coroutines}"
+            ],
+            google    : [
+                    'dagger'                : "com.google.dagger:dagger:${versions.dagger}",
+                    'daggerProcessor'       : "com.google.dagger:dagger-compiler:${versions.dagger}",
+                    'daggerAndroid'         : "com.google.dagger:dagger-android-support:${versions.dagger}",
+                    'daggerAndroidProcessor': "com.google.dagger:dagger-android-processor:${versions.dagger}",
+                    'auth'                  : "com.google.android.gms:play-services-auth:${versions.googleAuth}",
+                    'authPhone'             : "com.google.android.gms:play-services-auth-api-phone:${versions.googleAuthPhone}",
+                    'googleServices'        : "com.google.gms:google-services:${versions.googleServices}"
+            ],
+            firebase  : [
+                    'crashlyticsPlugin': "io.fabric.tools:gradle:${versions.crashlyticsPlugin}",
+                    'auth'             : "com.google.firebase:firebase-auth:${versions.firebaseAuth}",
+                    'core'             : "com.google.firebase:firebase-analytics:${versions.firebaseCore}",
+                    'messaging'        : "com.google.firebase:firebase-messaging:${versions.firebaseMessaging}",
+                    'crashlytics'      : "com.google.firebase:firebase-crashlytics:${versions.crashlytics}",
+                    'crashlyticsGradle': "com.google.firebase:firebase-crashlytics-gradle:${versions.crashlyticsGradle}"
+            ],
+            square    : [
+                    'retrofit'          : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+                    'gsonConverter'     : "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
+                    'loggingInterceptor': "com.squareup.okhttp3:logging-interceptor:${versions.loggingInterceptor}"
+            ],
+            image     : [
+                    'glide'           : "com.github.bumptech.glide:glide:${versions.glide}",
+                    'glideCompiler'   : "com.github.bumptech.glide:compiler:${versions.glide}",
+                    'roundedImageView': "com.makeramen:roundedimageview:${versions.roundedImageView}"
+            ],
+            additional: [
+                    'threeTen'                     : "com.jakewharton.threetenabp:threetenabp:${versions.threeTen}",
+                    'timber'                       : "com.jakewharton.timber:timber:${versions.timber}",
+                    'permissionDispatcher'         : "org.permissionsdispatcher:permissionsdispatcher:${versions.permissionDispatcher}",
+                    'permissionDispatcherProcessor': "org.permissionsdispatcher:permissionsdispatcher-processor:${versions.permissionDispatcher}",
+                    'countryCodePicker'            : "com.hbb20:ccp:${versions.countryCodePicker}",
+                    'socketIo'                     : "io.socket:socket.io-client:${versions.socketIo}",
+                    'recyclerViewAnimators'        : "jp.wasabeef:recyclerview-animators:${versions.recyclerViewAnimators}",
+                    'lingver'                      : "com.github.YarikSOffice:lingver:${versions.lingver}",
+                    'pageIndicatorView'            : "com.romandanylyk:pageindicatorview:${versions.pageIndicatorView}",
+                    'libPhoneNumber'               : "io.michaelrocks:libphonenumber-android:${versions.libPhoneNumber}",
+                    'textdrawable'                 : "com.amulyakhare:com.amulyakhare.textdrawable:${versions.textdrawable}",
+                    'lottie'                       : "com.airbnb.android:lottie:${versions.lottie}",
+                    'ticker'                       : "com.robinhood.ticker:ticker:${versions.ticker}"
+
+            ],
+            groupie   : [
+                    'groupie'      : "com.xwray:groupie:${versions.groupie}",
+                    'groupieKotlin': "com.xwray:groupie-kotlin-android-extensions:${versions.groupie}"
+            ],
+            chucker   : [
+                    'debug'  : "com.github.chuckerteam.chucker:library:${versions.chuckerDebug}",
+                    'release': "com.github.chuckerteam.chucker:library-no-op:${versions.chuckerRelease}"
+            ],
+
+    ]
+
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven {
+            url 'http://dl.bintray.com/amulyakhare/maven'
+        }
+    }
+
+    dependencies {
+        classpath deps.android.gradlePlugin
+        classpath deps.kotlin.gradlePlugin
+        classpath deps.google.googleServices
+        classpath deps.firebase.crashlyticsGradle
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

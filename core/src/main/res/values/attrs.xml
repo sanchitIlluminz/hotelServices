@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EmptyView">
+        <attr name="emptyViewImage" format="reference" />
+        <attr name="emptyViewTitle" format="string" />
+        <attr name="emptyViewMessage" format="string" />
+        <attr name="emptyViewButtonVisible" format="boolean" />
+        <attr name="emptyViewButtonText" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ErrorView">
+        <attr name="errorDrawable" format="reference" />
+        <attr name="errorTitle" format="string" />
+        <attr name="errorMessage" format="string" />
+        <attr name="errorButtonVisible" format="boolean" />
+        <attr name="errorButtonText" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="AppCheckbox">
+        <attr name="appCheckboxBackground" format="reference" />
+        <attr name="appCheckboxForeground" format="reference" />
+        <attr name="appCheckboxChecked" format="boolean" />
+        <attr name="appCheckboxAnimateDuration" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="DividerView">
+        <attr name="color" format="color" />
+        <attr name="dashLength" format="dimension" />
+        <attr name="dashGap" format="dimension" />
+        <attr name="dashThickness" format="dimension" />
+        <attr name="orientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="AppProgressBar">
+        <attr name="appProgressBar_totalValue" format="integer" />
+        <attr name="appProgressBar_totalColor" format="color" />
+        <attr name="appProgressBar_progressValue" format="integer" />
+        <attr name="appProgressBar_progressColor" format="color" />
+        <attr name="appProgressBar_animateDuration" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="VerticalProgressView">
+        <attr name="totalValue" format="integer" />
+        <attr name="totalColor" format="color" />
+        <attr name="progressValue" format="integer" />
+        <attr name="progressColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="RangeSeekBar">
+        <!-- the minimum of the range -->
+        <attr name="absoluteMinValue" format="integer|float" />
+
+        <!-- the maximum of the range -->
+        <attr name="absoluteMaxValue" format="integer|float" />
+
+        <!-- the step value -->
+        <attr name="step" format="integer|float" />
+
+        <!-- show a single slider -->
+        <attr name="singleThumb" format="boolean" />
+
+        <!-- show the labels on the right and left-->
+        <attr name="showLabels" format="boolean" />
+
+        <!-- alwaysActive will make the buttons and bar always draw as the activeColor (the default is false) -->
+        <attr name="alwaysActive" format="boolean" />
+
+        <!-- show the currently selected value above each thumb (defaults to true) -->
+        <attr name="valuesAboveThumbs" format="boolean" />
+
+        <!-- padding on either side on the slider -->
+        <attr name="internalPadding" format="dimension" />
+
+        <!-- the height of the bar -->
+        <attr name="barHeight" format="dimension" />
+
+        <!-- the color of the bar that is not selected -->
+        <attr name="defaultColor" format="color" />
+
+        <!-- the color of the bar that is selected -->
+        <attr name="activeColor" format="color" />
+
+        <!-- the color of the text above thumbs -->
+        <attr name="textAboveThumbsColor" format="color" />
+
+        <!-- set drawables for thumb handles -->
+        <attr name="thumbNormal" format="reference" />
+        <attr name="thumbPressed" format="reference" />
+        <attr name="thumbDisabled" format="reference" />
+
+        <!-- thumb shadow specifications -->
+        <attr name="thumbShadow" format="boolean" />
+        <attr name="thumbShadowColor" format="color" />
+        <attr name="thumbShadowXOffset" format="dimension" />
+        <attr name="thumbShadowYOffset" format="dimension" />
+        <attr name="thumbShadowBlur" format="dimension" />
+
+        <!-- to activate the thumbs and texts when the min and max values are the default ones (defaults to false) -->
+        <attr name="activateOnDefaultValues" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="FloatSeekBar">
+        <attr name="floatMax" format="float" />
+        <attr name="floatMin" format="float" />
+        <attr name="isIndicator" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="FabBottomNavigationView">
+        <attr name="fab_cradle_margin" format="dimension" />
+        <attr name="fab_cradle_rounded_corner_radius" format="dimension" />
+        <attr name="cradle_vertical_offset" format="dimension" />
+        <attr name="fab_size" format="dimension" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="coupon_code_max_length">15</integer>
+    <integer name="password_max_length">20</integer>
+    <integer name="phone_max_length">9</integer>
+    <integer name="full_name_max_length">50</integer>
+    <integer name="amount_max_length">8</integer>
+    <integer name="mobile_number_max_length">9</integer>
+    <integer name="email_name_max_length">100</integer>
+    <integer name="email_verification_code_length">4</integer>
+    <integer name="withdraw_money_max_length">6</integer>
+    <integer name="bank_account_number_max_length">18</integer>
+    <integer name="ifsc_max_length">11</integer>
+    <integer name="feedback_description_max_length">300</integer>
+
+    <item name="letter_spacing_small" format="float" type="integer">0.05</item>
+    <item name="line_spacing_multiplier_small" format="float" type="integer">1.15</item>
+</resources>

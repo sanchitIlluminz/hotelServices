@@ -1,0 +1,120 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Google -->
+    <string name="google_maps_key" translatable="false">AIzaSyBVrDSl5gP5P9uFNSWsOpTMquRFZw5e7mE</string>
+    <string name="google_server_client_id" translatable="false">312289298791-kru2vmpjnc0cknnmmehp4oga1h502jh9.apps.googleusercontent.com</string>
+    <!-- Notification -->
+    <string name="default_notification_channel" translatable="false">General</string>
+    <string name="default_notification_channel_id" translatable="false">default_notification_channel_id</string>
+    <string name="facebook_app_id">890820638006230</string>
+    <string name="fb_login_protocol_scheme">fb890820638006230</string>
+
+    <string name="btn_continue">Continue</string>
+    <string name="btn_remove">Remove</string>
+    <string name="btn_save">Save</string>
+
+    <string name="starting_download">Starting download</string>
+    <string name="download_started">Download completed</string>
+    <string name="download_canceled">Download canceled</string>
+    <string name="all">All</string>
+    <string name="paid">Paid</string>
+    <string name="received">Received</string>
+    <string name="added">Added</string>
+
+    <string name="hi_monica">Hi, Ms Monica</string>
+    <string name="feedback">Feedback</string>
+    <string name="booking_details">Booking details</string>
+    <string name="extend_your_stay">Extend your stay</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="contact">Contact</string>
+    <string name="network">Network</string>
+    <string name="reception">Reception</string>
+    <string name="hotel">Hotel</string>
+    <string name="emergency">Emergency</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="services">SERVICES</string>
+    <string name="let_s_explore">Let\'s Explore</string>
+    <string name="add">Add</string>
+    <string name="your_order">Your order</string>
+    <string name="_minus">-</string>
+    <string name="_plus">+</string>
+    <string name="bill_details">Bill Details</string>
+    <string name="any_suggestions">Any suggestions</string>
+    <string name="item_total">Item total</string>
+    <string name="service_charges">Service Charges</string>
+    <string name="taxes">Taxes</string>
+    <string name="order_now">Order Now</string>
+    <string name="select_service">Select service</string>
+    <string name="when_should_we_come_for_cleaning">When should we come for cleaning?</string>
+    <string name="choose_at_what_time_you_want_to_clean_your_room">Choose at what time you want to clean your room.</string>
+    <string name="request_now">Request Now</string>
+    <string name="schedule_for_later">Schedule for later</string>
+    <string name="wednesday_25_nov">Wednesday, 25 Nov</string>
+    <string name="select_time">Select Time</string>
+    <string name="confirm">Confirm</string>
+    <string name="inclusions"><u>Inclusions</u></string>
+    <string name="spa_amp_massage">Spa &amp; Massage</string>
+    <string name="valid_for">\"Valid for: \"</string>
+    <string name="person">Person</string>
+    <string name="valid_on">\"Valid on: \"</string>
+    <string name="view_cart">View Cart</string>
+    <string name="book_a_table">Book a Table</string>
+    <string name="time">Time</string>
+    <string name="choose_an_available_time_slot">Choose an available time slot</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="lunch">Lunch</string>
+    <string name="dinner">Dinner</string>
+    <string name="select_guests">Select guests</string>
+    <string name="any_special_request">Any special requests</string>
+    <string name="any_special_instruction_or_requests_to_the_resturant">Any special instruction or requests to the restaurant</string>
+    <string name="type_your_request_here">Type your request here…</string>
+    <string name="choose_title">Choose Time</string>
+    <string name="reservation_confirmed">Reservation Confirmed</string>
+    <string name="okay">Okay</string>
+    <string name="It_will_be_delivered_to_your_room">It will be delivered to your room within 20 mins</string>
+    <string name="ten_km_away">10km away</string>
+    <string name="order_placed">Order Placed</string>
+    <string name="order_will_be_delivered_in_time">It will be delivered to your room within 20 mins</string>
+    <string name="nearby_places">Nearby Places</string>
+    <string name="places_to_visit">Places to visit, Things to do, and more in Mumbai</string>
+    <string name="gym_features">Gym Features Facilities</string>
+    <string name="gym_subtitle">You\'ll find something different in each of our clubs. Check out our favorites here</string>
+    <string name="enter_your_mobile_number_here">Enter your mobile number here</string>
+    <string name="request_a_call_back">Request a call back</string>
+    <string name="transportation">Transportation</string>
+    <string name="please_enter_your_mobile_number_we_will_call_you_in_next_5_mins">Please enter your mobile number we will call you in next 5 mins</string>
+    <string name="menu">Menu</string>
+    <string name="colon">:</string>
+    <string name="am">am</string>
+    <string name="pm">pm</string>
+    <string name="wifi">Wifi</string>
+    <string name="order_food">Order Food</string>
+    <string name="proceed_to_pay">Proceed to Pay</string>
+    <string name="to_pay">To Pay .  </string>
+    <string name="apply_coupon">Apply Coupon</string>
+    <string name="your_food_is_preparing">Your Food is Preparing</string>
+    <string name="view_details">+ View Details</string>
+    <string name="laundry_service">Laundry Service</string>
+    <string name="room_cleaning">Room Cleaning</string>
+    <string name="bar_menu">Bar Menu</string>
+    <string name="spa_massage">Spa &amp; Massage</string>
+    <string name="select_date">Select Date</string>
+    <string name="veg_only">Veg only</string>
+    <string name="non_veg_only">Non-veg only</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="choose_payment_method">Choose payment method</string>
+    <string name="pay_while_checking_out">Pay while checking out</string>
+    <string name="credit_debit_card">Credit &amp; Debit Card</string>
+    <string name="scan_to_pay">Scan to Pay</string>
+    <string name="message_something_went_wrong">Something went wrong</string>
+
+    <plurals name="guest_with_count">
+        <item quantity="one">%d Guest</item>
+        <item quantity="other">%d Guests</item>
+    </plurals>
+
+    <plurals name="cart_items">
+        <item quantity="one">%d Item</item>
+        <item quantity="other">%d Items</item>
+    </plurals>
+</resources>
