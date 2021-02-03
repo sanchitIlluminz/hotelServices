@@ -1,51 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    app:cardCornerRadius="16dp">
+    >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="24dp"
-        >
-        <ImageView
-            android:id="@+id/ivTransport"
-            android:layout_width="0dp"
-            android:layout_height="144dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintDimensionRatio="V,1:0.41"
-            tools:background="@color/green"
-            android:background="@drawable/background_10dp"/>
+        app:cardCornerRadius="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/ivTransport"
+                android:layout_width="0dp"
+                android:layout_height="144dp"
+                app:layout_constraintDimensionRatio="V,1:0.41"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:scaleType="centerCrop"
+                tools:src="@color/green"
+                app:riv_corner_radius="10dp"/>
 
             <TextView
                 android:id="@+id/tvTransportName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/inter_semi_bold"
-                tools:text="New Delhi Railway Station"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/text_xxhuge"
+                android:maxLines="2"
+                android:ellipsize="end"
+                app:layout_constraintStart_toStartOf="@id/ivTransport"
                 app:layout_constraintTop_toBottomOf="@id/ivTransport"
-                app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintEnd_toEndOf="@id/ivTransport"
+                tools:text="New Delhi Railway StationNew Delhi Railway Station" />
 
             <TextView
-                android:id="@+id/tvDistance"
+                android:id="@+id/tvDistancePerKm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                tools:text="₹1000"
                 android:textColor="@color/sub_heading_text_color"
                 android:textSize="@dimen/text_default"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTransportName"
-                app:layout_constraintStart_toStartOf="parent"/>
-
+                tools:text="₹1000" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btRequest"
@@ -54,11 +62,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="@string/request_a_call_back"
-                app:layout_constraintTop_toBottomOf="@id/tvTransportName"
+                android:textSize="@dimen/text_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:textSize="@dimen/text_medium"/>
-        
+                app:layout_constraintTop_toBottomOf="@id/tvTransportName" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</RelativeLayout>

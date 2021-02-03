@@ -8,16 +8,17 @@
     android:layout_margin="14dp"
     tools:background="@color/colorPrimaryDark">
 
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/ivImage"
-        android:layout_width="104dp"
+        android:layout_width="80dp"
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintDimensionRatio="H,1:0.92"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:background="@color/light_gray" />
+        tools:background="@color/light_gray"
+        app:riv_corner_radius="8dp"/>
 
     <ImageView
         android:id="@+id/ivFoodType"
@@ -41,6 +42,10 @@
         android:maxLines="2"
         android:textColor="@color/text_color_food"
         android:textSize="@dimen/text_medium"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_bias="0"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@id/quantityView"
         app:layout_constraintStart_toEndOf="@id/ivImage"
         app:layout_constraintTop_toTopOf="@id/ivImage"
         tools:text="Sunny Side Up Omelete with Roasted BreadsSunny Side Up Omelete with Roasted Breads" />
@@ -53,6 +58,9 @@
         android:fontFamily="@font/inter_regular"
         android:textColor="@color/color_price"
         android:textSize="@dimen/text_medium"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toStartOf="@id/quantityView"
         app:layout_constraintStart_toStartOf="@id/tvFoodTitle"
         app:layout_constraintTop_toBottomOf="@id/tvFoodTitle"
         tools:text="300" />
@@ -64,10 +72,8 @@
         android:layout_marginTop="8dp"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

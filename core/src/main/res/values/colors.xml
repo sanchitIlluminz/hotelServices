@@ -13,6 +13,8 @@
     <color name="text_color_2">#1E2230</color>
     <color name="text_color_3">#787D8C</color>
     <color name="text_color_4">#1B1A1F</color>
+    <color name="text_color_5">#1B1A1F</color>
+
     <color name="toolbar_text_color">#1E2230</color>
     <color name="ticker_text_color">#1B1A1F</color>
 
@@ -50,9 +52,10 @@
     <color name="vertical_divider">#656C82</color>
     <color name="green">#088C3D</color>
 
-    <color name="color_dialog_title">#1E2230</color>
-    <color name="color_dialog_subtitle">#7B829A</color>
-    <color name="color_dialog_button">#3450AD</color>
+    <color name="dialog_title_color">#1E2230</color>
+    <color name="dialog_text_color">#1E2230</color>
+
+    <color name="dialog_subtitle_color">#7B829A</color>
 
     <color name="color_booking_calendar">#1E2230</color>
     <color name="food_item_list_number">#787D8C</color>
@@ -75,11 +78,15 @@
     <color name="menu_button_color">#000000</color>
     <color name="view_cart_background_color">#FFD323</color>
 
+    <color name="prep_bar_color">#1E2230</color>
+
 
     <color name="checkbox_text_color">#1E2230</color>
     <color name="checkbox_tint_color">#00923F</color>
 
     <color name="refer_border">#737EA1</color>
+
+    <color name="booking_date_backgrd_color">#E4E4E4</color>
 
     <color name="white">#FFFFFF</color>
     <color name="whiteE5">#E5FFFFFF</color>
@@ -131,5 +138,8 @@
     <color name="red_solid">#FFF1F3</color>
 
     <color name="light_yellow">#F8F6D2</color>
+
+    <color name="screen_bottom_gradient_start">#FFFFFF</color>
+    <color name="screen_bottom_gradient_end">#00FFFFFF</color>
 
 </resources>

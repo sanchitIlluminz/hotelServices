@@ -2,19 +2,21 @@ package com.illuminz.application.di
 
 import com.illuminz.application.ui.custom.ConfirmDialog
 import com.illuminz.application.ui.home.HomeFragment
-import com.illuminz.application.ui.home.bar.DrinksFragment
-import com.illuminz.application.ui.home.bar.items.DrinkDialog
-import com.illuminz.application.ui.home.bookTable.BookTableFragment
-import com.illuminz.application.ui.home.bookTable.BookingTimeFragment
-import com.illuminz.application.ui.home.food.FoodCartFragment
-import com.illuminz.application.ui.home.food.FoodListFragment
-import com.illuminz.application.ui.home.laundry.LaundryFragment
-import com.illuminz.application.ui.home.laundry.LaundryListFragment
-import com.illuminz.application.ui.home.massage.MassageListFragment
-import com.illuminz.application.ui.home.nearbyplaces.ImageDialogFragment
-import com.illuminz.application.ui.home.nearbyplaces.NearbyFragment
-import com.illuminz.application.ui.home.roomcleaning.RoomCleaningFragment
-import com.illuminz.application.ui.home.transport.TransportDialog
+import com.illuminz.application.ui.bar.DrinksFragment
+import com.illuminz.application.ui.bar.items.DrinkDialog
+import com.illuminz.application.ui.bookTable.BookTableFragment
+import com.illuminz.application.ui.bookTable.BookingTimeFragment
+import com.illuminz.application.ui.food.CartFragment
+import com.illuminz.application.ui.food.FoodListFragment
+import com.illuminz.application.ui.home.FeedbackFragment
+import com.illuminz.application.ui.laundry.LaundryFragment
+import com.illuminz.application.ui.laundry.LaundryListFragment
+import com.illuminz.application.ui.massage.MassageListFragment
+import com.illuminz.application.ui.nearbyplaces.ImageDialogFragment
+import com.illuminz.application.ui.nearbyplaces.NearbyFragment
+import com.illuminz.application.ui.roomcleaning.RoomCleaningFragment
+import com.illuminz.application.ui.transport.TransportDialog
+import com.illuminz.application.ui.transport.TransportFragment
 import com.illuminz.application.ui.payment.PaymentMethodFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -27,8 +29,6 @@ abstract class FragmentBindingModule {
     @ContributesAndroidInjector
     abstract fun foodListFragment() : FoodListFragment
 
-    @ContributesAndroidInjector
-    abstract fun foodCartFragment() : FoodCartFragment
 
     @ContributesAndroidInjector
     abstract fun laundryFragment() : LaundryFragment
@@ -69,5 +69,13 @@ abstract class FragmentBindingModule {
     @ContributesAndroidInjector
     abstract fun paymentMethodFragment() : PaymentMethodFragment
 
+    @ContributesAndroidInjector
+    abstract fun transportFragment() : TransportFragment
+
+    @ContributesAndroidInjector
+    abstract fun feedbackFragment() : FeedbackFragment
+
+    @ContributesAndroidInjector
+    abstract fun cartFragment() : CartFragment
 
 }

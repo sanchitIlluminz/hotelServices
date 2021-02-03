@@ -23,6 +23,9 @@
 
         <item name="snackbarStyle">@style/AppSnackbarStyle</item>
         <item name="snackbarTextViewStyle">@style/AppSnackbarText</item>
+
+        <item name="toolbarStyle">@style/AppToolbar</item>
+
     </style>
 
     <style name="AppTheme.LightStatusBar" />
@@ -44,7 +47,14 @@
         <item name="android:alpha">1</item>
     </style>
 
-
+    <style name="AppToolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="titleTextAppearance">@style/ToolbarTextTitle</item>
+        <item name="subtitleTextAppearance">@style/ToolbarSubtitle</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="titleTextColor">@color/toolbar_text_color</item>
+        <item name="titleMarginStart">0dp</item>
+        <item name="subtitleTextColor">@color/text_color_3</item>
+    </style>
 
     <!-- <style name="AppTextInputLayout" parent="Widget.Design.TextInputLayout">
          <item name="hintTextAppearance">@style/AppTextInputLayoutHint</item>
@@ -62,7 +72,7 @@
         <!-- Color of floating hint in focused mode -->
         <item name="hintTextColor">@color/sub_heading_color</item>
         <!-- Color of hint in normal mode if hintEnabled is true-->
-        <item name="android:textColorHint">@color/text_color</item>
+        <item name="android:textColorHint">@color/food_item_list_number</item>
         <item name="errorTextColor">@color/error1</item>
         <item name="errorIconDrawable">@null</item>
         <item name="errorTextAppearance">@style/AppTextInputLayoutError</item>
@@ -80,28 +90,28 @@
         <item name="android:textColor">@color/error1</item>
     </style>
 
-     <!--<style name="AppTextInputLayoutHint" parent="Widget.Design.TextInputLayout">
-         <item name="android:textColor">@color/shade4</item>
-         <item name="android:textSize">@dimen/text_small</item>
-     </style>
+    <!--<style name="AppTextInputLayoutHint" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColor">@color/shade4</item>
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
 
-      <style name="AppTextInputEditText" parent="Theme.MaterialComponents.Light">
-          <item name="android:fontFamily">@font/inter_medium</item>
-          <item name="android:textColor">@color/shade1</item>
-          <item name="android:textColorHint">@color/shade2</item>
-          <item name="android:textSize">@dimen/text_medium</item>
-          <item name="android:paddingBottom">20dp</item>
-          <item name="android:singleLine">true</item>
-          <item name="android:importantForAutofill" tools:targetApi="o">no</item>
-          <item name="colorControlNormal">@color/shade3</item>
-          <item name="colorControlActivated">@color/colorAccent</item>
-          <item name="android:textAlignment">viewStart</item>
-      </style>-->
+     <style name="AppTextInputEditText" parent="Theme.MaterialComponents.Light">
+         <item name="android:fontFamily">@font/inter_medium</item>
+         <item name="android:textColor">@color/shade1</item>
+         <item name="android:textColorHint">@color/shade2</item>
+         <item name="android:textSize">@dimen/text_medium</item>
+         <item name="android:paddingBottom">20dp</item>
+         <item name="android:singleLine">true</item>
+         <item name="android:importantForAutofill" tools:targetApi="o">no</item>
+         <item name="colorControlNormal">@color/shade3</item>
+         <item name="colorControlActivated">@color/colorAccent</item>
+         <item name="android:textAlignment">viewStart</item>
+     </style>-->
 
     <style name="AppTextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
         <!-- Color of hint in normal mode if hintEnabled is false-->
-        <item name="android:textColorHint">@color/edt_hint_color</item>
-        <item name="android:textColor">@color/edt_hint_color</item>
+        <item name="android:textColorHint">@color/food_item_list_number</item>
+        <item name="android:textColor">@color/text_color_2</item>
         <item name="android:textAlignment">viewStart</item>
         <item name="fontFamily">@font/inter_medium</item>
         <item name="android:fontFamily">@font/inter_medium</item>
@@ -126,13 +136,13 @@
         <item name="colorSecondary">@color/colorPrimary</item>
     </style>
 
-<!--    <style name="AppSearchView" parent="Widget.AppCompat.SearchView">-->
-<!--        <item name="android:textSize">@dimen/text_medium</item>-->
-<!--        <item name="android:textColorHint">@color/hintColor</item>-->
-<!--        <item name="android:fontFamily">@font/inter_semi_bold</item>-->
-<!--        <item name="android:editTextColor">@color/shade1</item>-->
-<!--        <item name="android:textAlignment">viewStart</item>-->
-<!--    </style>-->
+    <!--    <style name="AppSearchView" parent="Widget.AppCompat.SearchView">-->
+    <!--        <item name="android:textSize">@dimen/text_medium</item>-->
+    <!--        <item name="android:textColorHint">@color/hintColor</item>-->
+    <!--        <item name="android:fontFamily">@font/inter_semi_bold</item>-->
+    <!--        <item name="android:editTextColor">@color/shade1</item>-->
+    <!--        <item name="android:textAlignment">viewStart</item>-->
+    <!--    </style>-->
 
     <style name="DialogSlideUp">
         <item name="android:windowEnterAnimation">@anim/slide_in_up</item>
@@ -193,6 +203,22 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="AppButton.Unelivated.Secondary">
+        <item name="android:backgroundTint">@color/menu_button_color</item>
+        <item name="rippleColor">@color/coupon_text_color_1</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="iconSize">20dp</item>
+        <item name="iconTint">@color/white</item>
+        <item name="android:layout_margin">20dp</item>
+    </style>
+
+
     <style name="AppButton.CustomAddButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:textSize">@dimen/text_medium</item>
         <item name="android:fontFamily">@font/inter_bold</item>
@@ -216,7 +242,7 @@
     <style name="AppButton.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="rippleColor">@color/ripple1</item>
         <item name="android:textSize">@dimen/text_medium</item>
-        <item name="android:minHeight">@dimen/buttonMinHeightWithoutVerticalPadding</item>
+        <item name="android:minHeight">44dp</item>
         <item name="android:fontFamily">@font/inter_bold</item>
 
         <!-- Remove default insets -->
@@ -270,17 +296,17 @@
 
     </style>
 
-<!--    <style name="AppProgressBar" parent="AppTheme">-->
-<!--        <item name="colorAccent">@color/shade7</item>-->
-<!--    </style>-->
+    <!--    <style name="AppProgressBar" parent="AppTheme">-->
+    <!--        <item name="colorAccent">@color/shade7</item>-->
+    <!--    </style>-->
 
     <style name="AppProgressBarAppColor" parent="AppTheme">
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-<!--    <style name="AppProgressBar.White">-->
-<!--        <item name="colorAccent">@color/white</item>-->
-<!--    </style>-->
+    <!--    <style name="AppProgressBar.White">-->
+    <!--        <item name="colorAccent">@color/white</item>-->
+    <!--    </style>-->
 
     <style name="AppFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/colorAccent</item>
@@ -289,10 +315,10 @@
         <item name="tint">@null</item>
     </style>
 
-<!--    <style name="AppRatingBar" parent="Widget.AppCompat.RatingBar">-->
-<!--        <item name="colorControlNormal">@color/shade4</item>-->
-<!--        <item name="colorControlActivated">@color/colorAccent</item>-->
-<!--    </style>-->
+    <!--    <style name="AppRatingBar" parent="Widget.AppCompat.RatingBar">-->
+    <!--        <item name="colorControlNormal">@color/shade4</item>-->
+    <!--        <item name="colorControlActivated">@color/colorAccent</item>-->
+    <!--    </style>-->
 
     <style name="ToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">@dimen/text_xxs</item>
@@ -308,13 +334,13 @@
         <item name="android:textSize">@dimen/text_medium</item>
     </style>
 
-<!--    <style name="Widget.MaterialComponents.Toolbar.title">-->
-<!--        <item name="titleTextStyle">@style/MaterialToolbarTitle</item>-->
-<!--    </style>-->
-<!--    <style name="MaterialToolbarTitle" parent="TextAppearance.AppCompat.Title">-->
-<!--        <item name="android:textSize">@dimen/text_xxhuge</item>-->
-<!--        <item name="android:fontFamily">@font/inter_bold</item>-->
-<!--    </style>-->
+    <!--    <style name="Widget.MaterialComponents.Toolbar.title">-->
+    <!--        <item name="titleTextStyle">@style/MaterialToolbarTitle</item>-->
+    <!--    </style>-->
+    <!--    <style name="MaterialToolbarTitle" parent="TextAppearance.AppCompat.Title">-->
+    <!--        <item name="android:textSize">@dimen/text_xxhuge</item>-->
+    <!--        <item name="android:fontFamily">@font/inter_bold</item>-->
+    <!--    </style>-->
 
     <style name="ToolbarTextTitle" parent="AppTheme">
         <item name="android:textSize">@dimen/text_xxhuge</item>

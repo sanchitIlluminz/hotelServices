@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="20dp"
     >
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="350dp"
         android:gravity="center_horizontal"
         android:layout_margin="@dimen/spacing_screen_horizontal"
-        android:background="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:cardCornerRadius="20dp"
+        app:layout_constraintDimensionRatio="H,0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         >
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
+            android:background="@color/white"
             >
 
         <TextView
@@ -26,19 +30,24 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_bold"
             android:textSize="@dimen/text_xxhuge"
-            android:textColor="@color/color_dialog_title"
+            android:textColor="@color/dialog_text_color"
             android:layout_centerHorizontal="true"
             tools:text="Kingfisher Draught Beer"
             android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/app_margin_half_1"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvDrink"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_drink_dialog"
             android:layout_below="@id/tvTitle"
-            tools:itemCount="3"/>
+            tools:itemCount="4"
+            android:layout_above="@id/btConfirm"
+            android:paddingBottom="@dimen/spacing_screen_horizontal"
+            android:clipToPadding="false"
+            />
 
 
         <com.google.android.material.button.MaterialButton
@@ -46,10 +55,10 @@
             style="@style/AppButton.Unelivated.PrimaryButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:text="@string/confirm"
             android:visibility="visible"
-            android:layout_below="@id/rvDrink"/>
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/spacing_screen_horizontal"/>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

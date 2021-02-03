@@ -81,13 +81,11 @@
     <string name="gym_subtitle">You\'ll find something different in each of our clubs. Check out our favorites here</string>
     <string name="enter_your_mobile_number_here">Enter your mobile number here</string>
     <string name="request_a_call_back">Request a call back</string>
-    <string name="transportation">Transportation</string>
     <string name="please_enter_your_mobile_number_we_will_call_you_in_next_5_mins">Please enter your mobile number we will call you in next 5 mins</string>
     <string name="menu">Menu</string>
     <string name="colon">:</string>
     <string name="am">am</string>
     <string name="pm">pm</string>
-    <string name="wifi">Wifi</string>
     <string name="order_food">Order Food</string>
     <string name="proceed_to_pay">Proceed to Pay</string>
     <string name="to_pay">To Pay .  </string>
@@ -117,4 +115,15 @@
         <item quantity="one">%d Item</item>
         <item quantity="other">%d Items</item>
     </plurals>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="transportation">Transportation</string>
+    <string name="contact_detail">Contact Detail</string>
+    <string name="wifi">Wifi</string>
+    <string name="give_feedback">Give Feedback</string>
+    <string name="rate_your_experience_with_us">Rate your experience with us</string>
+    <string name="stars">Stars</string>
+    <string name="anything_that_can_be_improved">Anything that can be improved?</string>
+    <string name="your_feedback_optional">Your feedback (Optional)</string>
+    <string name="submit_feedback">Submit Feedback</string>
 </resources>

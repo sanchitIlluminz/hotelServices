@@ -7,20 +7,23 @@
     android:background="@color/colorPrimaryDark"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".ui.home.massage.MassageListFragment">
+    tools:context=".ui.massage.MassageListFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="4dp"
         app:navigationIcon="@drawable/ic_backarrow"
-        app:subtitleTextAppearance="@style/ToolbarSubtitle"
-        app:subtitleTextColor="@color/text_color_3"
-        app:title="@string/spa_massage"
-        app:titleTextAppearance="@style/ToolbarTextTitle"
-        app:titleTextColor="@color/toolbar_text_color" />
+        app:title="@string/spa_massage" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:src="@drawable/ic_search"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBaseline="@id/toolbar"
+        android:layout_marginEnd="24dp"/>
 
     <ImageView
         android:id="@+id/ivDivider"
@@ -44,8 +47,8 @@
                 android:id="@+id/rvMassage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal"
+                android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
+                android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
                 android:clipToPadding="false"
                 android:paddingBottom="@dimen/spacing_screen_horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -54,7 +57,11 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/background_gradient_screen_bottom" />
     <com.illuminz.application.ui.custom.CartBarView
         android:id="@+id/cartBarView"
         android:layout_width="match_parent"

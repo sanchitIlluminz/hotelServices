@@ -6,9 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/colorPrimaryDark"
-    tools:context=".ui.home.nearbyplaces.NearbyFragment"
-    android:paddingStart="14dp"
-    android:paddingEnd="14dp"
+    tools:context=".ui.nearbyplaces.NearbyFragment"
     android:focusable="true"
     android:clickable="true">
 
@@ -30,6 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
         app:spanCount="6"
         tools:listitem="@layout/item_nearby"
         tools:itemCount="4"/>

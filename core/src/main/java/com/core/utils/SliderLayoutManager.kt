@@ -60,11 +60,13 @@ class SliderLayoutManager(context: Context) : LinearLayoutManager(context) {
             val distanceFromCenter = abs(mid - childMid)
 
             // The scaling formula
-            val scale = 1 - sqrt((distanceFromCenter / height).toDouble()).toFloat() * 0.40f
+            val scale = 1 - sqrt((distanceFromCenter / height).toDouble()).toFloat() * 0.450f
 
             // Set scale to view
             child.scaleX = scale
             child.scaleY = scale
+
+
         }
     }
 

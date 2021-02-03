@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.home.bookTable.BookTableFragment"
+    tools:context=".ui.bookTable.BookTableFragment"
     android:background="@color/colorPrimaryDark"
     android:focusable="true"
     android:clickable="true"
@@ -15,10 +15,8 @@
         android:layout_height="wrap_content"
         app:navigationIcon="@drawable/ic_backarrow"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="4dp"
+        app:contentInsetStartWithNavigation="0dp"
         app:title="@string/book_a_table"
-        app:titleTextAppearance="@style/ToolbarTextTitle"
-        app:titleTextColor="@color/text_color"
         />
     <ImageView
         android:id="@+id/ivDivider"
@@ -33,6 +31,8 @@
         android:layout_below="@id/ivDivider"
         android:paddingBottom="32dp"
         android:clipToPadding="false"
+        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,18 +46,14 @@
                 android:textSize="@dimen/text_xxhuge"
                 android:textColor="@color/text_color_2"
                 android:text="@string/select_date"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal"
                 android:layout_marginTop="28dp"
                 />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal"
-                android:background="@drawable/background_booking_date">
+                android:background="@color/colorPrimaryDark">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -72,7 +68,7 @@
                     android:paddingBottom="16dp"
                     android:paddingStart="@dimen/spacing_screen_horizontal_2"
                     android:paddingEnd="@dimen/spacing_screen_horizontal_2"
-                    android:background="@color/color_booking_calendar"
+                    android:background="@drawable/background_left"
                     app:drawableBottomCompat="@drawable/ic_restaurant" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvCalendar"
@@ -82,11 +78,10 @@
                     tools:listitem="@layout/item_booking_date"
                     tools:itemCount="6"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:paddingEnd="@dimen/spacing_screen_horizontal"
+                    android:paddingEnd="2dp"
                     android:clipChildren="false"
                     android:clipToPadding="false"
-                    android:paddingBottom="2dp"
-                    android:paddingTop="2dp"
+                    android:background="@drawable/background_booking_date"
                     />
 
             </LinearLayout>
@@ -98,8 +93,6 @@
                 android:textSize="@dimen/text_xxhuge"
                 android:textColor="@color/text_color_2"
                 android:text="@string/time"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal"
                 android:layout_marginTop="@dimen/spacing_screen_horizontal_2"
                 />
             <TextView
@@ -109,37 +102,26 @@
                 android:textSize="@dimen/text_medium"
                 android:textColor="@color/food_item_list_number"
                 android:text="@string/choose_an_available_time_slot"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal"/>
-<!--            <com.google.android.material.tabs.TabLayout-->
-<!--                android:id="@+id/tabLayout"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:background="@color/colorPrimaryDark"-->
-<!--                app:tabGravity="fill"-->
-<!--                app:tabIndicatorColor="@color/tab_highlight"-->
-<!--                app:tabMaxWidth="0dp"-->
-<!--                app:tabMode="scrollable"-->
-<!--                app:tabSelectedTextColor="@color/tab_highlight"-->
-<!--                app:tabTextAppearance="@style/CustomTabText"-->
-<!--                app:tabTextColor="@color/tab_default_color"-->
-<!--                android:layout_marginTop="12dp"-->
-<!--                android:layout_marginStart="@dimen/spacing_screen_horizontal"-->
-<!--                android:layout_marginEnd="@dimen/spacing_screen_horizontal"-->
-<!--                />-->
-<!--            <androidx.viewpager2.widget.ViewPager2-->
-<!--                android:id="@+id/viewpager"-->
-<!--                app:layout_anchor="@id/tabs"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_marginStart="@dimen/spacing_screen_horizontal"-->
-<!--                android:layout_marginEnd="@dimen/spacing_screen_horizontal"-->
-<!--                />-->
+                />
+
             <RelativeLayout
+                android:id="@+id/rlPickTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal">
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+               >
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_alignParentTop="true"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="1dp"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvHour"
                 android:layout_width="72dp"
@@ -153,7 +135,7 @@
             <View
                 android:id="@+id/containerHr"
                 android:layout_width="72dp"
-                android:layout_height="60dp"
+                android:layout_height="48dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true"
                 android:background="@drawable/background_booking_time"/>
@@ -183,11 +165,13 @@
                 android:orientation="vertical"
                 tools:listitem="@layout/item_booking_time"
                 tools:itemCount="5"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 />
             <View
                 android:id="@+id/containerMin"
                 android:layout_width="72dp"
-                android:layout_height="60dp"
+                android:layout_height="48dp"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/tvColon"
                 android:background="@drawable/background_booking_time"/>
@@ -199,7 +183,7 @@
                 android:fontFamily="@font/inter_medium"
                 android:textSize="@dimen/text_xxxhuge"
                 android:textColor="@color/text_color_3"
-                tools:text="AM"
+                android:text="AM"
                 android:textAllCaps="true"
                 android:layout_toEndOf="@id/containerMin"
                 android:layout_centerVertical="true"
@@ -212,15 +196,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@drawable/background_divider"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal"/>
+                />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/spacing_screen_horizontal"
-                android:paddingBottom="@dimen/spacing_screen_horizontal"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 >
                 <TextView
                     android:id="@+id/tvSelectGuestLabel"
@@ -272,25 +253,6 @@
                         android:fontFamily="@font/inter_regular"
                         tools:text="12"/>
 
-<!--                    <com.robinhood.ticker.TickerView-->
-<!--                        android:id="@+id/quantityTicker"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:clickable="true"-->
-<!--                        android:focusable="true"-->
-<!--                        android:padding="0dp"-->
-<!--                        android:paddingStart="12dp"-->
-<!--                        android:paddingTop="3dp"-->
-<!--                        android:paddingEnd="12dp"-->
-<!--                        android:gravity="center"-->
-<!--                        android:paddingBottom="3dp"-->
-<!--                        android:textColor="@color/radio_button_text_color"-->
-<!--                        android:textSize="@dimen/text_xxs"-->
-<!--                        android:background="@drawable/background_item_count"-->
-<!--                        app:ticker_defaultCharacterList="number"-->
-<!--                        tools:text="5" />-->
-
                     <ImageButton
                         android:id="@+id/ibPlus"
                         android:layout_width="40dp"
@@ -307,8 +269,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@drawable/background_divider"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal"/>
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -316,9 +277,8 @@
                 android:textSize="@dimen/text_xxhuge"
                 android:textColor="@color/text_color_2"
                 android:text="@string/any_special_request"
-                android:layout_marginTop="@dimen/spacing_screen_horizontal"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal"/>
+                android:layout_marginTop="16dp"
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -326,8 +286,6 @@
                 android:textSize="@dimen/text_medium"
                 android:textColor="@color/food_item_list_number"
                 android:text="@string/any_special_instruction_or_requests_to_the_resturant"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -335,9 +293,8 @@
                 style="@style/AppTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_screen_horizontal"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal">
+                android:layout_marginTop="16dp"
+                >
 
                 <com.core.ui.custom.ClearFocusTextInputEditText
                     android:id="@+id/etSuggestions"
@@ -352,7 +309,8 @@
                     android:minHeight="72dp"
                     android:gravity="start"
                     android:theme="@style/AppTextInputEditText"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="RtlSymmetry"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -366,7 +324,8 @@
         style="@style/AppButton.Unelivated.PrimaryButton"
         android:text="@string/confirm"
         android:layout_marginBottom="@dimen/spacing_screen_horizontal"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal"/>
+        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
+        />
 
 </RelativeLayout>

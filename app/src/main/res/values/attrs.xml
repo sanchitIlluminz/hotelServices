@@ -11,4 +11,9 @@
         <attr name="circle_radius" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="CartBarView">
+        <attr name="barBackground" format="reference|color"/>
+        <attr name="textColor" format="reference|color"/>
+    </declare-styleable>
+
 </resources>

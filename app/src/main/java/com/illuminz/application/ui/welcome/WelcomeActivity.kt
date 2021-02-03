@@ -33,9 +33,9 @@ class WelcomeActivity : AppCompatActivity() {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         supportActionBar?.hide(); // hide the title bar
-        this.window.setFlags(
+        window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         setContentView(R.layout.activity_welcome)
         initialise()
@@ -110,13 +110,13 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
 
-    private fun initialise() {
-        val url ="https://blog.artonemfg.com/hs-fs/hubfs/BW-Batavia-web-2.jpg?width=851&name=BW-Batavia-web-2.jpg"
-        GlideApp.with(this)
-            .load(url)
-            .placeholder(R.color.colorPrimary)
-            .error(R.color.black)
-            .centerCrop()
-            .into(ivImage)
-    }
+    private fun initialise() {}
+//        val url ="https://img.traveltriangle.com/blog/wp-content/uploads/2017/09/A-view-of-Amaras-Villa-with-a-pool-in-Lonavala-at-sunset-ss23092017.jpg"
+//        GlideApp.with(this)
+//            .load(url)
+//            .placeholder(R.color.colorPrimary)
+//            .error(R.color.black)
+//            .centerCrop()
+//            .into(ivImage)
+//    }
 }

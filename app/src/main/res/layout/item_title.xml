@@ -4,9 +4,9 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorPrimaryDark"
-    android:paddingBottom="10dp"
-    android:paddingStart="14dp"
-    android:paddingEnd="14dp"
+    android:paddingBottom="6dp"
+    android:paddingStart="12dp"
+    android:paddingEnd="10dp"
     android:orientation="vertical">
     <TextView
         android:id="@+id/tvItemNumber"
@@ -24,5 +24,5 @@
         android:textSize="@dimen/text_xxhuge"
         android:textColor="@color/heading_text_color_3"
         tools:text="Today's Special"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="4dp"/>
 </LinearLayout>

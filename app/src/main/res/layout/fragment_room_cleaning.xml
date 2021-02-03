@@ -1,166 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="@color/colorPrimaryDark"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".ui.home.roomcleaning.RoomCleaningFragment">
+    android:orientation="vertical"
+    tools:context=".ui.roomcleaning.RoomCleaningFragment">
 
 
-  <com.google.android.material.appbar.MaterialToolbar
-      android:id="@+id/toolbar"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      app:navigationIcon="@drawable/ic_backarrow"
-      android:layout_alignParentTop="true"
-      android:layout_marginStart="4dp"
-      app:title="@string/room_cleaning"
-      app:titleTextAppearance="@style/ToolbarTextTitle"
-      app:titleTextColor="@color/text_color"
-      />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:contentInsetStartWithNavigation="0dp"
+        app:navigationIcon="@drawable/ic_backarrow"
+        app:title="@string/room_cleaning"
+        app:titleTextAppearance="@style/ToolbarTextTitle"
+        app:titleTextColor="@color/text_color" />
 
-  <ImageView
-      android:id="@+id/ivDivider"
-      android:layout_width="match_parent"
-      android:layout_height="1dp"
-      android:background="@color/light_gray"
-      android:layout_below="@id/toolbar"/>
+    <ImageView
+        android:id="@+id/ivDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/toolbar"
+        android:background="@color/light_gray" />
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/ivDivider"
+        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginTop="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
         android:fontFamily="@font/inter_semi_bold"
-        android:textSize="@dimen/text_xxs"
         android:text="@string/when_should_we_come_for_cleaning"
         android:textColor="@color/text_color_2"
-        android:layout_below="@id/ivDivider"
-        android:layout_marginTop="@dimen/spacing_screen_horizontal"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal"/>
+        android:textSize="@dimen/text_xxxhuge" />
+
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_regular"
-        android:textSize="@dimen/text_large"
         android:layout_below="@id/tvTitle"
+        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
+        android:fontFamily="@font/inter_regular"
         android:text="@string/choose_at_what_time_you_want_to_clean_your_room"
         android:textColor="@color/sub_heading_text_color"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal"/>
+        android:textSize="@dimen/text_large" />
 
-  <RadioGroup
-      android:id="@+id/radioGroup"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/tvDescription"
-      android:layout_marginTop="40dp"
-      android:layout_marginStart="@dimen/spacing_screen_horizontal"
-      android:layout_marginEnd="@dimen/spacing_screen_horizontal">
-
-
-    <androidx.appcompat.widget.AppCompatRadioButton
-        android:id="@+id/rbNow"
-        style="@style/RadioButton"
+    <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:fontFamily="@font/inter_medium"
-        android:layoutDirection="ltr"
-        android:text="@string/request_now"
-        android:textAlignment="textStart"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:textColor="@color/background_text_radio_button"
-        android:checked="true"
-        android:textSize="@dimen/text_xxhuge"
-        />
-    <androidx.appcompat.widget.AppCompatRadioButton
-        android:id="@+id/rbLater"
-        style="@style/RadioButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:fontFamily="@font/inter_medium"
-        android:layoutDirection="ltr"
-        android:text="@string/schedule_for_later"
-        android:textAlignment="textStart"
-        android:checked="false"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:textColor="@color/background_text_radio_button"
-        android:textSize="@dimen/text_xxhuge"
-        android:layout_marginTop="20dp"
-        />
-  </RadioGroup>
+        android:layout_below="@id/tvDescription"
+        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2">
+
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rbNow"
+            style="@style/RadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:checked="true"
+            android:fontFamily="@font/inter_medium"
+            android:layoutDirection="ltr"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/request_now"
+            android:textAlignment="textStart"
+            android:textColor="@color/background_text_radio_button"
+            android:textSize="@dimen/text_xxhuge" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rbLater"
+            style="@style/RadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="20dp"
+            android:checked="false"
+            android:fontFamily="@font/inter_medium"
+            android:layoutDirection="ltr"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/schedule_for_later"
+            android:textAlignment="textStart"
+            android:textColor="@color/background_text_radio_button"
+            android:textSize="@dimen/text_xxhuge" />
+    </RadioGroup>
 
     <TextView
         android:id="@+id/tvSelectedTimeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/radioGroup"
+        android:layout_alignStart="@id/radioGroup"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="@dimen/spacing_screen_horizontal"
+        android:enabled="true"
         android:fontFamily="@font/inter_regular"
-        android:textSize="@dimen/text_huge"
         android:text="@string/wednesday_25_nov"
         android:textColor="@color/sub_heading_text_color_1"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal"
-        android:layout_alignStart="@id/radioGroup"
-        android:enabled="true"/>
+        android:textSize="@dimen/text_huge" />
 
-  <RelativeLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_toEndOf="@id/tvSelectedTimeLabel"
-      android:layout_alignBaseline="@id/tvSelectedTimeLabel"
-      android:layout_marginStart="@dimen/spacing_screen_horizontal"
-      >
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spnSelectedTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignEnd="@id/tvSelectedTime"
-        android:layout_alignStart="@id/tvSelectedTime"
-        android:layout_alignBottom="@id/tvSelectedTime"
-        android:clickable="true"
-        android:focusable="true"
-        android:spinnerMode="dropdown"
-        android:popupBackground="@color/transparent"
-        />
-
-
-  <TextView
-        android:id="@+id/tvSelectedTime"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/select_time"
-        android:fontFamily="@font/inter_medium"
-        android:textSize="@dimen/text_huge"
-        android:textColor="@color/colorPrimary"
-        android:padding="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/background_time_popup"
-        app:drawableEndCompat="@drawable/background_textview_drawable"
-        android:drawablePadding="@dimen/spacing_screen_horizontal_2"
-      android:enabled="false"
-        />
-  </RelativeLayout>
+        android:layout_alignBaseline="@id/tvSelectedTimeLabel"
+        android:layout_marginStart="@dimen/spacing_screen_horizontal"
+        android:layout_toEndOf="@id/tvSelectedTimeLabel">
+
+        <TextView
+            android:id="@+id/tvSelectedTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_time_popup"
+            android:clickable="true"
+            android:enabled="false"
+            android:focusable="true"
+            android:fontFamily="@font/inter_medium"
+            android:padding="16dp"
+            android:text="@string/select_time"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_huge"
+            android:minWidth="150dp"
+            android:textStyle="bold"
+            app:drawableTint="@color/text_color_2"
+            android:drawablePadding="10dp"
+            app:drawableEndCompat="@drawable/background_dropdown" />
+    </RelativeLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btOrderNow"
+        style="@style/AppButton.Unelivated.PrimaryButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        style="@style/AppButton.Unelivated.PrimaryButton"
-        android:text="@string/confirm"
-        android:layout_margin="@dimen/spacing_screen_horizontal"
-        />
+        android:layout_margin="@dimen/spacing_screen_horizontal_2"
+        android:text="@string/confirm" />
 
 </RelativeLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/clTransportItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cdTransportItem"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintDimensionRatio="V,1:0.73"
+        app:cardCornerRadius="10dp"
+        android:stateListAnimator="@animator/touch_state_list_animator"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_margin="8dp">
+
+    <ImageView
+        android:id="@+id/ivTransport"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/text_color_2"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:textSize="@dimen/text_medium"
+        android:textColor="@color/text_color_2"
+        app:layout_constraintTop_toBottomOf="@id/cdTransportItem"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Delhi Bus Terminal"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
+
+    <TextView
+        android:id="@+id/tvDistancePerKm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_regular"
+        tools:text="₹1000"
+        android:textColor="@color/sub_heading_text_color"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

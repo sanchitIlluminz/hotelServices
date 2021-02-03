@@ -1,149 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorPrimaryDark"
-    android:paddingBottom="@dimen/spacing_screen_horizontal"
-    android:paddingStart="14dp"
-    android:paddingEnd="14dp">
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="8dp"
+    >
 
     <TextView
         android:id="@+id/tvLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_semi_bold"
-        android:textSize="@dimen/text_medium"
-        android:textColor="@color/heading_text_color"
-        android:textAllCaps="true"
-        android:text="@string/booking_details"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:fontFamily="@font/inter_semi_bold"
+        android:text="@string/booking_details"
+        android:textAllCaps="true"
+        android:textColor="@color/heading_text_color"
+        android:textSize="@dimen/text_medium" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_semi_bold"
-        android:textSize="@dimen/text_medium"
-        android:textColor="@color/yellow"
-        android:text="@string/extend_your_stay"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"/>
+        android:fontFamily="@font/inter_semi_bold"
+        android:text="@string/extend_your_stay"
+        android:textColor="@color/welcome_button_color"
+        android:textSize="@dimen/text_medium" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_guest_details"
-        android:padding="8dp"
-        android:layout_marginTop="12dp"
         android:layout_below="@id/tvLabel"
-        >
+        android:layout_marginTop="8dp"
+        android:background="@drawable/background_guest_details"
+        android:paddingStart="14dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="4dp">
+
         <TextView
             android:id="@+id/tvGuestName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_medium"
-            android:textSize="@dimen/text_large"
-            android:textColor="@color/text_color"
-            tools:text="Anmol Arora"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            />
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large"
+            tools:text="Anmol Arora" />
+
         <TextView
             android:id="@+id/tvStayDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvGuestName"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/inter_regular"
-            android:textSize="@dimen/text_medium"
             android:layout_alignParentStart="true"
-            tools:text="Stay: 3D/2N"
-            android:textColor="@color/heading_text_color_4"/>
+            android:layout_marginTop="0dp"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/heading_text_color_4"
+            android:textSize="@dimen/text_medium"
+            tools:text="Stay: 3D/2N" />
+
         <ImageView
             android:id="@+id/ivDivider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            tools:ignore="ContentDescription" />
+
         <TextView
             android:id="@+id/tvRoomNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_medium"
-            android:textSize="@dimen/text_large"
-            android:textColor="@color/text_color"
-            tools:text="Room #203"
             android:layout_alignParentTop="true"
             android:layout_toStartOf="@id/ivDivider"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large"
+            tools:text="Room #203" />
 
-            />
         <TextView
             android:id="@+id/GuestNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvRoomNumber"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/inter_regular"
-            android:textSize="@dimen/text_medium"
             android:layout_alignStart="@id/tvRoomNumber"
-            tools:text="4Guest"
-            android:textColor="@color/heading_text_color_4"/>
+            android:layout_marginTop="0dp"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/heading_text_color_4"
+            android:textSize="@dimen/text_medium"
+            tools:text="4Guest" />
 
         <TextView
             android:id="@+id/tvCheckOutDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_medium"
-            android:textSize="@dimen/text_large"
-            android:textColor="@color/text_color"
-            tools:text="Sat, 19 Dec"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            />
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large"
+            tools:text="Sat, 19 Dec" />
+
         <TextView
             android:id="@+id/tvCheckOutTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvCheckOutDate"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/inter_regular"
-            android:textSize="@dimen/text_medium"
             android:layout_alignStart="@id/tvCheckOutDate"
-            tools:text="11:00 AM"
-            android:textColor="@color/heading_text_color_4"/>
+            android:layout_marginTop="0dp"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/heading_text_color_4"
+            android:textSize="@dimen/text_medium"
+            tools:text="11:00 AM" />
+
         <View
             android:id="@+id/dateDivider"
             android:layout_width="2dp"
-            android:layout_height="36dp"
+            android:layout_height="32dp"
             android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_toStartOf="@id/tvCheckOutDate"
             android:background="@color/heading_text_color_4"
-            android:rotation="22"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            />
+            android:rotation="22" />
 
         <TextView
             android:id="@+id/tvCheckInDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_medium"
-            android:textSize="@dimen/text_large"
-            android:textColor="@color/text_color"
-            tools:text="Fri, 18 Dec"
-            android:layout_toStartOf="@id/dateDivider"
             android:layout_alignParentTop="true"
-            />
+            android:layout_toStartOf="@id/dateDivider"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large"
+            tools:text="Fri, 18 Dec" />
+
         <TextView
             android:id="@+id/tvCheckInTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvCheckInDate"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/inter_regular"
-            android:textSize="@dimen/text_medium"
             android:layout_alignStart="@id/tvCheckInDate"
-            tools:text="10:00 AM"
-            android:textColor="@color/heading_text_color_4"/>
+            android:layout_marginTop="0dp"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/heading_text_color_4"
+            android:textSize="@dimen/text_medium"
+            tools:text="10:00 AM" />
     </RelativeLayout>
 
 </RelativeLayout>

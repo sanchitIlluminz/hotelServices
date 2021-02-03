@@ -14,9 +14,25 @@ class CartBarView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : RelativeLayout(context, attrs, defStyleAttr){
     private var callback: Callback? = null
-
+    private var background: Int = 0
+    private var textColor: Int = 0
     init {
         LayoutInflater.from(context).inflate(R.layout.item_cart_bar_view,this,true)
+
+        val typedArray = context.obtainStyledAttributes(attrs,R.styleable.CartBarView)
+
+        background = typedArray.getResourceId(R.styleable.CartBarView_barBackground,-1)
+        textColor = typedArray.getColor(R.styleable.CartBarView_textColor,-1)
+
+        if (background!= -1) {
+            cartBar.setBackgroundResource(background)
+        }
+        if (textColor!= -1){
+            tvItem.setTextColor(textColor)
+        }
+
+
+        typedArray.recycle()
 
         if (!isInEditMode){
             cartBar.setOnClickListener {
@@ -34,6 +50,8 @@ class CartBarView @JvmOverloads constructor(
     fun setButtonText(text:String){
         tvViewCart.text = text
     }
+
+
 
     interface Callback{
         fun onCartBarClick()

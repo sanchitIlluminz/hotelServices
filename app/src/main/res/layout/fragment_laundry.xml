@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical"
-    tools:context=".ui.home.laundry.LaundryFragment">
+    tools:context=".ui.laundry.LaundryFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -16,9 +16,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         app:navigationIcon="@drawable/ic_backarrow"
-        app:title="@string/laundry_service"
-        app:titleTextAppearance="@style/ToolbarTextTitle"
-        app:titleTextColor="@color/text_color" />
+        app:title="@string/laundry_service"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:src="@drawable/ic_search"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBaseline="@id/toolbar"
+        android:layout_marginEnd="24dp"/>
 
     <ImageView
         android:id="@+id/ivDivider"
@@ -48,10 +53,15 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/cartBarView"
         android:layout_below="@id/tabLayout"
-        app:layout_anchor="@id/tabLayout" />
+        app:layout_anchor="@id/tabLayout"
+        />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/background_gradient_screen_bottom" />
     <com.illuminz.application.ui.custom.CartBarView
         android:id="@+id/cartBarView"
         android:layout_width="match_parent"

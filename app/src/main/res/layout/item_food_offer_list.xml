@@ -8,6 +8,7 @@
     android:orientation="horizontal"
     android:padding="14dp"
     android:clipToPadding="false"
-    android:clipChildren="true">
+    android:clipChildren="true"
+    android:background="@drawable/background_primary">
 
 </androidx.recyclerview.widget.RecyclerView>

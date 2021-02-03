@@ -6,6 +6,8 @@
         android:bottomRightRadius="6dp"/>
     <stroke
         android:width="2dp"
-        android:color="@color/text_color_3"/>
+        android:color="@color/booking_date_backgrd_color"/>
+    <solid
+        android:color="@color/booking_details_background"/>
 
 </shape>

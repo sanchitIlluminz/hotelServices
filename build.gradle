@@ -123,7 +123,7 @@ buildscript {
                     'libPhoneNumber'               : "io.michaelrocks:libphonenumber-android:${versions.libPhoneNumber}",
                     'textdrawable'                 : "com.amulyakhare:com.amulyakhare.textdrawable:${versions.textdrawable}",
                     'lottie'                       : "com.airbnb.android:lottie:${versions.lottie}",
-                    'ticker'                       : "com.robinhood.ticker:ticker:${versions.ticker}"
+                    'ticker'                       : "com.robinhood.ticker:ticker:${versions.ticker}",
 
             ],
             groupie   : [

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_alignParentStart="true"
     android:paddingTop="10dp"
     tools:background="@color/white"
-    android:paddingBottom="10dp">
+    android:paddingBottom="10dp"
+    android:maxWidth="400dp"
+    >
 
 
     <TextView
@@ -14,18 +16,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
-        android:textColor="@color/text_color"
-        android:textSize="@dimen/text_xxhuge"
-        tools:text="330ml" />
+        android:textColor="@color/dialog_text_color"
+        android:textSize="@dimen/text_xhuge"
+        tools:text="330ml"
+        android:minWidth="100dp"
+        android:layout_marginEnd="50dp"/>
 
     <TextView
         android:id="@+id/tvDrinkPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:textSize="@dimen/text_large"
+        android:textSize="@dimen/text_medium"
         android:fontFamily="@font/inter_medium"
         android:layout_below="@id/tvDrinkQuantity"
+        android:textColor="@color/drink_dialog_vol_color"
         tools:text="399.00"
         />
     <com.illuminz.application.ui.custom.AddMenuItemView

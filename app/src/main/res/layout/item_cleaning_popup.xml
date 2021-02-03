@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tvTime"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/inter_medium"
+    android:padding="16dp"
+    android:text="@string/select_time"
+    android:textColor="@color/sub_heading_text_color_1"
+    android:textSize="@dimen/text_huge"
+    android:drawablePadding="10dp"
+    android:minWidth="150dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?selectableItemBackground"/>

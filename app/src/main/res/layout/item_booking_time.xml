@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tvTimeValue"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="60dp"
     android:background="@color/transparent"
     android:fontFamily="@font/inter_medium"
     android:gravity="center"

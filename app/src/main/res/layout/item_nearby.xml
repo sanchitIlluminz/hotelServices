@@ -6,17 +6,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorPrimaryDark"
-    android:clickable="true"
-    android:focusable="true"
     >
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cdServiceItem"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cdNearbyItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
         android:layout_margin="14dp"
-        >
-
+        android:stateListAnimator="@animator/touch_state_list_animator"
+        android:clickable="true"
+        android:focusable="true">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,7 +34,7 @@
                 app:layout_constraintDimensionRatio="H,1:0.62"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/tvTitle"
@@ -46,7 +45,7 @@
         android:textSize="@dimen/text_medium"
         android:textColor="@color/text_color_food"
         tools:text="Sunny Side Up Omelete with Roasted BreadsSunny Side Up Omelete with Roasted Breads"
-        android:layout_below="@id/cdServiceItem"
+        android:layout_below="@id/cdNearbyItem"
         android:gravity="top"
         android:layout_marginStart="14dp"
         />

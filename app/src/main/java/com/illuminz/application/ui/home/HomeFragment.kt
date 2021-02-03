@@ -12,34 +12,32 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.core.extensions.setCustomAnimations
 import com.core.ui.base.DaggerBaseFragment
 import com.core.utils.AnimationDirection
-import com.core.utils.GlideApp
 import com.illuminz.application.R
-import com.illuminz.application.ui.home.bar.DrinksFragment
-import com.illuminz.application.ui.home.bookTable.BookTableFragment
-import com.illuminz.application.ui.home.food.FoodListFragment
+import com.illuminz.application.ui.bar.DrinksFragment
+import com.illuminz.application.ui.bookTable.BookTableFragment
+import com.illuminz.application.ui.food.FoodListFragment
 import com.illuminz.application.ui.home.items.*
-import com.illuminz.application.ui.home.laundry.LaundryFragment
-import com.illuminz.application.ui.home.massage.MassageListFragment
-import com.illuminz.application.ui.home.nearbyplaces.NearbyFragment
-import com.illuminz.application.ui.home.roomcleaning.RoomCleaningFragment
-import com.illuminz.data.utils.CurrencyFormatter
+import com.illuminz.application.ui.laundry.LaundryFragment
+import com.illuminz.application.ui.massage.MassageListFragment
+import com.illuminz.application.ui.nearbyplaces.NearbyFragment
+import com.illuminz.application.ui.roomcleaning.RoomCleaningFragment
+import com.illuminz.application.ui.transport.TransportFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.dialog_transport.*
+import kotlinx.android.synthetic.main.dialog_contact.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.item_food.view.*
 
 
 class HomeFragment : DaggerBaseFragment() {
 
     companion object {
         const val TAG = "HomeFragment"
-        private const val ORDERFOOD = "ORDERFOOD"
+        private const val ORDER_FOOD = "ORDERFOOD"
         private const val LAUNDRY = "LAUNDRY"
         private const val MASSAGE = "MASSAGE"
-        private const val ROOMCLEANING = "ROOMCLEANING"
+        private const val ROOM_CLEANING = "ROOMCLEANING"
         private const val BAR = "BAR"
-        private const val BOOKTABLE = "BOOKTABLE"
+        private const val BOOK_TABLE = "BOOKTABLE"
         private const val NEARBY = "NEARBY"
         private const val TRANSPORT = "TRANSPORT"
         private const val GYM = "GYM"
@@ -70,7 +68,7 @@ class HomeFragment : DaggerBaseFragment() {
         layoutManager.spanSizeLookup = adapter.spanSizeLookup
         rvHome.adapter = adapter
 
-//        adapter.add(BookingDetailItem())
+        adapter.add(BookingDetailItem())
 //        adapter.add(RoomServiceItem())
         adapter.add(ServiceTitleItem(getString(R.string.services)))
 
@@ -102,7 +100,7 @@ class HomeFragment : DaggerBaseFragment() {
                     name = "Order Food",
                     description = "North indian, Continental, Chinese and more",
                     type = 1,
-                    tag = ORDERFOOD
+                    tag = ORDER_FOOD
                 ),
                 ServicesItem(
                     image = image2,
@@ -116,7 +114,7 @@ class HomeFragment : DaggerBaseFragment() {
                     name = "Room Cleaning",
                     description = "Ask or schedule for your room cleaning",
                     type = 1,
-                    tag = ROOMCLEANING
+                    tag = ROOM_CLEANING
                 ),
                 ServicesItem(
                     image = image4,
@@ -130,7 +128,7 @@ class HomeFragment : DaggerBaseFragment() {
                     name = "Book A Table",
                     description = "Book A Table",
                     type = 1,
-                    tag = BOOKTABLE
+                    tag = BOOK_TABLE
                 ),
                 ServicesItem(
                     image = image6,
@@ -176,18 +174,26 @@ class HomeFragment : DaggerBaseFragment() {
 
         btnFeedback.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
+//            val fragment = FeedbackFragment.newInstance()
+//            openFragment(fragment, FeedbackFragment.TAG)
         }
 
         btnWifi.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-
+//            val list = getWifiList()
+//            showContactDialog(list,2)
         }
+
+        btnContact.setOnClickListener {
+            val list = getContactList()
+           showContactDialog(list,1)
+        }
+
             adapter.setOnItemClickListener { item, _ ->
 
                 if (item is ServicesItem) {
                     when (item.tag) {
-                        ORDERFOOD -> {
+                        ORDER_FOOD -> {
                                 val fragment = FoodListFragment()
                                 openFragment(fragment, FoodListFragment.TAG)
                         }
@@ -202,7 +208,7 @@ class HomeFragment : DaggerBaseFragment() {
                                 openFragment(fragment, MassageListFragment.TAG)
                         }
 
-                        ROOMCLEANING -> {
+                        ROOM_CLEANING -> {
                                 val fragment = RoomCleaningFragment()
                                 openFragment(fragment, RoomCleaningFragment.TAG)
                         }
@@ -211,7 +217,7 @@ class HomeFragment : DaggerBaseFragment() {
                                 val fragment = DrinksFragment()
                                 openFragment(fragment, DrinksFragment.TAG)
                         }
-                        BOOKTABLE -> {
+                        BOOK_TABLE -> {
                                 val fragment = BookTableFragment()
                                 openFragment(fragment, BookTableFragment.TAG)
                         }
@@ -228,12 +234,13 @@ class HomeFragment : DaggerBaseFragment() {
                         }
 
                         TRANSPORT -> {
-                            val url = "https://images.newindianexpress.com/uploads/user/imagelibrary/2019/10/20/w900X450/North_DMC.jpg"
-                            val title = "New Delhi Railway Station"
-                            val price = CurrencyFormatter.format(amount = 1000.00, currencyCode = "INR")
-                            val distance = "220km"
-                            val priceDistance = "$price | $distance"
-                            showTransportDialog(url,title,priceDistance)
+//                            val url = "https://images.newindianexpress.com/uploads/user/imagelibrary/2019/10/20/w900X450/North_DMC.jpg"
+//                            val title = "New Delhi Railway Station"
+//                            val price = CurrencyFormatter.format(amount = 1000.00, currencyCode = "INR")
+//                            val distance = "220km"
+
+                            val fragment = TransportFragment.newInstance()
+                            openFragment(fragment, TransportFragment.TAG)
                         }
 
                         GYM -> {
@@ -287,36 +294,64 @@ class HomeFragment : DaggerBaseFragment() {
         return imageList
     }
 
-    private fun showTransportDialog(image: String,title:String,price:String) {
+    private fun showContactDialog( menuList :List<ContactDialogItem>, type:Int){
+//        val menuList = listOf(
+//            ContactDialogItem(title = "Reception", value = "119"),
+//            ContactDialogItem(title = "Hotel", value ="220" ),
+//            ContactDialogItem(title = "Emergency", value ="330" )
+//        )
         val dialog = context?.let { Dialog(it) }
 
-        dialog?.run {
-
+        val contactAdapter: GroupAdapter<GroupieViewHolder> = GroupAdapter()
+        dialog?.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.dialog_transport)
+            setCancelable(true)
+            setContentView(R.layout.dialog_contact)
 
             window?.apply {
                 setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 setGravity(Gravity.CENTER)
+//                attributes.x = context.dpToPx(24) // left margin
+//                attributes.y = context.dpToPx(140) // bottom margin
             }
 
+            if (type==1){
+                tvTitle.text = getString(R.string.contact_detail)
+                tvTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_contact,0,0,0)
+            }else{
+                tvTitle.text = getString(R.string.wifi)
+                tvTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_wifi,0,0,0)
+            }
 
+            rvDialogContact.adapter = contactAdapter
+//
+            contactAdapter.addAll(menuList)
 
-            tvTransportName.text = title
-            tvDistance.text = price
-
-            GlideApp.with(context)
-                .load(image)
-                .placeholder(R.color.colorPrimary)
-                .error(R.color.black)
-                .centerCrop()
-                .into(ivTransport)
-
-            btRequest.setOnClickListener {
+            contactAdapter.setOnItemClickListener { item, view ->
                 dismiss()
             }
-            show()
+
+            btnOkay.setOnClickListener {
+                dismiss()
+            }
         }
+
+        dialog?.show()
     }
+
+    private fun getContactList():List<ContactDialogItem>{
+        return listOf(
+            ContactDialogItem(title = "Reception", value = "119"),
+            ContactDialogItem(title = "Hotel", value ="220" ),
+            ContactDialogItem(title = "Emergency", value ="330" )
+        )
+    }
+
+    private fun getWifiList():List<ContactDialogItem>{
+        return listOf(
+            ContactDialogItem(title = "Name", value = "EmpireWifi1"),
+            ContactDialogItem(title = "Paasword", value ="ANM230v1" )
+        )
+    }
+
 }

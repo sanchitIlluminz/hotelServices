@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <corners
-        android:radius="6dp"/>
-    <solid
-        android:color="@color/view_cart_background_color"/>
-
-</shape>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/colorControlHighlight">
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <corners android:radius="6dp" />
+            <solid android:color="@color/view_cart_background_color" />
+        </shape>
+    </item>
+</ripple>
