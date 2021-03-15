@@ -30,7 +30,6 @@ class ErrorHandlerImpl @Inject constructor(
                     HttpsURLConnection.HTTP_UNAUTHORIZED -> {
                         context.longToast(error.message)
                         context.clearNotifications()
-                        userRepository.clear()
                         socketManager.disconnect()
 
                         // Navigate to welcome activity

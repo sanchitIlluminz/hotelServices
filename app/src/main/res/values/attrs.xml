@@ -14,6 +14,7 @@
     <declare-styleable name="CartBarView">
         <attr name="barBackground" format="reference|color"/>
         <attr name="textColor" format="reference|color"/>
+        <attr name="nextTitle" format="string"/>
     </declare-styleable>
 
 </resources>

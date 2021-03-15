@@ -23,9 +23,9 @@ class FcmService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Timber.d("FCM Token Updated: $token")
-        if (userRepository.isLoggedIn()) {
-            //  GlobalScope.launch { commonRepository.updateFcmToken(token) }
-        }
+//        if (userRepository.isLoggedIn()) {
+//            //  GlobalScope.launch { commonRepository.updateFcmToken(token) }
+//        }
     }
 
     override fun onMessageReceived(message: RemoteMessage) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/rvFoodOfferList" xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvFoodOfferList"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,6 +9,8 @@
     android:padding="14dp"
     android:clipToPadding="false"
     android:clipChildren="true"
-    android:background="@drawable/background_primary">
+    android:background="@drawable/background_primary"
+    tools:listitem="@layout/item_food_offer"
+    xmlns:tools="http://schemas.android.com/tools">
 
 </androidx.recyclerview.widget.RecyclerView>

@@ -62,9 +62,11 @@
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/background_gradient_screen_bottom" />
+
     <com.illuminz.application.ui.custom.CartBarView
         android:id="@+id/cartBarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        app:nextTitle="Schdule my appointment"/>
 </RelativeLayout>

@@ -64,17 +64,22 @@
 
 
     <TextView
-        android:id="@+id/tvInclusion"
+        android:id="@+id/tvDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_medium"
+        android:fontFamily="@font/inter_regular"
         android:textSize="@dimen/text_default"
-        android:textColor="@color/welcome_button_color"
+        android:textColor="@color/text_color_3"
         android:text="@string/inclusions"
         android:layout_below="@id/tvPersonCount"
         android:layout_alignParentStart="true"
         android:layout_marginTop="12dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:layout_toStartOf="@id/quantityView"
+        android:layout_marginEnd="@dimen/spacing_screen_horizontal"
+        tools:text="Do you like scented massage oils and aromatherapy candles that are environmentally friendly and all natural? If so, then our fabulous body massage candles are just for you. For an innovative and unique head to toe luxury Spa treatment, there is quite nothing like the Orli Massage Candle."/>
 
     <com.illuminz.application.ui.custom.AddMenuItemView
         android:id="@+id/quantityView"
@@ -86,17 +91,11 @@
         android:clickable="true"
         android:focusable="true" />
 
-
     <ImageView
         android:id="@+id/ivDivider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@drawable/background_divider"
-        android:layout_below="@id/tvInclusion"
-        />
-
-
-
-
+        android:layout_below="@id/tvDescription" />
 
 </RelativeLayout>

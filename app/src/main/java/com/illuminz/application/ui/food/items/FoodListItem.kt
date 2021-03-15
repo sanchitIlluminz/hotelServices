@@ -1,5 +1,7 @@
 package com.illuminz.application.ui.food.items
 
+import com.core.extensions.gone
+import com.core.extensions.visible
 import com.illuminz.application.R
 import com.illuminz.application.ui.custom.AddMenuItemView
 import com.illuminz.application.utils.QuantityChangedPayload
@@ -39,10 +41,13 @@ class FoodListItem(
             quantityView.setQuantity(quantity, false)
 
             if (foodItem==false){
-                ivImage.setImageResource(R.drawable.ic_shirt)
+//                ivImage.setImageResource(R.drawable.ic_shirt)
+                ivImage.gone()
             }else if (foodItem==true && veg==true){
+                ivImage.visible()
                 ivImage.setImageResource(R.drawable.ic_vegsymbol)
             }else{
+                ivImage.visible()
                 ivImage.setImageResource(R.drawable.ic_eggsymbol)
             }
         }
@@ -61,12 +66,12 @@ class FoodListItem(
     }
 
     override fun onIncreaseMenuItemQuantityClicked() {
-        quantity = quantity?.plus(1)
+        quantity = quantity.plus(1)
         notifyChanged(QuantityChangedPayload)
     }
 
     override fun onDecreaseMenuItemQuantityClicked() {
-        quantity = quantity?.minus(1)
+        quantity = quantity.minus(1)
         notifyChanged(QuantityChangedPayload)
     }
 }

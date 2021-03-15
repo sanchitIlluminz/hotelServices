@@ -6,6 +6,8 @@
     android:background="@color/colorPrimaryDark"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
+    android:paddingStart="@dimen/spacing_screen_horizontal"
+    android:paddingEnd="@dimen/spacing_screen_horizontal"
     android:gravity="center_vertical">
 
     <TextView
@@ -19,6 +21,7 @@
         android:layout_alignBaseline="@id/quantityView"
         android:layout_toStartOf="@id/quantityView"
         android:layout_alignParentStart="true"
+        android:layout_marginEnd="@dimen/spacing_screen_horizontal"
         android:gravity="center_vertical"
         android:lineSpacingMultiplier="1.2"
         android:maxLength="90"
@@ -32,6 +35,7 @@
         android:fontFamily="@font/inter_regular"
         android:textSize="@dimen/text_large"
         android:textColor="@color/text_color_3"/>
+
     <TextView
         android:id="@+id/tvPrice"
         android:layout_width="wrap_content"
@@ -40,20 +44,19 @@
         android:textSize="@dimen/text_large"
         android:textColor="@color/color_price"
         tools:text="500"
-        android:layout_centerVertical="true"
+        android:layout_alignTop="@id/quantityView"
+        android:layout_alignBottom="@id/quantityView"
         android:layout_alignParentEnd="true"
-        />
+        android:gravity="center"/>
+
     <com.illuminz.application.ui.custom.AddMenuItemView
         android:id="@+id/quantityView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:visibility="visible"
         android:clickable="true"
         android:focusable="true"
         android:layout_marginEnd="20dp"
         android:layout_toStartOf="@id/tvPrice"
-        android:layout_centerVertical="true"/>
-
-
+        android:layout_alignParentTop="true" />
 </RelativeLayout>

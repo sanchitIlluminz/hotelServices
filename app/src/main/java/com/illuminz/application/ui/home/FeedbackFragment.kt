@@ -3,6 +3,7 @@ package com.illuminz.application.ui.home
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentManager
+import com.core.extensions.supportsChangeAnimations
 import com.core.ui.base.DaggerBaseFragment
 import com.illuminz.application.R
 import com.illuminz.application.ui.home.items.FeedbackRatingItem
@@ -62,6 +63,7 @@ class FeedbackFragment : DaggerBaseFragment() {
     private fun initialise() {
         ratingAdapter = GroupAdapter()
         rvFeedback.adapter = ratingAdapter
+        rvFeedback.supportsChangeAnimations(false)
 
         val item = listOf(      FeedbackRatingItem(rating = 1),
                                 FeedbackRatingItem(rating = 2),

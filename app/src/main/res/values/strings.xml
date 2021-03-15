@@ -126,4 +126,6 @@
     <string name="anything_that_can_be_improved">Anything that can be improved?</string>
     <string name="your_feedback_optional">Your feedback (Optional)</string>
     <string name="submit_feedback">Submit Feedback</string>
+    <string name="food_list_food_timing_label_included">Included</string>
+    <string name="cart_bar_view_title_label">Review your order</string>
 </resources>

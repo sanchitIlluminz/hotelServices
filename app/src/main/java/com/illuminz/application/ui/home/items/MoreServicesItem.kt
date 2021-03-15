@@ -3,28 +3,25 @@ package com.illuminz.application.ui.home.items
 import com.bumptech.glide.Glide
 import com.core.utils.GlideApp
 import com.illuminz.application.R
+import com.illuminz.data.models.response.ServiceDto
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_more_services.view.*
 
 class MoreServicesItem(
-    private val image: String,
-    private val name: String,
-    private val description:String,
-    private val type: Int,
-    val tag: String
+    val serviceDto: ServiceDto
 ) : Item() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.apply {
             GlideApp.with(this)
-                .load(image)
+                .load(serviceDto.imagePath)
                 .placeholder(R.color.colorPrimary)
                 .error(R.color.black)
                 .centerCrop()
                 .into(ivImage)
 
-            tvServiceName.text = name
-            tvDescription.text = description
+            tvServiceName.text = serviceDto.title.orEmpty()
+            tvDescription.text = serviceDto.detail.orEmpty()
         }
 
     }

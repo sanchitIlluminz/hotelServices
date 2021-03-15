@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.nearbyplaces.NearbyGalleryFragment"
+    android:paddingBottom="@dimen/spacing_screen_horizontal_2">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_backarrow"
+        app:title="@string/nearby_places"/>
+
+    <ImageView
+        android:id="@+id/ivDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray"
+        android:layout_below="@id/toolbar"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNearbyGallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/spacing_screen_horizontal"
+        android:paddingBottom="@dimen/spacing_screen_horizontal"
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:paddingStart="@dimen/spacing_screen_horizontal_2"
+        android:paddingEnd="@dimen/spacing_screen_horizontal_2"
+        app:spanCount="2"
+        tools:listitem="@layout/item_gallery_image_half_width"
+        tools:itemCount="4"
+        android:layout_below="@id/ivDivider"
+        android:layout_above="@id/btnRequest"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRequest"
+        style="@style/AppButton.Unelivated.PrimaryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/request_a_call_back"
+        android:textSize="@dimen/text_medium"
+        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

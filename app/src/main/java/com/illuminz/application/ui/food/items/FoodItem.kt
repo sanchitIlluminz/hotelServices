@@ -1,9 +1,13 @@
 package com.illuminz.application.ui.food.items
 
+import com.core.extensions.gone
+import com.core.extensions.orZero
+import com.core.extensions.visible
 import com.core.utils.GlideApp
 import com.illuminz.application.R
 import com.illuminz.application.ui.custom.AddMenuItemView
 import com.illuminz.application.utils.QuantityChangedPayload
+import com.illuminz.data.models.response.FoodDto
 import com.illuminz.data.utils.CurrencyFormatter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -12,20 +16,18 @@ import kotlinx.android.synthetic.main.item_food.view.ivImage
 import kotlinx.android.synthetic.main.item_food.view.tvPrice
 
 class FoodItem(
-    private val image: String,
-    private val title: String,
-    private val price: Double,
-    private val type: Int? = 0,
-    private var quantity: Int = 0,
-    val callback: Callback
+    var foodDto: FoodDto,
+    val callback: Callback,
+    private var remark:String? = null,
+    private val hideThumbnail:Boolean? = false
 ) : Item(), AddMenuItemView.Callback {
     override fun bind(viewHolder: GroupieViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.firstOrNull() == QuantityChangedPayload) {
-            viewHolder.itemView.quantityView.setQuantity(quantity, true)
+            viewHolder.itemView.quantityView.setQuantity(foodDto.quantity.orZero(), true)
         } else {
             super.bind(viewHolder, position, payloads)
         }
-        callback.onDecreaseMenuItemClicked(quantity)
+//        callback.onDecreaseMenuItemClicked(this)
 
     }
 
@@ -34,22 +36,34 @@ class FoodItem(
 
         viewHolder.itemView.apply {
             GlideApp.with(this)
-                .load(image)
+                .load(foodDto.image.orEmpty())
                 .placeholder(R.color.colorPrimary)
                 .error(R.color.black)
                 .centerCrop()
                 .into(ivImage)
 
-            tvFoodTitle.text = title
-            tvPrice.text = CurrencyFormatter.format(amount = price,currencyCode = "INR")
+            tvFoodTitle.text = foodDto.name.orEmpty()
+            tvPrice.text = CurrencyFormatter.format(amount = foodDto.price?.toDouble().orZero(),currencyCode = "INR")
             quantityView.setCallback(this@FoodItem)
-            quantityView.setQuantity(quantity, false)
-            callback.onDecreaseMenuItemClicked(quantity)
+            quantityView.setQuantity(foodDto.quantity.orZero(), false)
+//            callback.onDecreaseMenuItemClicked(this@FoodItem)
 
-            if(type==0){
+            if(foodDto.vegStatus==1){
                 ivFoodType.setImageResource(R.drawable.ic_vegsymbol)
             }else{
                 ivFoodType.setImageResource(R.drawable.ic_eggsymbol)
+            }
+
+            if (remark.isNullOrBlank()){
+                tvFoodRemark.gone()
+            }else{
+                tvFoodRemark.visible()
+                tvFoodRemark.text = remark
+            }
+
+            if (hideThumbnail==true){
+                ivImage.gone()
+                tvFoodRemark.gone()
             }
 
 //            btAdd.setOnClickListener {
@@ -81,17 +95,19 @@ class FoodItem(
 //    }
 
     interface Callback {
-        fun onIncreaseMenuItemClicked(count: Int)
-        fun onDecreaseMenuItemClicked(count: Int)
+        fun onIncreaseFoodItemClicked(foodItem: FoodItem)
+        fun onDecreaseFoodItemClicked(foodItem: FoodItem)
     }
 
     override fun onIncreaseMenuItemQuantityClicked() {
-        quantity += 1
         notifyChanged(QuantityChangedPayload)
+        foodDto.quantity += 1
+        callback.onIncreaseFoodItemClicked(this)
     }
 
     override fun onDecreaseMenuItemQuantityClicked() {
-        quantity -= 1
         notifyChanged(QuantityChangedPayload)
+        foodDto.quantity -= 1
+        callback.onDecreaseFoodItemClicked(this)
     }
 }

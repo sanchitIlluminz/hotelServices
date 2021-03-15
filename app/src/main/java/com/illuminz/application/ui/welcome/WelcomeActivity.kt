@@ -35,7 +35,8 @@ class WelcomeActivity : AppCompatActivity() {
         supportActionBar?.hide(); // hide the title bar
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
 
         setContentView(R.layout.activity_welcome)
         initialise()
@@ -90,7 +91,6 @@ class WelcomeActivity : AppCompatActivity() {
 //        window.decorView.systemUiVisibility = flags
 
 
-
     }
 
     private fun setListener() {
@@ -110,13 +110,12 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
 
-    private fun initialise() {}
-//        val url ="https://img.traveltriangle.com/blog/wp-content/uploads/2017/09/A-view-of-Amaras-Villa-with-a-pool-in-Lonavala-at-sunset-ss23092017.jpg"
-//        GlideApp.with(this)
-//            .load(url)
-//            .placeholder(R.color.colorPrimary)
-//            .error(R.color.black)
-//            .centerCrop()
-//            .into(ivImage)
-//    }
+    private fun initialise() {
+        GlideApp.with(this)
+            .load(R.drawable.ic_imagemain)
+            .placeholder(R.color.colorPrimary)
+            .error(R.color.black)
+            .centerCrop()
+            .into(ivImage)
+    }
 }

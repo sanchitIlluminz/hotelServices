@@ -17,9 +17,5 @@ class MainActivity : DaggerBaseActivity() {
         if (supportFragmentManager.findFragmentByTag(HomeFragment.TAG) == null)
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragmentContainer, HomeFragment.newInstance(), HomeFragment.TAG).commit()
-
-
-
     }
-
 }

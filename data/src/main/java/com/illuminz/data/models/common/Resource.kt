@@ -36,3 +36,4 @@ data class Resource<out T>(val status: Status, val data: T? = null, val error: A
 
     fun isLoading(): Boolean = status == Status.LOADING
 }
+

@@ -12,28 +12,30 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         app:navigationIcon="@drawable/ic_backarrow"
         app:title="@string/order_food"
-        />
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/ivSearch"/>
 
     <ImageView
+        android:id="@+id/ivSearch"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
-        android:src="@drawable/ic_search"
-        android:layout_alignParentEnd="true"
         android:layout_alignBaseline="@id/toolbar"
-        android:layout_marginEnd="24dp"/>
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/ic_search" />
+
     <ImageView
         android:id="@+id/ivDivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/toolbar"
         android:background="@color/light_gray" />
-
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFood"
@@ -53,25 +55,29 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnMenu"
+        style="@style/AppButton.Unelivated.Secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/cartBarView"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        style="@style/AppButton.Unelivated.Secondary"
         android:text="@string/menu"
+        android:textAlignment="center"
         app:icon="@drawable/ic_menu"
-         />
+        app:iconGravity="textStart"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/background_gradient_screen_bottom" />
+
     <com.illuminz.application.ui.custom.CartBarView
         android:id="@+id/cartBarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        app:nextTitle="@string/cart_bar_view_title_label"
         />
 
 </RelativeLayout>

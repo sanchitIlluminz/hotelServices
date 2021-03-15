@@ -14,6 +14,7 @@ class VegNonVegItem(
         viewHolder.itemView.apply {
             cbVeg.isChecked = isVegOnly
             cbNonVeg.isChecked = isNonVegOnly
+
             cbVeg.setOnCheckedChangeListener { buttonView, isChecked ->
                 isVegOnly = isChecked
                 callback.vegOnlyClickListener(isVegOnly, isNonVegOnly)
@@ -23,6 +24,7 @@ class VegNonVegItem(
                 isNonVegOnly =isChecked
                 callback.vegOnlyClickListener(isVegOnly, isNonVegOnly)
             }
+
         }
     }
 

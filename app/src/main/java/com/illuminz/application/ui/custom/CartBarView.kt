@@ -4,9 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
+import androidx.core.view.get
 import com.illuminz.application.R
 import com.illuminz.data.utils.CurrencyFormatter
-import kotlinx.android.synthetic.main.item_cart_bar_view.view.*
+import kotlinx.android.synthetic.main.layout_cart_bar_view.view.*
 
 class CartBarView @JvmOverloads constructor(
     context: Context,
@@ -16,19 +17,26 @@ class CartBarView @JvmOverloads constructor(
     private var callback: Callback? = null
     private var background: Int = 0
     private var textColor: Int = 0
+    private var nextTitle: String? = null
+
     init {
-        LayoutInflater.from(context).inflate(R.layout.item_cart_bar_view,this,true)
+        LayoutInflater.from(context).inflate(R.layout.layout_cart_bar_view,this,true)
 
         val typedArray = context.obtainStyledAttributes(attrs,R.styleable.CartBarView)
 
         background = typedArray.getResourceId(R.styleable.CartBarView_barBackground,-1)
         textColor = typedArray.getColor(R.styleable.CartBarView_textColor,-1)
+        nextTitle = typedArray.getString(R.styleable.CartBarView_nextTitle)
 
         if (background!= -1) {
             cartBar.setBackgroundResource(background)
         }
         if (textColor!= -1){
             tvItem.setTextColor(textColor)
+        }
+
+        if (nextTitle!=null){
+            tvNextTitle.text = nextTitle
         }
 
 
@@ -48,7 +56,7 @@ class CartBarView @JvmOverloads constructor(
     }
 
     fun setButtonText(text:String){
-        tvViewCart.text = text
+        tvNextTitle.text = text
     }
 
 

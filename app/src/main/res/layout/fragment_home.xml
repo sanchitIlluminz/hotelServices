@@ -112,12 +112,13 @@
         app:cardElevation="12dp"
         app:contentPadding="6dp"
         android:stateListAnimator="@animator/touch_state_list_animator"
-        >
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/prep_bar_color">
+            android:background="@color/prep_bar_color"
+           >
 
             <LinearLayout
                 android:id="@+id/llDeliveryTime"

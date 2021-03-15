@@ -5,6 +5,7 @@ import com.core.extensions.visible
 import com.illuminz.application.R
 import com.illuminz.application.ui.custom.AddMenuItemView
 import com.illuminz.application.utils.QuantityChangedPayload
+import com.illuminz.data.utils.CurrencyFormatter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.items_massage.view.*
@@ -45,6 +46,9 @@ class MassageItems(
                 ivDivider.gone()
             else
                 ivDivider.visible()
+
+            tvPrice.text = CurrencyFormatter.format(amount = 1300.00,currencyCode = "INR",countryCode = "IN")
+            tvDescription.text = "Do you like scented massage oils and aromatherapy candles that are environmentally friendly and all natural? If so, then our fabulous body massage candles are just for you. For an innovative and unique head to toe luxury Spa treatment, there is quite nothing like the Orli Massage Candle."
         }
     }
 

@@ -3,7 +3,9 @@ package com.illuminz.application.ui.nearbyplaces
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
+import com.core.extensions.setCustomAnimations
 import com.core.ui.base.DaggerBaseFragment
+import com.core.utils.AnimationDirection
 import com.illuminz.application.R
 import com.illuminz.application.ui.nearbyplaces.items.NearbyItem
 import com.illuminz.application.ui.nearbyplaces.items.NearbySubTitleItem
@@ -54,10 +56,20 @@ class NearbyFragment : DaggerBaseFragment() {
 
         adapter.setOnItemClickListener { item, view ->
             if (item is NearbyItem){
-                val title = item.title
 
-                ImageDialogFragment.newInstance(title,getString(R.string.ten_km_away),imageList)
-                    .show(childFragmentManager,ImageDialogFragment.TAG)
+                if (parentFragmentManager.findFragmentByTag(tag) == null) {
+                    parentFragmentManager.beginTransaction()
+                        .setCustomAnimations(AnimationDirection.End)
+                        .replace(R.id.fragmentContainer,
+                            NearbyGalleryFragment.newInstance(imageList),
+                            NearbyGalleryFragment.TAG)
+                        .addToBackStack(NearbyGalleryFragment.TAG)
+                        .commit()
+                }
+//                val title = item.title
+//
+//                ImageDialogFragment.newInstance(title,getString(R.string.ten_km_away),imageList)
+//                    .show(childFragmentManager,ImageDialogFragment.TAG)
 
 //                ConfirmDialog.newInstance(getString(R.string.order_placed),
 //                    getString(R.string.order_will_be_delivered_in_time))

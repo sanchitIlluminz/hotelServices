@@ -8,12 +8,14 @@ import com.illuminz.application.ui.bookTable.BookTableFragment
 import com.illuminz.application.ui.bookTable.BookingTimeFragment
 import com.illuminz.application.ui.food.CartFragment
 import com.illuminz.application.ui.food.FoodListFragment
+import com.illuminz.application.ui.food.SearchDialogFragment
 import com.illuminz.application.ui.home.FeedbackFragment
 import com.illuminz.application.ui.laundry.LaundryFragment
 import com.illuminz.application.ui.laundry.LaundryListFragment
 import com.illuminz.application.ui.massage.MassageListFragment
 import com.illuminz.application.ui.nearbyplaces.ImageDialogFragment
 import com.illuminz.application.ui.nearbyplaces.NearbyFragment
+import com.illuminz.application.ui.nearbyplaces.NearbyGalleryFragment
 import com.illuminz.application.ui.roomcleaning.RoomCleaningFragment
 import com.illuminz.application.ui.transport.TransportDialog
 import com.illuminz.application.ui.transport.TransportFragment
@@ -28,7 +30,6 @@ abstract class FragmentBindingModule {
 
     @ContributesAndroidInjector
     abstract fun foodListFragment() : FoodListFragment
-
 
     @ContributesAndroidInjector
     abstract fun laundryFragment() : LaundryFragment
@@ -78,4 +79,9 @@ abstract class FragmentBindingModule {
     @ContributesAndroidInjector
     abstract fun cartFragment() : CartFragment
 
+    @ContributesAndroidInjector
+    abstract fun nearbyGalleryFragment() : NearbyGalleryFragment
+
+    @ContributesAndroidInjector
+    abstract fun restaurantDetailsSearchDialogFragment() : SearchDialogFragment
 }

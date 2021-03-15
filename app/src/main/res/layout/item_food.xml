@@ -18,24 +18,60 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@color/light_gray"
-        app:riv_corner_radius="8dp"/>
+        app:riv_corner_radius="8dp"
+        tools:visibility="gone"
+        />
 
     <ImageView
         android:id="@+id/ivFoodType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="@dimen/spacing_screen_horizontal"
         android:src="@drawable/ic_vegsymbol"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/barrier1"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="ivImage,ivFoodType"/>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="ivImage,ivFoodType,tvFoodTitle"/>
+
+    <TextView
+        android:id="@+id/tvFoodRemark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/inter_medium"
+        android:textColor="@color/text_color_remark"
+        android:textSize="@dimen/text_small"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_bias="0"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@id/quantityView"
+        app:layout_constraintStart_toEndOf="@id/barrier"
+        app:layout_constraintTop_toTopOf="@id/ivImage"
+        tools:text="Must Try"
+        tools:visibility="gone"
+        />
 
     <TextView
         android:id="@+id/tvFoodTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
         android:fontFamily="@font/inter_medium"
         android:lineSpacingMultiplier="1.2"
         android:maxLength="100"
@@ -46,8 +82,8 @@
         app:layout_constraintHorizontal_bias="0"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toStartOf="@id/quantityView"
-        app:layout_constraintStart_toEndOf="@id/ivImage"
-        app:layout_constraintTop_toTopOf="@id/ivImage"
+        app:layout_constraintStart_toEndOf="@id/barrier"
+        app:layout_constraintTop_toBottomOf="@id/tvFoodRemark"
         tools:text="Sunny Side Up Omelete with Roasted BreadsSunny Side Up Omelete with Roasted Breads" />
 
     <TextView

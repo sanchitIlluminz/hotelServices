@@ -51,9 +51,9 @@ class CartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callba
             activity?.onBackPressed()
         }
 
-        tvCoupon.setOnClickListener {
-
-        }
+//        tvCoupon.setOnClickListener {
+//
+//        }
 
         cartBarView.setCallback(this)
     }

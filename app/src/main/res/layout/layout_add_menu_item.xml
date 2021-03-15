@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rlRoot"
-    android:layout_width="70dp"
-    android:layout_height="28dp"
+    android:layout_width="80dp"
+    android:layout_height="36dp"
     android:clickable="true"
     android:focusable="true"
     android:gravity="center_vertical"
-    android:background="@drawable/background_add_button"
-    >
+    android:background="@drawable/background_add_button">
 
     <FrameLayout
         android:id="@+id/flAddText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_toStartOf="@id/ivAdd"
         android:layout_toEndOf="@id/ivRemove"
-        tools:visibility="gone">
+        tools:visibility="gone"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,19 +28,19 @@
             android:includeFontPadding="false"
             android:text="@string/add"
             android:textColor="@color/add_button_text_color"
-            android:textSize="@dimen/text_medium"
+            android:textSize="@dimen/text_large"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:minHeight="36dp"
+            android:minHeight="40dp"
+            android:minWidth="80dp"
             android:visibility="visible"
             />
-
     </FrameLayout>
 
     <ImageView
         android:id="@+id/ivRemove"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="26dp"
+        android:layout_height="36dp"
         android:layout_alignParentStart="true"
         android:scaleType="center"
         android:src="@drawable/ic_min"
@@ -64,7 +64,7 @@
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:textColor="@color/ticker_text_color"
-        android:textSize="@dimen/text_medium"
+        android:textSize="@dimen/text_large"
         android:background="@drawable/background_item_count"
         android:visibility="visible"
         tools:visibility="visible"
@@ -73,8 +73,8 @@
 
     <ImageView
         android:id="@+id/ivAdd"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="26dp"
+        android:layout_height="36dp"
         android:layout_alignParentEnd="true"
         android:scaleType="center"
         android:src="@drawable/ic_plus"
@@ -84,5 +84,4 @@
         app:tint="@color/ticker_text_color"
         android:layout_marginTop="4dp"
         />
-
 </RelativeLayout>
