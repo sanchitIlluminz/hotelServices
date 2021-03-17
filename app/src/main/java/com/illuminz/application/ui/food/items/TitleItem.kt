@@ -8,7 +8,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_title.view.*
 
 class TitleItem (
-    private val title: String,
+    val title: String,
     private val items: String? = null
 ): Item() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {

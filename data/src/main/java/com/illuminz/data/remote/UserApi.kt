@@ -2,7 +2,7 @@ package com.illuminz.data.remote
 
 import com.illuminz.data.models.common.ApiResponse
 import com.illuminz.data.models.response.ServiceDto
-import com.illuminz.data.models.response.ServiceProductDto
+import com.illuminz.data.models.response.ServiceCategoryDto
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -15,6 +15,6 @@ interface UserApi {
     suspend fun getServiceProducts(
         @Query("serviceId") id: String,
         @Query("tag") tag: String
-    ): Response<ApiResponse<List<ServiceProductDto>>>
+    ): Response<ApiResponse<List<ServiceCategoryDto>>>
 
 }

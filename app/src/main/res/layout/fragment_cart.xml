@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="4dp"
         app:navigationIcon="@drawable/ic_backarrow"
-        app:title="@string/your_order"/>
+        app:title="@string/your_order" />
 
     <View
         android:id="@+id/ivDivider"
@@ -84,27 +84,27 @@
                     tools:text="gfchvbjknlmhjvg" />
             </com.google.android.material.textfield.TextInputLayout>
 
-<!--            <TextView-->
-<!--                android:id="@+id/tvCoupon"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/spacing_screen_horizontal_2"-->
-<!--                android:layout_marginBottom="@dimen/spacing_screen_horizontal_2"-->
-<!--                android:background="@color/coupon_background"-->
-<!--                android:clickable="true"-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:focusable="true"-->
-<!--                android:fontFamily="@font/inter_regular"-->
-<!--                android:gravity="start|center_vertical"-->
-<!--                android:paddingStart="@dimen/spacing_screen_horizontal"-->
-<!--                android:paddingTop="20dp"-->
-<!--                android:paddingEnd="@dimen/spacing_screen_horizontal"-->
-<!--                android:paddingBottom="20dp"-->
-<!--                android:text="@string/apply_coupon"-->
-<!--                android:textColor="@color/coupon_text_color_1"-->
-<!--                android:textSize="@dimen/text_default"-->
-<!--                app:drawableEndCompat="@drawable/ic_rightsidearrow"-->
-<!--                app:drawableStartCompat="@drawable/ic_coupons" />-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/tvCoupon"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/spacing_screen_horizontal_2"-->
+            <!--                android:layout_marginBottom="@dimen/spacing_screen_horizontal_2"-->
+            <!--                android:background="@color/coupon_background"-->
+            <!--                android:clickable="true"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:focusable="true"-->
+            <!--                android:fontFamily="@font/inter_regular"-->
+            <!--                android:gravity="start|center_vertical"-->
+            <!--                android:paddingStart="@dimen/spacing_screen_horizontal"-->
+            <!--                android:paddingTop="20dp"-->
+            <!--                android:paddingEnd="@dimen/spacing_screen_horizontal"-->
+            <!--                android:paddingBottom="20dp"-->
+            <!--                android:text="@string/apply_coupon"-->
+            <!--                android:textColor="@color/coupon_text_color_1"-->
+            <!--                android:textSize="@dimen/text_default"-->
+            <!--                app:drawableEndCompat="@drawable/ic_rightsidearrow"-->
+            <!--                app:drawableStartCompat="@drawable/ic_coupons" />-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -230,6 +230,7 @@
             </RelativeLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -241,6 +242,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:nextTitle="Place order"/>
+        app:nextTitle="Place order" />
 
 </RelativeLayout>

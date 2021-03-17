@@ -1,61 +1,64 @@
 package com.illuminz.application.ui.food.items
 
+import com.core.extensions.gone
+import com.core.extensions.orZero
+import com.core.extensions.visible
 import com.illuminz.application.R
 import com.illuminz.application.ui.custom.AddMenuItemView
 import com.illuminz.application.ui.food.FoodListFragment
 import com.illuminz.application.ui.laundry.LaundryFragment
 import com.illuminz.application.utils.QuantityChangedPayload
+import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.illuminz.data.utils.CurrencyFormatter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
-import kotlinx.android.synthetic.main.item_food.view.*
 import kotlinx.android.synthetic.main.item_food_cart.view.*
-import kotlinx.android.synthetic.main.item_food_cart.view.quantityView
-import kotlinx.android.synthetic.main.item_food_cart.view.tvPrice
-import kotlinx.android.synthetic.main.item_food_cart.view.tvTitle
-import kotlinx.android.synthetic.main.item_food_list.view.*
 
 class CartItem(
-    private val title : String,
-    private val price : Double,
-    private var quantity : Int = 0,
-    val callback: Callback,
+    val serviceCategoryItem: ServiceCategoryItemDto,
+    var callback: Callback,
     private val fragmentTag:String? = null
 ): Item(), AddMenuItemView.Callback {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.firstOrNull() == QuantityChangedPayload) {
-            viewHolder.itemView.quantityView.setQuantity(quantity, true)
+            viewHolder.itemView.quantityView.setQuantity(serviceCategoryItem.quantity, true)
+            viewHolder.itemView.tvPrice.text = CurrencyFormatter.format(
+                amount = serviceCategoryItem.price.orZero()* serviceCategoryItem.quantity.toDouble(),
+                currencyCode = "INR"
+            )
         } else {
             super.bind(viewHolder, position, payloads)
         }
-        callback.onDecreaseMenuItemClicked(quantity)
+//        callback.onDecreaseCartItemClicked(serviceCategoryItem.quantity)
 
     }
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.apply {
-            tvTitle.text = title
-            tvPrice.text = CurrencyFormatter.format(amount = price,
-                currencyCode = "INR")
-//            quantityTicker.text = quantity.toString()
-//
-//
-//            tvMinus.setOnClickListener(this@FoodCartItem)
-//            tvPlus.setOnClickListener(this@FoodCartItem)
+            tvTitle.text = serviceCategoryItem.name
+            tvPrice.text = CurrencyFormatter.format(
+                amount = serviceCategoryItem.price.orZero()* serviceCategoryItem.quantity.toDouble(),
+                currencyCode = "INR"
+            )
 
             quantityView.setCallback(this@CartItem)
-            quantityView.setQuantity(quantity, false)
+            quantityView.setQuantity(serviceCategoryItem.quantity, false)
 
             when(fragmentTag){
                 FoodListFragment.TAG ->{
-                    tvTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_vegsymbol,0,0,0)
+                    ivFoodType.visible()
+                    ivFoodType.setImageResource(R.drawable.ic_vegsymbol)
+//                    tvTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_vegsymbol,0,0,0)
                 }
                 LaundryFragment.TAG ->{
-                    tvTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_shirt,0,0,0)
+                    ivFoodType.visible()
+                    ivFoodType.setImageResource(R.drawable.ic_shirt)
+//                    tvTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_shirt,0,0,0)
                 }
                 else->{
-                    tvTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,0,0)
+                    ivFoodType.gone()
+//                    tvTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,0,0)
                 }
             }
 
@@ -64,33 +67,22 @@ class CartItem(
     }
 
     override fun getLayout(): Int = R.layout.item_food_cart
-//    override fun onClick(v: View?) {
-//
-//        when(v?.id){
-//            R.id.tvPlus ->{
-//                quantity = quantity?.plus(1)
-//            }
-//            R.id.tvMinus ->{
-//                if (quantity!=0 && quantity!! >0
-//                ){
-//                quantity = quantity?.minus(1)
-//                }
-//            }
-//        }
-//    }
+
 
     interface Callback {
-        fun onIncreaseMenuItemClicked(count: Int)
-        fun onDecreaseMenuItemClicked(count: Int)
+        fun onIncreaseCartItemClicked(serviceCategoryItem: ServiceCategoryItemDto)
+        fun onDecreaseCartItemClicked(serviceCategoryItem: ServiceCategoryItemDto)
     }
 
     override fun onIncreaseMenuItemQuantityClicked() {
-        quantity = quantity.plus(1)
         notifyChanged(QuantityChangedPayload)
+        serviceCategoryItem.quantity += 1
+        callback.onIncreaseCartItemClicked(serviceCategoryItem)
     }
 
     override fun onDecreaseMenuItemQuantityClicked() {
-        quantity = quantity.minus(1)
         notifyChanged(QuantityChangedPayload)
+        serviceCategoryItem.quantity -= 1
+        callback.onDecreaseCartItemClicked(serviceCategoryItem)
     }
 }

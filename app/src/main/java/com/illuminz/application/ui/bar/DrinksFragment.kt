@@ -163,14 +163,14 @@ class DrinksFragment : DaggerBaseFragment(), DrinkItem.Callback, DrinkDialog.Cal
     }
 
     override fun onCartBarClick() {
-        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG) == null) {
-            val fragment = CartFragment.newInstance(TAG)
-            parentFragmentManager.beginTransaction()
-                .setCustomAnimations(AnimationDirection.End)
-                .add(R.id.fragmentContainer, fragment)
-                .addToBackStack(CartFragment.TAG)
-                .commit()
-        }
+//        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG) == null) {
+//            val fragment = CartFragment.newInstance(TAG)
+//            parentFragmentManager.beginTransaction()
+//                .setCustomAnimations(AnimationDirection.End)
+//                .add(R.id.fragmentContainer, fragment)
+//                .addToBackStack(CartFragment.TAG)
+//                .commit()
+//        }
     }
 
     private fun showMenuDialog() {

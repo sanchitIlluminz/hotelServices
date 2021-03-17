@@ -1,8 +1,11 @@
 package com.illuminz.data.models.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-data class FoodDto(
+@Parcelize
+data class ServiceCategoryItemDto(
     @field:SerializedName("_id")
     val id: String? = null,
 
@@ -21,5 +24,5 @@ data class FoodDto(
     @field:SerializedName("vegStatus")
     val vegStatus: Int? = null,
 
-    var quantity:Int = 0
-)
+    var quantity: Int = 0
+):Parcelable

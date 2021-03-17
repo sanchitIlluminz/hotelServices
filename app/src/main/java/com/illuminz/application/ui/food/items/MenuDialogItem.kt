@@ -6,7 +6,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_dialog_menu.view.*
 
 class MenuDialogItem(
-    private val title: String,
+    val title: String,
     private val number: Int
 ) : Item() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {

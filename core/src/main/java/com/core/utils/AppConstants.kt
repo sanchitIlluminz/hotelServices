@@ -77,4 +77,7 @@ object AppConstants {
     const val PAID = "paid"
     const val RECEIVED = "received"
 
+    const val LAUNDARY_ONLY_IRON = "LAUNDARY_ONLY_IRON"
+    const val LAUNDARY_WASH_IRON = "LAUNDARY_WASH_IRON"
+
 }

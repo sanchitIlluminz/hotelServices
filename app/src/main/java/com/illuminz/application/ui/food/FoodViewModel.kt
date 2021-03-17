@@ -1,10 +1,11 @@
 package com.illuminz.application.ui.food
 
+import androidx.lifecycle.LiveData
 import com.core.ui.base.BaseViewModel
 import com.core.utils.SingleLiveEvent
 import com.illuminz.data.models.common.Resource
-import com.illuminz.data.models.response.FoodDto
-import com.illuminz.data.models.response.ServiceProductDto
+import com.illuminz.data.models.response.ServiceCategoryItemDto
+import com.illuminz.data.models.response.ServiceCategoryDto
 import com.illuminz.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -14,29 +15,33 @@ import java.util.*
 import javax.inject.Inject
 
 class FoodViewModel @Inject constructor(
-    val userRepository: UserRepository
-): BaseViewModel() {
+    private val userRepository: UserRepository
+) : BaseViewModel() {
+    private val foodProductsObserver by lazy { SingleLiveEvent<Resource<List<ServiceCategoryDto>>>() }
+    private val searchItemObserver by lazy { SingleLiveEvent<Resource<List<ServiceCategoryItemDto>>>() }
 
-    private val foodProductsObserver by lazy { SingleLiveEvent<Resource<List<ServiceProductDto>>>() }
-    private val searchItemObserver by lazy { SingleLiveEvent<Resource<List<FoodDto>>>() }
-    private var searchProductsJob:Job? = null
-    private val foodList = mutableListOf<FoodDto>()
+    private var searchProductsJob: Job? = null
 
-    fun getFoodProducts(id:String,tag:String){
+    private val foodList = mutableListOf<ServiceCategoryItemDto>()
+
+    fun getFoodProductObserver(): LiveData<Resource<List<ServiceCategoryDto>>> =
+        foodProductsObserver
+
+    fun getSearchItemsObserver(): LiveData<Resource<List<ServiceCategoryItemDto>>> =
+        searchItemObserver
+
+    fun getFoodProducts(id: String, tag: String) {
         launch {
             foodProductsObserver.value = Resource.loading()
-            val response = userRepository.getServiceProduct(id, tag)
-            foodProductsObserver.value = if (response.isSuccess()){
-                response.data?.let { addToList(it) }
-                Resource.success(response.data)
-
-            }else{
-                Resource.error(response.error)
+            val resource = userRepository.getServiceProduct(id, tag)
+            if (resource.isSuccess()) {
+                resource.data?.forEach { service ->
+                    foodList.addAll(service.itemsArr.orEmpty())
+                }
             }
+            foodProductsObserver.value = resource
         }
     }
-
-    fun getFoodProductObserver(): SingleLiveEvent<Resource<List<ServiceProductDto>>> = foodProductsObserver
 
     fun searchItems(query: String?) {
         searchProductsJob?.cancel()
@@ -47,31 +52,21 @@ class FoodViewModel @Inject constructor(
         searchProductsJob = launch {
             withContext(Dispatchers.Default) {
                 val searchTextLowerCase = query.toLowerCase(Locale.US)
-                val searchedFoodItems = foodList.filter { foodDto ->
-
-                    foodDto.name?.toLowerCase(Locale.US).orEmpty().contains(searchTextLowerCase)
+                val searchedFoodItems = foodList.filter { food ->
+                    food.name?.toLowerCase(Locale.US).orEmpty().contains(searchTextLowerCase)
                 }
-
+//                searchItemObserver.value = Resource.success(searchedFoodItems)
                 searchItemObserver.postValue(Resource.success(searchedFoodItems))
+
             }
         }
     }
 
-    fun addToList(list: List<ServiceProductDto>){
-        list.forEach {
-            it.itemsArr?.forEach { foodDto ->
-                foodList.add(foodDto)
+    fun updateFoodList(serviceCategoryItem: ServiceCategoryItemDto) {
+        foodList.forEach {
+            if (it.id == serviceCategoryItem.id) {
+                it.quantity = serviceCategoryItem.quantity
             }
-        }
-    }
-
-    fun getSearchItemsObserver():SingleLiveEvent<Resource<List<FoodDto>>> = searchItemObserver
-
-    fun updateFoodList(foodDto: FoodDto){
-        foodList.forEach{
-        if (it.id == foodDto.id ){
-            it.quantity=foodDto.quantity
-        }
         }
     }
 }

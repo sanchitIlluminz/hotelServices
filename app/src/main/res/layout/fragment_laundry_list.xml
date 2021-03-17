@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ViewFlipper
+    android:id="@+id/viewFlipper"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.laundry.LaundryListFragment"
-    android:orientation="vertical"
-    android:focusable="true"
-    android:clickable="true">
+    >
 
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/rvLaundry"
@@ -15,11 +15,17 @@
       android:layout_height="wrap_content"
       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
       android:orientation="vertical"
-      tools:listitem="@layout/item_food_list"
+      tools:listitem="@layout/item_laundry"
       android:paddingStart="14dp"
       android:paddingEnd="14dp"
       android:clipToPadding="false"
       android:paddingBottom="92dp"
       />
 
-</LinearLayout>
+  <ProgressBar
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:theme="@style/AppProgressBarAppColor"/>
+
+</ViewFlipper>

@@ -13,36 +13,36 @@ class CartBarView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet,
     defStyleAttr: Int = 0
-) : RelativeLayout(context, attrs, defStyleAttr){
+) : RelativeLayout(context, attrs, defStyleAttr) {
     private var callback: Callback? = null
     private var background: Int = 0
     private var textColor: Int = 0
     private var nextTitle: String? = null
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.layout_cart_bar_view,this,true)
+        LayoutInflater.from(context).inflate(R.layout.layout_cart_bar_view, this, true)
 
-        val typedArray = context.obtainStyledAttributes(attrs,R.styleable.CartBarView)
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.CartBarView)
 
-        background = typedArray.getResourceId(R.styleable.CartBarView_barBackground,-1)
-        textColor = typedArray.getColor(R.styleable.CartBarView_textColor,-1)
+        background = typedArray.getResourceId(R.styleable.CartBarView_barBackground, -1)
+        textColor = typedArray.getColor(R.styleable.CartBarView_textColor, -1)
         nextTitle = typedArray.getString(R.styleable.CartBarView_nextTitle)
 
-        if (background!= -1) {
+        if (background != -1) {
             cartBar.setBackgroundResource(background)
         }
-        if (textColor!= -1){
+        if (textColor != -1) {
             tvItem.setTextColor(textColor)
         }
 
-        if (nextTitle!=null){
+        if (nextTitle != null) {
             tvNextTitle.text = nextTitle
         }
 
 
         typedArray.recycle()
 
-        if (!isInEditMode){
+        if (!isInEditMode) {
             cartBar.setOnClickListener {
 //                it.performHapticFeedback()
                 callback?.onCartBarClick()
@@ -50,18 +50,17 @@ class CartBarView @JvmOverloads constructor(
         }
     }
 
-    fun setItemPrice(totalPrice:Double,items:Int){
-        tvItem.text = resources.getQuantityString(R.plurals.cart_items, items, items) +"  |  " +
+    fun setItemPrice(totalPrice: Double, items: Int) {
+        tvItem.text = resources.getQuantityString(R.plurals.cart_items, items, items) + "  |  " +
                 CurrencyFormatter.format(amount = totalPrice, currencyCode = "INR")
     }
 
-    fun setButtonText(text:String){
+    fun setButtonText(text: String) {
         tvNextTitle.text = text
     }
 
 
-
-    interface Callback{
+    interface Callback {
         fun onCartBarClick()
     }
 

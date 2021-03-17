@@ -115,6 +115,12 @@
         <item quantity="one">%d Item</item>
         <item quantity="other">%d Items</item>
     </plurals>
+
+    <plurals name="category_count">
+        <item quantity="one">%d ITEM</item>
+        <item quantity="other">%d ITEMS</item>
+    </plurals>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="transportation">Transportation</string>

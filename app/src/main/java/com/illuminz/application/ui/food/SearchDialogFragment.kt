@@ -14,13 +14,11 @@ import com.core.di.ViewModelFactory
 import com.core.extensions.dpToPx
 import com.core.extensions.hideKeyboard
 import com.core.extensions.showKeyboard
-import com.core.utils.AppConstants
 import com.core.utils.InsetItemDecoration
 import com.illuminz.application.R
 import com.illuminz.application.ui.food.items.FoodItem
-import com.illuminz.application.ui.food.items.MenuDialogItem
 import com.illuminz.data.models.common.Status
-import com.illuminz.data.models.response.FoodDto
+import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.illuminz.error.AppError
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
@@ -29,8 +27,8 @@ import kotlinx.android.synthetic.main.fragment_search_dialog.*
 import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
 
-class SearchDialogFragment(var callback:Callback) : DaggerAppCompatDialogFragment(), FoodItem.Callback
-{
+class SearchDialogFragment(var callback: Callback) : DaggerAppCompatDialogFragment(),
+    FoodItem.Callback {
     companion object {
         const val TAG = "SearchDialogFragment"
     }
@@ -39,8 +37,10 @@ class SearchDialogFragment(var callback:Callback) : DaggerAppCompatDialogFragmen
     lateinit var viewModelFactory: ViewModelFactory
 
     private val viewModel by lazy {
-        ViewModelProvider(requireParentFragment(),
-            viewModelFactory)[FoodViewModel::class.java]
+        ViewModelProvider(
+            requireParentFragment(),
+            viewModelFactory
+        )[FoodViewModel::class.java]
     }
 
 //    private val isRestaurantOpen by lazy {
@@ -71,9 +71,11 @@ class SearchDialogFragment(var callback:Callback) : DaggerAppCompatDialogFragmen
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_search_dialog, container, false)
     }
 
@@ -90,10 +92,12 @@ class SearchDialogFragment(var callback:Callback) : DaggerAppCompatDialogFragmen
         layoutManager.spanSizeLookup = searchAdapter.spanSizeLookup
         rvSearchResult.layoutManager = layoutManager
         rvSearchResult.addItemDecoration(
-            InsetItemDecoration(Color.TRANSPARENT,
-            requireActivity().dpToPx(20),
-            "AppConstants.INSET_KEY",
-            "AppConstants.INSET_VALUE")
+            InsetItemDecoration(
+                Color.TRANSPARENT,
+                requireActivity().dpToPx(20),
+                "AppConstants.INSET_KEY",
+                "AppConstants.INSET_VALUE"
+            )
         )
         rvSearchResult.adapter = searchAdapter
         rvSearchResult.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -139,25 +143,31 @@ class SearchDialogFragment(var callback:Callback) : DaggerAppCompatDialogFragmen
                             displayedSearchItems.clear()
                             searchAdapter.clear()
                         } else {
-                           /* val menuItems = searchMenuItems.map {
-                                RestaurantDetailsMenuItem(it,
-                                    this@RestaurantDetailsSearchDialogFragment,
-                                    isRestaurantOpen)
-                            }*/
+                            /* val menuItems = searchMenuItems.map {
+                                 RestaurantDetailsMenuItem(it,
+                                     this@RestaurantDetailsSearchDialogFragment,
+                                     isRestaurantOpen)
+                             }*/
 
                             displayedSearchItems.clear()
                             searchAdapter.clear()
 
                             resource.data?.forEach {
-                                searchAdapter.add(FoodItem(foodDto = it,hideThumbnail = true,callback = this))
+                                searchAdapter.add(
+                                    FoodItem(
+                                        serviceCategoryItem = it,
+                                        hideThumbnail = true,
+                                        callback = this
+                                    )
+                                )
                             }
-                      /*      if (menuItems.isNotEmpty()) {
-                                displayedMenuItems.addAll(menuItems)
-                                searchAdapter.add(DividerItem(requireContext().dpToPx(16)))
-                                searchAdapter.addAll(menuItems)
-                            } else {
-                                searchAdapter.add(noResultFoundItem)
-                            }*/
+                            /*      if (menuItems.isNotEmpty()) {
+                                      displayedMenuItems.addAll(menuItems)
+                                      searchAdapter.add(DividerItem(requireContext().dpToPx(16)))
+                                      searchAdapter.addAll(menuItems)
+                                  } else {
+                                      searchAdapter.add(noResultFoundItem)
+                                  }*/
                         }
                     }
 
@@ -174,16 +184,16 @@ class SearchDialogFragment(var callback:Callback) : DaggerAppCompatDialogFragmen
     }
 
 
-    interface Callback{
-        fun onIncreaseSearchItemClicked(foodDto: FoodDto)
-        fun onDecreaseSearchItemClicked(foodDto: FoodDto)
+    interface Callback {
+        fun onIncreaseSearchItemClicked(serviceCategoryItem: ServiceCategoryItemDto)
+        fun onDecreaseSearchItemClicked(serviceCategoryItem: ServiceCategoryItemDto)
     }
 
     override fun onIncreaseFoodItemClicked(foodItem: FoodItem) {
-        callback.onIncreaseSearchItemClicked(foodItem.foodDto)
+        callback.onIncreaseSearchItemClicked(foodItem.serviceCategoryItem)
     }
 
     override fun onDecreaseFoodItemClicked(foodItem: FoodItem) {
-        callback.onDecreaseSearchItemClicked(foodItem.foodDto)
+        callback.onDecreaseSearchItemClicked(foodItem.serviceCategoryItem)
     }
 }

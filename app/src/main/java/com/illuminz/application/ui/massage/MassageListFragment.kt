@@ -56,34 +56,34 @@ class MassageListFragment : DaggerBaseFragment(), MassageItems.Callback, CartBar
         massageAdapter = GroupAdapter()
         rvMassage.adapter = massageAdapter
 
-        val item = MassageTitleItem(getString(R.string.spa_amp_massage))
-
-        val item1 = listOf(  MassageItems(title = "Choice of Full Body Massage (50 mins) + Shower (10 mins)",
-                                         personCount = 2 , duration = "60min",
-                                         quantity = 2, callback = this   ),
-
-                            MassageItems(title = "Ayurvedic Shirodhara Treatment (60 mins)",
-                                         personCount = 2 , duration = "60min", callback = this  ),
-
-                            MassageItems(title = "Aroma Full Body Massage (45 mins) + Shower (15 mins)",
-                                         personCount = 2 , duration = "60min", callback = this,
-                                         quantity = 3),
-
-                            MassageItems(title = "Foot Reflexology/ Balinese Back Massage/ Shiroabhiyangam\n" + "(30 mins)",
-                                         personCount = 2 , duration = "60min", callback = this  ),
-
-                            MassageItems(title = "Ayurvedic Potli Full Body Massage (70 mins) + Shower (15 mins)",
-                                         personCount = 2 , duration = "60min", callback = this  ),
-
-                            MassageItems(title = "Choice of Full Body Massage (50 mins) + Shower (10 mins)",
-                                         personCount = 2 , duration = "60min",
-                                         quantity = 2, callback = this   ),
-
-                            MassageItems(title = "Ayurvedic Shirodhara Treatment (60 mins)",
-                                         personCount = 2 , duration = "60min", callback = this,lastItem = true  )
-        )
-        massageAdapter.add(item)
-        massageAdapter.addAll(item1)
+//        val item = MassageTitleItem(getString(R.string.spa_amp_massage))
+//
+//        val item1 = listOf(  MassageItems(title = "Choice of Full Body Massage (50 mins) + Shower (10 mins)",
+//                                         personCount = 2 , duration = "60min",
+//                                         quantity = 2, callback = this   ),
+//
+//                            MassageItems(title = "Ayurvedic Shirodhara Treatment (60 mins)",
+//                                         personCount = 2 , duration = "60min", callback = this  ),
+//
+//                            MassageItems(title = "Aroma Full Body Massage (45 mins) + Shower (15 mins)",
+//                                         personCount = 2 , duration = "60min", callback = this,
+//                                         quantity = 3),
+//
+//                            MassageItems(title = "Foot Reflexology/ Balinese Back Massage/ Shiroabhiyangam\n" + "(30 mins)",
+//                                         personCount = 2 , duration = "60min", callback = this  ),
+//
+//                            MassageItems(title = "Ayurvedic Potli Full Body Massage (70 mins) + Shower (15 mins)",
+//                                         personCount = 2 , duration = "60min", callback = this  ),
+//
+//                            MassageItems(title = "Choice of Full Body Massage (50 mins) + Shower (10 mins)",
+//                                         personCount = 2 , duration = "60min",
+//                                         quantity = 2, callback = this   ),
+//
+//                            MassageItems(title = "Ayurvedic Shirodhara Treatment (60 mins)",
+//                                         personCount = 2 , duration = "60min", callback = this,lastItem = true  )
+//        )
+//        massageAdapter.add(item)
+//        massageAdapter.addAll(item1)
     }
 
     override fun onIncreaseMenuItemClicked(count: Int) {
@@ -96,13 +96,13 @@ class MassageListFragment : DaggerBaseFragment(), MassageItems.Callback, CartBar
     }
 
     override fun onCartBarClick() {
-        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG)== null){
-            val fragment = CartFragment.newInstance(TAG)
-            parentFragmentManager.beginTransaction()
-                .setCustomAnimations(AnimationDirection.End)
-                .add(R.id.fragmentContainer,fragment)
-                .addToBackStack(CartFragment.TAG)
-                .commit()
-        }
+//        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG)== null){
+//            val fragment = CartFragment.newInstance(TAG)
+//            parentFragmentManager.beginTransaction()
+//                .setCustomAnimations(AnimationDirection.End)
+//                .add(R.id.fragmentContainer,fragment)
+//                .addToBackStack(CartFragment.TAG)
+//                .commit()
+//        }
     }
 }

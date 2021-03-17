@@ -32,6 +32,7 @@
         android:src="@drawable/ic_vegsymbol"
         app:layout_constraintBottom_toBottomOf="@id/barrier1"
         app:layout_constraintStart_toStartOf="parent"
+        android:paddingTop="6dp"
         />
 
     <androidx.constraintlayout.widget.Barrier
@@ -84,7 +85,8 @@
         app:layout_constraintEnd_toStartOf="@id/quantityView"
         app:layout_constraintStart_toEndOf="@id/barrier"
         app:layout_constraintTop_toBottomOf="@id/tvFoodRemark"
-        tools:text="Sunny Side Up Omelete with Roasted BreadsSunny Side Up Omelete with Roasted Breads" />
+        android:paddingTop="4dp"
+        tools:text="Sunny Side Up Omelete with Roasted BreadsSunny " />
 
     <TextView
         android:id="@+id/tvPrice"
@@ -105,7 +107,6 @@
         android:id="@+id/quantityView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
