@@ -1,4 +1,4 @@
-package com.illuminz.application.ui.food
+package com.core.utils
 
 enum class MealType {
     BREAKFAST, LUNCH, DINNER

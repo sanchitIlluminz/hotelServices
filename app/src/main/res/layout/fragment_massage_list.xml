@@ -18,12 +18,13 @@
         app:title="@string/spa_massage" />
 
     <ImageView
+        android:id="@+id/ivSearch"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
-        android:src="@drawable/ic_search"
-        android:layout_alignParentEnd="true"
         android:layout_alignBaseline="@id/toolbar"
-        android:layout_marginEnd="24dp"/>
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_search" />
 
     <ImageView
         android:id="@+id/ivDivider"
@@ -32,31 +33,30 @@
         android:layout_below="@id/toolbar"
         android:background="@color/light_gray" />
 
-    <androidx.core.widget.NestedScrollView
+    <ViewFlipper
+        android:id="@+id/viewFlipper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/cartBarView"
-        android:layout_below="@id/ivDivider">
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="1dp">
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMassage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/spacing_screen_horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="6"
+            tools:listitem="@layout/items_massage" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvMassage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
-                android:clipToPadding="false"
-                android:paddingBottom="@dimen/spacing_screen_horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="6"
-                tools:listitem="@layout/items_massage" />
-        </LinearLayout>
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:theme="@style/AppProgressBarAppColor" />
+    </ViewFlipper>
 
-    </androidx.core.widget.NestedScrollView>
     <View
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -68,5 +68,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:nextTitle="Schdule my appointment"/>
+        app:nextTitle="@string/fragment_massage_list_schedule_my_appointment" />
 </RelativeLayout>

@@ -7,6 +7,7 @@ import com.core.di.ViewModelKey
 import com.illuminz.application.ui.food.FoodViewModel
 import com.illuminz.application.ui.home.ServicesViewModel
 import com.illuminz.application.ui.laundry.LaundryViewModel
+import com.illuminz.application.ui.massage.MassageViewModel
 import com.illuminz.application.ui.welcome.WelcomeViewModel
 import dagger.Binds
 import dagger.Module
@@ -33,6 +34,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(LaundryViewModel::class)
     abstract fun laundryViewModel(viewModel: LaundryViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MassageViewModel::class)
+    abstract fun massageViewModel(viewModel: MassageViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

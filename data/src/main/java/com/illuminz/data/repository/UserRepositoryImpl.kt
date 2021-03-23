@@ -7,6 +7,7 @@ import com.illuminz.data.extensions.toApiFailure
 import com.illuminz.data.models.common.Resource
 import com.illuminz.data.models.response.ServiceDto
 import com.illuminz.data.models.response.ServiceCategoryDto
+import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.illuminz.data.remote.SocketManager
 import com.illuminz.data.remote.UserApi
 import javax.inject.Inject
@@ -37,9 +38,26 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getServiceProduct(id: String, tag: String
+    ): Resource<List<ServiceCategoryItemDto>> {
+//    return Resource.success()
+    return try {
+            val response = userApi.getServiceProducts(id,tag)
+            if (response.isSuccessful){
+                Resource.success(response.body()?.data)
+            }else{
+                Resource.error(response.toApiError())
+            }
+        }catch (throwable:Throwable){
+            Resource.error(throwable.toApiFailure())
+        }
+    }
+
+    override suspend fun getFoodProduct(
+        id: String,
+        tag: String
     ): Resource<List<ServiceCategoryDto>> {
         return try {
-            val response = userApi.getServiceProducts(id,tag)
+            val response = userApi.getFoodProducts(id,tag)
             if (response.isSuccessful){
                 Resource.success(response.body()?.data)
             }else{

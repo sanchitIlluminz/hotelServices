@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.Window
-import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -29,11 +29,15 @@ import com.illuminz.data.models.common.Status
 import com.illuminz.data.models.response.ServiceDto
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import kotlinx.android.synthetic.main.dialog_confirm.*
 import kotlinx.android.synthetic.main.dialog_contact.*
+import kotlinx.android.synthetic.main.dialog_contact.btnOkay
+import kotlinx.android.synthetic.main.dialog_contact.tvTitle
+import kotlinx.android.synthetic.main.dialog_drink.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class HomeFragment : DaggerBaseFragment() {
+class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
 
     companion object {
         const val TAG = "HomeFragment"
@@ -77,43 +81,16 @@ class HomeFragment : DaggerBaseFragment() {
 
         if (context?.isNetworkActiveWithMessage() == true && !viewModel.serviceListAvailable()) {
             viewModel.getServices()
-        } else {
+        }
+        if (viewModel.serviceListAvailable()){
             setData(viewModel.getServiceList())
         }
-//        tvTimeValue.text = "15"
-//        tvTimeUnit.text = "min"
-//        tvDeliveryLabel.text = "It will be delivered at 4:30pm"
-
 
 //        adapter.add(RoomServiceItem())
-
-        val image1 = "https://www.howtogeek.com/wp-content/uploads/2020/03/delivery-food.jpg"
-        val image2 =
-            "https://cleanlaundry.com/wp-content/uploads/2016/02/9-Tips-to-Make-Ironing-Your-Clothes-a-Piece-of-Cake1-300x200.jpg"
-        val image3 =
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtVQMlP4qORDhewsl_ovMA2MVn9zKSgfalBg&usqp=CAU"
-        val image4 =
-            "https://ehlersdanlosnews.com/wp-content/uploads/2020/01/shutterstock_547127785-760x475@2x.jpg"
-        val image5 =
-            "https://images.unsplash.com/photo-1588710406418-bb90c807db72?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8cmVzdGF1cmFudCUyMHRhYmxlfGVufDB8fDB8&ixlib=rb-1.2.1&w=1000&q=80"
-        val image6 =
-            "https://www.designmantic.com/blog/wp-content/uploads/2020/04/Spa-and-Massage-Logos.jpg"
-
-        val image7 =
-            "https://cdn.britannica.com/95/94195-050-FCBF777E/Golden-Gate-Bridge-San-Francisco.jpg"
-
-        val image8 =
-            "https://www.thoughtco.com/thmb/2-kR4cU4EOrY8bQ1M8msDinZgG8=/1926x1280/filters:fill(auto,1)/GettyImages-556712867-58e85b223df78c51620400d4.jpg"
-
-        val image9 =
-            "https://s9i4v6w2.rocketcdn.me/wordpress/wp-content/uploads/2020/10/Pullman-Accor-Power-Fitness-Gym-Design-1-400x284.jpg"
-
-
     }
 
 
     private fun setListener() {
-
         btnFeedback.setOnClickListener {
 //            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             val fragment = FeedbackFragment.newInstance()
@@ -131,20 +108,24 @@ class HomeFragment : DaggerBaseFragment() {
             showContactDialog(list, 1)
         }
 
+
         adapter.setOnItemClickListener { item, _ ->
 
             if (item is ServicesItem) {
                 when (item.serviceDto.tag) {
                     ORDER_FOOD -> {
                         val fragment = FoodListFragment.newInstance(
-                            id = item.serviceDto.id.orEmpty(),
-                            tag = item.serviceDto.tag.orEmpty()
+                            serviceId = item.serviceDto.id.orEmpty(),
+                            serviceTag = item.serviceDto.tag.orEmpty()
                         )
                         openFragment(fragment, FoodListFragment.TAG)
                     }
 
                     MASSAGE -> {
-                        val fragment = MassageListFragment.newInstance()
+                        val fragment = MassageListFragment.newInstance(
+                            serviceId = item.serviceDto.id.orEmpty(),
+                            serviceTag = item.serviceDto.tag.orEmpty()
+                        )
                         openFragment(fragment, MassageListFragment.TAG)
                     }
 
@@ -172,8 +153,6 @@ class HomeFragment : DaggerBaseFragment() {
                 }
             } else if (item is MoreServicesItem) {
                 when (item.serviceDto.tag) {
-
-
                     TRANSPORT -> {
 //                            val url = "https://images.newindianexpress.com/uploads/user/imagelibrary/2019/10/20/w900X450/North_DMC.jpg"
 //                            val title = "New Delhi Railway Station"
@@ -201,10 +180,8 @@ class HomeFragment : DaggerBaseFragment() {
                     }
                 }
             }
-
         }
     }
-
 
     private fun setObservers() {
         viewModel.getServiceObserver().observe(viewLifecycleOwner, Observer { resource ->
@@ -229,7 +206,7 @@ class HomeFragment : DaggerBaseFragment() {
 
     private fun setData(list: List<ServiceDto>) {
         adapter.clear()
-        adapter.add(BookingDetailItem())
+        adapter.add(BookingDetailItem(this))
         adapter.add(ServiceTitleItem(getString(R.string.services)))
 
         for (i in list.indices) {
@@ -285,7 +262,6 @@ class HomeFragment : DaggerBaseFragment() {
     }
 
     private fun showContactDialog(menuList: List<ContactDialogItem>, type: Int) {
-
         val dialog = context?.let { Dialog(it) }
 
         val contactAdapter: GroupAdapter<GroupieViewHolder> = GroupAdapter()
@@ -315,15 +291,36 @@ class HomeFragment : DaggerBaseFragment() {
             }
 
             rvDialogContact.adapter = contactAdapter
-//
             contactAdapter.addAll(menuList)
-
             contactAdapter.setOnItemClickListener { item, view ->
                 dismiss()
             }
 
             btnOkay.setOnClickListener {
                 dismiss()
+            }
+        }
+
+        dialog?.show()
+    }
+
+    private fun showExtendStayDialog(){
+        val dialog = context?.let { Dialog(it) }
+
+        dialog?.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(true)
+            setContentView(R.layout.dialog_extend_stay)
+
+            window?.apply {
+                setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                setGravity(Gravity.CENTER)
+            }
+
+            btConfirm.setOnClickListener {
+                dismiss()
+                showConfirmationDialog("Thank you","Our team will contact you \n" +
+                        "within 10 mins.")
             }
         }
 
@@ -343,6 +340,35 @@ class HomeFragment : DaggerBaseFragment() {
             ContactDialogItem(title = "Name", value = "EmpireWifi1"),
             ContactDialogItem(title = "Paasword", value = "ANM230v1")
         )
+    }
+
+    override fun onExtendStayClicked() {
+        showExtendStayDialog()
+    }
+
+    private fun showConfirmationDialog(title: String, subtitle: String) {
+        val dialog = context?.let { Dialog(it) }
+
+        dialog?.run {
+
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.dialog_confirm)
+
+            window?.apply {
+                setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                setGravity(Gravity.CENTER)
+            }
+
+            tvTitle.text = title
+            tvSubtitle.text = subtitle
+
+            btnOkay.setOnClickListener {
+                dismiss()
+                parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            }
+            show()
+        }
     }
 
 }

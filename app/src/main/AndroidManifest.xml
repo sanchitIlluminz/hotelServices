@@ -22,8 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
-        tools:replace="android:allowBackup"
-        android:testOnly="true">
+        tools:replace="android:allowBackup">
         <receiver
             android:name=".ui.custom.MyDeviceAdminReceiver"
             android:label="@string/app_name"

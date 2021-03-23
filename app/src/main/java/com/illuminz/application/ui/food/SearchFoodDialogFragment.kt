@@ -14,6 +14,7 @@ import com.core.di.ViewModelFactory
 import com.core.extensions.dpToPx
 import com.core.extensions.hideKeyboard
 import com.core.extensions.showKeyboard
+import com.core.utils.AppConstants
 import com.core.utils.InsetItemDecoration
 import com.illuminz.application.R
 import com.illuminz.application.ui.food.items.FoodItem
@@ -27,10 +28,10 @@ import kotlinx.android.synthetic.main.fragment_search_dialog.*
 import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
 
-class SearchDialogFragment(var callback: Callback) : DaggerAppCompatDialogFragment(),
+class SearchFoodDialogFragment(var callback: Callback) : DaggerAppCompatDialogFragment(),
     FoodItem.Callback {
     companion object {
-        const val TAG = "SearchDialogFragment"
+        const val TAG = "SearchFoodDialogFragment"
     }
 
     @Inject
@@ -87,18 +88,6 @@ class SearchDialogFragment(var callback: Callback) : DaggerAppCompatDialogFragme
         }
 
         searchAdapter = GroupAdapter()
-        searchAdapter.spanCount = 12
-        val layoutManager = GridLayoutManager(requireActivity(), searchAdapter.spanCount)
-        layoutManager.spanSizeLookup = searchAdapter.spanSizeLookup
-        rvSearchResult.layoutManager = layoutManager
-        rvSearchResult.addItemDecoration(
-            InsetItemDecoration(
-                Color.TRANSPARENT,
-                requireActivity().dpToPx(20),
-                "AppConstants.INSET_KEY",
-                "AppConstants.INSET_VALUE"
-            )
-        )
         rvSearchResult.adapter = searchAdapter
         rvSearchResult.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -152,16 +141,20 @@ class SearchDialogFragment(var callback: Callback) : DaggerAppCompatDialogFragme
                             displayedSearchItems.clear()
                             searchAdapter.clear()
 
-                            resource.data?.forEach {
-                                searchAdapter.add(
-                                    FoodItem(
-                                        serviceCategoryItem = it,
-                                        hideThumbnail = true,
-                                        callback = this
+                            if (resource.data?.isEmpty() == true){
+                                searchAdapter.add(NoResultFoundItem())
+                            }else{
+                                resource.data?.forEach {
+                                    searchAdapter.add(
+                                        FoodItem(
+                                            serviceCategoryItem = it,
+                                            hideThumbnail = true,
+                                            callback = this
+                                        )
                                     )
-                                )
+                                }
                             }
-                            /*      if (menuItems.isNotEmpty()) {
+                        /*      if (menuItems.isNotEmpty()) {
                                       displayedMenuItems.addAll(menuItems)
                                       searchAdapter.add(DividerItem(requireContext().dpToPx(16)))
                                       searchAdapter.addAll(menuItems)
@@ -172,12 +165,11 @@ class SearchDialogFragment(var callback: Callback) : DaggerAppCompatDialogFragme
                     }
 
                     Status.ERROR -> {
-                        val error = resource.error
-                        if (error is AppError.ApiFailure && error.throwable !is CancellationException) {
-                            displayedSearchItems.clear()
-                            searchAdapter.clear()
-//                            searchAdapter.add(noResultFoundItem)
-                        }
+//                        val error = resource.error
+//                        if (error is AppError.ApiFailure && error.throwable !is CancellationException) {
+//                            displayedSearchItems.clear()
+//                            searchAdapter.clear()
+//                        }
                     }
                 }
             })

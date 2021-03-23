@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    android:id="@+id/tvTitle"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/inter_medium"
+    android:textColor="@color/text_color_food"
+    android:textSize="@dimen/text_large"
+    android:text="@string/item_no_search_result_title"
+    android:paddingStart="@dimen/spacing_screen_horizontal"
+    android:paddingEnd="@dimen/spacing_screen_horizontal"
+    android:paddingTop="@dimen/app_margin_half_1"
+    android:paddingBottom="@dimen/app_margin_half_1"
+    android:background="@color/radio_button_text_color">
+
+</TextView>

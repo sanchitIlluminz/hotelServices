@@ -6,13 +6,15 @@ import com.illuminz.application.ui.bar.DrinksFragment
 import com.illuminz.application.ui.bar.items.DrinkDialog
 import com.illuminz.application.ui.bookTable.BookTableFragment
 import com.illuminz.application.ui.bookTable.BookingTimeFragment
-import com.illuminz.application.ui.food.CartFragment
+import com.illuminz.application.ui.cart.CartFragment
 import com.illuminz.application.ui.food.FoodListFragment
-import com.illuminz.application.ui.food.SearchDialogFragment
+import com.illuminz.application.ui.food.SearchFoodDialogFragment
 import com.illuminz.application.ui.home.FeedbackFragment
 import com.illuminz.application.ui.laundry.LaundryFragment
 import com.illuminz.application.ui.laundry.LaundryListFragment
+import com.illuminz.application.ui.laundry.SearchLaundryDialogFragment
 import com.illuminz.application.ui.massage.MassageListFragment
+import com.illuminz.application.ui.massage.SearchMassageDialogFragment
 import com.illuminz.application.ui.nearbyplaces.ImageDialogFragment
 import com.illuminz.application.ui.nearbyplaces.NearbyFragment
 import com.illuminz.application.ui.nearbyplaces.NearbyGalleryFragment
@@ -83,5 +85,11 @@ abstract class FragmentBindingModule {
     abstract fun nearbyGalleryFragment() : NearbyGalleryFragment
 
     @ContributesAndroidInjector
-    abstract fun restaurantDetailsSearchDialogFragment() : SearchDialogFragment
+    abstract fun restaurantDetailsSearchDialogFragment() : SearchFoodDialogFragment
+
+    @ContributesAndroidInjector
+    abstract fun searchLaundryDialogFragment() : SearchLaundryDialogFragment
+
+    @ContributesAndroidInjector
+    abstract fun searchMassageDialogFragment() : SearchMassageDialogFragment
 }

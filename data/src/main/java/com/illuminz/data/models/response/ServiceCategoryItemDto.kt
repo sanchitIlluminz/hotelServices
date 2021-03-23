@@ -10,10 +10,10 @@ data class ServiceCategoryItemDto(
     val id: String? = null,
 
     @field:SerializedName("itemName")
-    val name: String? = null,
+    val itemName: String? = null,
 
     @field:SerializedName("itemDescription")
-    val description: String? = null,
+    val itemDescription: String? = null,
 
     @field:SerializedName("thumbnailPath")
     val image: String? = null,
@@ -23,6 +23,33 @@ data class ServiceCategoryItemDto(
 
     @field:SerializedName("vegStatus")
     val vegStatus: Int? = null,
+
+    @field:SerializedName("serviceId")
+    val serviceId: String? = null,
+
+    @field:SerializedName("categoryName")
+    val categoryName: String? = null,
+
+    @field:SerializedName("position")
+    val position: Int? = null,
+
+    @field:SerializedName("duration")
+    val duration: Int? = null,
+
+    @field:SerializedName("title")
+    val title: String? = null,
+
+    @field:SerializedName("description")
+    val description: String? = null,
+
+    @field:SerializedName("status")
+    val status: Int? = null,
+
+    @field:SerializedName("ironingPrice")
+    val ironingPrice: Double? = null,
+
+    @field:SerializedName("washIroningPrice")
+    val washIroningPrice: Double? = null,
 
     var quantity: Int = 0
 ):Parcelable

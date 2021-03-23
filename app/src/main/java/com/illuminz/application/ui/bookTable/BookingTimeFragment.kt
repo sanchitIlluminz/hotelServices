@@ -40,12 +40,11 @@ class BookingTimeFragment : DaggerBaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initialise()
         setBasicData()
-        setListeners()
     }
 
 
     private fun initialise() {
-        when (arguments?.getInt(TAB_NUMBER)) {
+        when (requireArguments().getInt(TAB_NUMBER)) {
             0 -> {
                 tvTime.setText(getString(R.string.am))
             }
@@ -123,10 +122,6 @@ class BookingTimeFragment : DaggerBaseFragment() {
             minutesAdapter.add(minItem)
             min = min.plus(1)
         }
-
-    }
-
-    private fun setListeners() {
 
     }
 }

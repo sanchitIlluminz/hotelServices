@@ -1,7 +1,7 @@
 package com.illuminz.application.ui.food.items
 
 import com.illuminz.application.R
-import com.illuminz.application.ui.food.MealType
+import com.core.utils.MealType
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_food_timing.view.*

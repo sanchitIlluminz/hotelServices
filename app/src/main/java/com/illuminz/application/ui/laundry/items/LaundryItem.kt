@@ -1,25 +1,25 @@
-package com.illuminz.application.ui.food.items
+package com.illuminz.application.ui.laundry.items
 
 import com.core.extensions.orZero
 import com.core.utils.AppConstants
 import com.illuminz.application.R
 import com.illuminz.application.ui.custom.AddMenuItemView
 import com.illuminz.application.utils.QuantityChangedPayload
-import com.illuminz.data.models.response.ServiceCategoryDto
+import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.illuminz.data.utils.CurrencyFormatter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_laundry.view.*
 
 class LaundryItem(
-    var serviceCategoryDto: ServiceCategoryDto,
+    var serviceCategoryItem: ServiceCategoryItemDto,
     val laundryType: String,
     val callback: Callback
 ) : Item(), AddMenuItemView.Callback {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.firstOrNull() == QuantityChangedPayload) {
-            viewHolder.itemView.quantityView.setQuantity(serviceCategoryDto.quantity, true)
+            viewHolder.itemView.quantityView.setQuantity(serviceCategoryItem.quantity, true)
         } else {
             super.bind(viewHolder, position, payloads)
         }
@@ -31,19 +31,19 @@ class LaundryItem(
 
             if (laundryType == AppConstants.LAUNDARY_ONLY_IRON) {
                 tvPrice.text = CurrencyFormatter.format(
-                    amount = serviceCategoryDto.ironingPrice.orZero(),
+                    amount = serviceCategoryItem.ironingPrice.orZero(),
                     currencyCode = "INR"
                 )
             } else {
                 tvPrice.text = CurrencyFormatter.format(
-                    amount = serviceCategoryDto.washIroningPrice.orZero(),
+                    amount = serviceCategoryItem.washIroningPrice.orZero(),
                     currencyCode = "INR"
                 )
             }
-            tvTitle.text = serviceCategoryDto.itemName
+            tvTitle.text = serviceCategoryItem.itemName
 
             quantityView.setCallback(this@LaundryItem)
-            quantityView.setQuantity(serviceCategoryDto.quantity, false)
+            quantityView.setQuantity(serviceCategoryItem.quantity, false)
         }
     }
 
@@ -55,13 +55,13 @@ class LaundryItem(
     }
 
     override fun onIncreaseMenuItemQuantityClicked() {
-        serviceCategoryDto.quantity += 1
+        serviceCategoryItem.quantity += 1
         notifyChanged(QuantityChangedPayload)
         callback.onIncreaseLaundryItemClicked(this)
     }
 
     override fun onDecreaseMenuItemQuantityClicked() {
-        serviceCategoryDto.quantity -= 1
+        serviceCategoryItem.quantity -= 1
         notifyChanged(QuantityChangedPayload)
         callback.onDecreaseLaundryItemClicked(this)
     }

@@ -20,16 +20,16 @@
         android:paddingTop="4dp"
         android:layout_marginEnd="@dimen/app_margin_half_1"
         android:src="@drawable/ic_vegsymbol"
-
+        tools:visibility="gone"
         />
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
         android:textSize="@dimen/text_large"
         android:textColor="@color/text_color_food"
-        tools:text="Chocolate and Strawberry Pancake Chocolate and Strawberry Pancake Chocolate and Strawberry Pancake"
+        tools:text="ChocolateChocolateChocolateChocolateChocolateChocolateChocolateChocolateChocolateChocolateChocolate"
         android:layout_alignBaseline="@id/quantityView"
         android:layout_toStartOf="@id/quantityView"
         android:layout_toEndOf="@id/ivFoodType"

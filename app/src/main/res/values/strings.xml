@@ -134,4 +134,6 @@
     <string name="submit_feedback">Submit Feedback</string>
     <string name="food_list_food_timing_label_included">Included</string>
     <string name="cart_bar_view_title_label">Review your order</string>
+    <string name="item_no_search_result_title">No Results found</string>
+    <string name="fragment_massage_list_schedule_my_appointment">Schedule my appointment</string>
 </resources>

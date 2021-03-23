@@ -12,7 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.core.extensions.*
 import com.core.ui.base.DaggerBaseFragment
 import com.core.utils.AnimationDirection
+import com.core.utils.MealType
 import com.illuminz.application.R
+import com.illuminz.application.ui.cart.CartFragment
 import com.illuminz.application.ui.custom.CartBarView
 import com.illuminz.application.ui.food.items.*
 import com.illuminz.application.utils.QuantityChangedPayload
@@ -25,7 +27,7 @@ import kotlinx.android.synthetic.main.dialog_menu.*
 import kotlinx.android.synthetic.main.fragment_food_list.*
 
 class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
-    VegNonVegItem.Callback, CartBarView.Callback, SearchDialogFragment.Callback {
+    VegNonVegItem.Callback, CartBarView.Callback, SearchFoodDialogFragment.Callback {
     companion object {
         const val TAG = "FoodListFragment"
 
@@ -39,11 +41,11 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
         private const val FLIPPER_CHILD_RESULT = 0
         private const val FLIPPER_CHILD_LOADING = 1
 
-        fun newInstance(id: String, tag: String): FoodListFragment {
+        fun newInstance(serviceId: String, serviceTag: String): FoodListFragment {
             val fragment = FoodListFragment()
             val arguments = Bundle()
-            arguments.putString(KEY_ID, id)
-            arguments.putString(KEY_TAG, tag)
+            arguments.putString(KEY_ID, serviceId)
+            arguments.putString(KEY_TAG, serviceTag)
             fragment.arguments = arguments
             return fragment
         }
@@ -55,6 +57,7 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
     private var serviceCategoryItemList = mutableListOf<ServiceCategoryItemDto>()
     private var serviceCategoryList = mutableListOf<ServiceCategoryDto>()
     private var cartList = mutableListOf<ServiceCategoryItemDto>()
+
     private var menuList = mutableListOf<MenuDialogItem>()
 
     private lateinit var serviceId: String
@@ -98,7 +101,7 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
         }
 
         ivSearch.setOnClickListener {
-            val dialogFragment = SearchDialogFragment(this)
+            val dialogFragment = SearchFoodDialogFragment(this)
             dialogFragment.show(childFragmentManager, "")
         }
 
@@ -109,6 +112,7 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
         serviceCategoryList.clear()
         serviceCategoryItemList.clear()
         menuList.clear()
+
         foodAdapter.clear()
 
         serviceCategoryList.addAll(list)
@@ -121,31 +125,29 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
         val itemCount = getItemCount(list = list, vegStatus = VEG)
 
         // Add category name and items
-        for (i in list.indices) {
+        list.forEachIndexed{ index,serviceCategory ->
             //Category
-            if (i == 0) {
-                val titleItem = TitleItem(
-                    title = list[i].categoryName.orEmpty(),
-                    items = resources.getQuantityString(
-                        R.plurals.category_count,
-                        itemCount,
-                        itemCount
-                    )
+            val title = serviceCategory.categoryName.orEmpty()
+            val itemCountFormatted = if (index == 0) {
+                resources.getQuantityString(
+                    R.plurals.category_count,
+                    itemCount,
+                    itemCount
                 )
-                foodAdapter.add(titleItem)
             } else {
-                val titleItem = TitleItem(title = list[i].categoryName.orEmpty())
-                foodAdapter.add(titleItem)
+                null
             }
 
-            // Items
-            list[i].itemsArr?.forEach { categoryItem ->
-                if (categoryItem.vegStatus == 1) {
+            val titleItem = TitleItem(title = title, items = itemCountFormatted)
+            foodAdapter.add(titleItem)
+
+            // Add items
+            serviceCategory.itemsArr?.forEach { categoryItem ->
+                if (categoryItem.vegStatus == VEG) {
                     val item = FoodItem(serviceCategoryItem = categoryItem, callback = this)
                     foodAdapter.add(item)
                     serviceCategoryItemList.add(categoryItem)
                 }
-
             }
         }
 
@@ -157,6 +159,20 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
                 )
             )
         }
+//            if (index == 0) {
+//                val titleItem = TitleItem(
+//                    title = list[index].categoryName.orEmpty(),
+//                    items = resources.getQuantityString(
+//                        R.plurals.category_count,
+//                        itemCount,
+//                        itemCount
+//                    )
+//                )
+//                foodAdapter.add(titleItem)
+//            } else {
+//                val titleItem = TitleItem(title = list[index].categoryName.orEmpty())
+//                foodAdapter.add(titleItem)
+//            }
     }
 
     private fun setObservers() {
@@ -185,7 +201,7 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
                 it.quantity = foodItem.serviceCategoryItem.quantity
             }
         }
-        viewModel.updateFoodList(foodItem.serviceCategoryItem)
+//        viewModel.updateFoodList(foodItem.serviceCategoryItem)
         changeCartItems(foodItem.serviceCategoryItem)
     }
 
@@ -195,7 +211,7 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
                 it.quantity = foodItem.serviceCategoryItem.quantity
             }
         }
-        viewModel.updateFoodList(foodItem.serviceCategoryItem)
+//        viewModel.updateFoodList(foodItem.serviceCategoryItem)
         changeCartItems(foodItem.serviceCategoryItem)
     }
 
@@ -255,7 +271,7 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
             val item = ServiceCategoryItemDto(
                 id = cartList[i].id,
                 price = cartList[i].price,
-                name = cartList[i].name,
+                itemName = cartList[i].itemName,
                 quantity = cartList[i].quantity,
                 vegStatus = cartList[i].vegStatus
             )
@@ -273,33 +289,54 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
     }
 
     private fun addFoodCategoryItems(vegStatus: Int? = null, itemCount: Int) {
-        for (i in serviceCategoryList.indices) {
-            if (i == 0) {
-                val titleItem = TitleItem(
-                    title = serviceCategoryList[i].categoryName.orEmpty(),
-                    items = resources.getQuantityString(
-                        R.plurals.category_count,
-                        itemCount,
-                        itemCount
-                    )
+        serviceCategoryList.forEachIndexed { index, serviceCategory ->
+            val title = serviceCategoryList[index].categoryName.orEmpty()
+            val itemCountFormatted = if (index == 0) {
+                resources.getQuantityString(
+                    R.plurals.category_count,
+                    itemCount,
+                    itemCount
                 )
-                foodAdapter.add(titleItem)
             } else {
-                val titleItem = TitleItem(title = serviceCategoryList[i].categoryName.orEmpty())
-                foodAdapter.add(titleItem)
+                null
             }
+            val titleItem = TitleItem(title = title, items = itemCountFormatted)
+            foodAdapter.add(titleItem)
 
-            serviceCategoryList[i].itemsArr?.forEach { categoryItem ->
-                if (vegStatus == ALL) {
-                    val item = FoodItem(serviceCategoryItem = categoryItem, callback = this)
-                    foodAdapter.add(item)
-                } else if (categoryItem.vegStatus == vegStatus) {
+            serviceCategory.itemsArr?.forEach { categoryItem ->
+                if (vegStatus == ALL || categoryItem.vegStatus == vegStatus) {
                     val item = FoodItem(serviceCategoryItem = categoryItem, callback = this)
                     foodAdapter.add(item)
                 }
-
             }
         }
+
+//        for (i in serviceCategoryList.indices) {
+//            if (i == 0) {
+//                val titleItem = TitleItem(
+//                    title = serviceCategoryList[i].categoryName.orEmpty(),
+//                    items = resources.getQuantityString(
+//                        R.plurals.category_count,
+//                        itemCount,
+//                        itemCount
+//                    )
+//                )
+//                foodAdapter.add(titleItem)
+//            } else {
+//                val titleItem = TitleItem(title = serviceCategoryList[i].categoryName.orEmpty())
+//                foodAdapter.add(titleItem)
+//            }
+//
+//            serviceCategoryList[i].itemsArr?.forEach { categoryItem ->
+//                if (vegStatus == ALL) {
+//                    val item = FoodItem(serviceCategoryItem = categoryItem, callback = this)
+//                    foodAdapter.add(item)
+//                } else if (categoryItem.vegStatus == vegStatus) {
+//                    val item = FoodItem(serviceCategoryItem = categoryItem, callback = this)
+//                    foodAdapter.add(item)
+//                }
+//            }
+//        }
     }
 
     private fun addMealTimings(vegOnly: Boolean, nonVegOnly: Boolean) {
@@ -393,9 +430,7 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
         var count = 0
         list.forEach { serviceCategory ->
             serviceCategory.itemsArr?.forEach { serviceCategoryItem ->
-                if (vegStatus == ALL) {
-                    count += 1
-                } else if (serviceCategoryItem.vegStatus == vegStatus) {
+                if (vegStatus == ALL || serviceCategoryItem.vegStatus == vegStatus) {
                     count += 1
                 }
             }

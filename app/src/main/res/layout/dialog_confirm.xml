@@ -1,72 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:cardCornerRadius="20dp"
-    >
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="40dp"
-        android:paddingBottom="40dp"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/white">
-        <ImageView
-            android:id="@+id/ivImage"
-            android:layout_width="92dp"
-            android:layout_height="92dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_tickround"/>
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_bold"
-            android:textSize="@dimen/text_xxhuge"
-            android:textColor="@color/dialog_title_color"
-            android:layout_below="@id/ivImage"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintDimensionRatio="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/white"
             android:gravity="center_horizontal"
-            tools:text="@string/reservation_confirmed"/>
+            android:paddingStart="24dp"
+            android:paddingTop="40dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="40dp">
 
-        <TextView
-            android:id="@+id/tvSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_regular"
-            android:textSize="@dimen/text_medium"
-            android:textColor="@color/sub_heading_text_color"
-            android:layout_below="@id/tvTitle"
-            android:layout_marginTop="8dp"
-            android:maxLines="2"
-            android:maxWidth="250dp"
-            android:maxLength="80"
-            android:gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            tools:text="ordered in your room within 20 minutes"/>
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="92dp"
+                android:layout_height="92dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_tickround" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnOkay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:backgroundTint="@color/dialog_button_color"
-            android:minHeight="50dp"
-            android:text="@string/okay"
-            style="@style/AppButton.Unelivated.PrimaryButton"
-            app:cornerRadius="6dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/tvSubtitle"
-            android:layout_marginTop="40dp"
-            />
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivImage"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/inter_bold"
+                android:gravity="center_horizontal"
+                android:minWidth="200dp"
+                android:textColor="@color/dialog_title_color"
+                android:textSize="@dimen/text_xxhuge"
+                tools:text="@string/reservation_confirmed" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tvSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvTitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/inter_regular"
+                android:gravity="center_horizontal"
+                android:maxWidth="250dp"
+                android:maxLength="80"
+                android:maxLines="2"
+                android:textColor="@color/sub_heading_text_color"
+                android:textSize="@dimen/text_medium"
+                tools:text="ordered in your room within 20 minutes" />
 
-</androidx.cardview.widget.CardView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOkay"
+                style="@style/AppButton.Unelivated.PrimaryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvSubtitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:minHeight="50dp"
+                android:text="@string/okay"
+                app:backgroundTint="@color/dialog_button_color"
+                app:cornerRadius="6dp" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@
     android:background="@color/colorPrimaryDark"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".ui.food.CartFragment">
+    tools:context=".ui.cart.CartFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -39,17 +39,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal"
-                android:fontFamily="@font/inter_medium"
-                android:text="@string/your_order"
-                android:textColor="@color/heading_text_color_4"
-                android:textSize="@dimen/text_medium" />
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/spacing_screen_horizontal"-->
+<!--                android:layout_marginEnd="@dimen/spacing_screen_horizontal"-->
+<!--                android:fontFamily="@font/inter_medium"-->
+<!--                android:text="@string/your_order"-->
+<!--                android:textColor="@color/heading_text_color_4"-->
+<!--                android:textSize="@dimen/text_medium" />-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCart"

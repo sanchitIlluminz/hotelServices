@@ -24,16 +24,14 @@ class FoodViewModel @Inject constructor(
 
     private val foodList = mutableListOf<ServiceCategoryItemDto>()
 
-    fun getFoodProductObserver(): LiveData<Resource<List<ServiceCategoryDto>>> =
-        foodProductsObserver
-
-    fun getSearchItemsObserver(): LiveData<Resource<List<ServiceCategoryItemDto>>> =
-        searchItemObserver
+    fun getFoodProductObserver(): LiveData<Resource<List<ServiceCategoryDto>>> = foodProductsObserver
+    fun getSearchItemsObserver(): LiveData<Resource<List<ServiceCategoryItemDto>>> = searchItemObserver
 
     fun getFoodProducts(id: String, tag: String) {
         launch {
+            foodList.clear()
             foodProductsObserver.value = Resource.loading()
-            val resource = userRepository.getServiceProduct(id, tag)
+            val resource = userRepository.getFoodProduct(id, tag)
             if (resource.isSuccess()) {
                 resource.data?.forEach { service ->
                     foodList.addAll(service.itemsArr.orEmpty())
@@ -53,11 +51,9 @@ class FoodViewModel @Inject constructor(
             withContext(Dispatchers.Default) {
                 val searchTextLowerCase = query.toLowerCase(Locale.US)
                 val searchedFoodItems = foodList.filter { food ->
-                    food.name?.toLowerCase(Locale.US).orEmpty().contains(searchTextLowerCase)
+                    food.itemName?.toLowerCase(Locale.US).orEmpty().contains(searchTextLowerCase)
                 }
-//                searchItemObserver.value = Resource.success(searchedFoodItems)
                 searchItemObserver.postValue(Resource.success(searchedFoodItems))
-
             }
         }
     }

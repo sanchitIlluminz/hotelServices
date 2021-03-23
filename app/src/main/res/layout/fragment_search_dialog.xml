@@ -30,7 +30,7 @@
             android:imeOptions="actionDone"
             app:iconifiedByDefault="false"
             app:queryBackground="@color/transparent"
-            app:queryHint="Search food"
+            app:queryHint="Search"
             app:searchHintIcon="@null"
             app:searchIcon="@null" />
     </LinearLayout>
@@ -39,6 +39,8 @@
         android:id="@+id/rvSearchResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:overScrollMode="never" />
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"/>
 
 </LinearLayout>

@@ -4,21 +4,24 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.core.extensions.gone
-import com.core.extensions.isNullOrZero
-import com.core.extensions.orZero
-import com.core.extensions.visible
+import com.core.extensions.*
 import com.core.ui.base.DaggerBaseFragment
+import com.core.utils.AnimationDirection
+import com.core.utils.AppConstants
 import com.google.android.material.tabs.TabLayoutMediator
 import com.illuminz.application.R
+import com.illuminz.application.ui.cart.CartFragment
 import com.illuminz.application.ui.custom.CartBarView
+import com.illuminz.application.ui.food.FoodListFragment
+import com.illuminz.application.ui.laundry.items.LaundryItem
 import com.illuminz.data.models.common.Status
+import com.illuminz.data.models.response.ServiceCategoryDto
+import com.illuminz.data.models.response.ServiceCategoryItemDto
 import kotlinx.android.synthetic.main.fragment_laundry.*
 import kotlinx.android.synthetic.main.fragment_laundry.toolbar
 
-class LaundryFragment : DaggerBaseFragment(), CartBarView.Callback {
-
-
+class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callback,
+    CartBarView.Callback {
     companion object {
         const val TAG = "LaundryFragment"
         private const val KEY_SERVICE_ID = "KEY_SERVICE_ID"
@@ -33,8 +36,6 @@ class LaundryFragment : DaggerBaseFragment(), CartBarView.Callback {
         }
     }
 
-    private var totalPrice: Double = 0.00
-
     private lateinit var serviceId: String
     private lateinit var serviceTag: String
 
@@ -46,6 +47,13 @@ class LaundryFragment : DaggerBaseFragment(), CartBarView.Callback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initialise()
+        setListeners()
+        setObservers()
+    }
+
+    private fun initialise() {
         viewModel
         cartBarView.gone()
         serviceId = requireArguments().getString(KEY_SERVICE_ID).orEmpty()
@@ -59,19 +67,13 @@ class LaundryFragment : DaggerBaseFragment(), CartBarView.Callback {
                 else -> tab.text = "Wash & Iron"
             }
         }.attach()
-
-
-        setData()
-        setListeners()
-        setObservers()
     }
 
     private fun setObservers() {
-
         viewModel.getPriceObserver().observe(viewLifecycleOwner, Observer { resource ->
             if (resource.status == Status.SUCCESS) {
                 // Set visibilty and data of cartBar
-                    if (!resource?.data?.get(1).isNullOrZero()) {
+                if (!resource?.data?.get(1).isNullOrZero()) {
                     cartBarView.visible()
                     resource.data.let {
                         cartBarView.setItemPrice(
@@ -83,39 +85,7 @@ class LaundryFragment : DaggerBaseFragment(), CartBarView.Callback {
                     cartBarView.gone()
                 }
             }
-
         })
-
-
-//        viewModel.getCartObserver().observe(viewLifecycleOwner, Observer { resource ->
-//            if (resource.isNotEmpty()){
-//                cartBarView.visible()
-//                var itemCount = 0
-//                var totalPrice = 0.0
-//                // Calculate total price and item count
-//                resource.forEach { serviceCategory ->
-//                    itemCount += serviceCategory.quantity
-//                    totalPrice += (serviceCategory.price.orZero() * serviceCategory.quantity)
-//                }
-//
-////            Set visibilty and data of cartBar
-//                if (resource.isNotEmpty()) {
-//                    cartBarView.visible()
-//                    cartBarView.setItemPrice(totalPrice = totalPrice, items = itemCount)
-//                } else {
-//                    cartBarView.gone()
-//                }
-//            }else{
-//                cartBarView.gone()
-//            }
-//
-//        })
-    }
-
-    private fun setData() {
-//        cartBarView.setButtonText(getString(R.string.view_cart))
-//        cartBarView.setItemPrice(totalPrice = 820.00, items = 4)
-
     }
 
     private fun setListeners() {
@@ -123,18 +93,74 @@ class LaundryFragment : DaggerBaseFragment(), CartBarView.Callback {
             activity?.onBackPressed()
         }
 
+        ivSearch.setOnClickListener {
+            val selectedTab = tabLayout.selectedTabPosition
+
+            val laundryType = if (selectedTab==0){
+                AppConstants.LAUNDARY_ONLY_IRON
+            }else{
+                AppConstants.LAUNDARY_WASH_IRON
+            }
+
+            val dialogFragment = SearchLaundryDialogFragment(this, laundryType)
+            dialogFragment.show(childFragmentManager, "")
+        }
+
         cartBarView.setCallback(this)
     }
 
 
     override fun onCartBarClick() {
-//        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG)== null){
-//            val fragment = CartFragment.newInstance(TAG)
-//            parentFragmentManager.beginTransaction()
-//                .setCustomAnimations(AnimationDirection.End)
-//                .add(R.id.fragmentContainer,fragment)
-//                .addToBackStack(CartFragment.TAG)
-//                .commit()
-//        }
+        val cartList = viewModel.getFinalCartList()
+        val list = arrayListOf<ServiceCategoryItemDto>()
+        for (i in 0 until cartList.size) {
+
+            if (cartList[i].ironingPrice!=null){
+                val item = ServiceCategoryItemDto(
+                    id = cartList[i].id,
+                    ironingPrice = cartList[i].ironingPrice,
+                    itemName = cartList[i].itemName,
+                    quantity = cartList[i].quantity
+                )
+                list.add(item)
+            }
+            if (cartList[i].washIroningPrice!=null){
+                val item = ServiceCategoryItemDto(
+                    id = cartList[i].id,
+                    washIroningPrice = cartList[i].washIroningPrice,
+                    itemName = cartList[i].itemName,
+                    quantity = cartList[i].quantity
+                )
+                list.add(item)
+            }
+        }
+
+        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG) == null) {
+            val fragment = CartFragment.newInstance(TAG, list)
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(AnimationDirection.End)
+                .add(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
+    }
+
+    override fun onIncreaseSearchItemClicked(laundryItem: LaundryItem) {
+      val fragmentList = childFragmentManager.fragments
+        fragmentList.forEach { fragment ->
+            if (fragment is LaundryListFragment && fragment.getLaundryType() == laundryItem.laundryType){
+                fragment.updateLaundryAdapter(laundryItem)
+            }
+
+        }
+    }
+
+    override fun onDecreaseSearchItemClicked(laundryItem: LaundryItem) {
+        val fragmentList = childFragmentManager.fragments
+        fragmentList.forEach { fragment ->
+            if (fragment is LaundryListFragment && fragment.getLaundryType() == laundryItem.laundryType){
+                fragment.updateLaundryAdapter(laundryItem)
+            }
+        }
     }
 }

@@ -8,13 +8,10 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import com.core.extensions.dpToPx
-import com.core.extensions.setCustomAnimations
 import com.core.ui.base.DaggerBaseFragment
-import com.core.utils.AnimationDirection
 import com.illuminz.application.R
 import com.illuminz.application.ui.custom.CartBarView
 import com.illuminz.application.ui.bar.items.*
-import com.illuminz.application.ui.food.CartFragment
 import com.illuminz.application.ui.food.items.MenuDialogItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder

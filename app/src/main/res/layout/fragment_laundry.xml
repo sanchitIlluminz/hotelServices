@@ -16,14 +16,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         app:navigationIcon="@drawable/ic_backarrow"
-        app:title="@string/laundry_service"/>
+        app:title="@string/laundry_service" />
+
     <ImageView
+        android:id="@+id/ivSearch"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
-        android:src="@drawable/ic_search"
-        android:layout_alignParentEnd="true"
         android:layout_alignBaseline="@id/toolbar"
-        android:layout_marginEnd="24dp"/>
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_search" />
 
     <ImageView
         android:id="@+id/ivDivider"
@@ -40,11 +42,14 @@
         android:layout_marginTop="@dimen/spacing_screen_horizontal"
         android:background="@color/colorPrimaryDark"
         android:textAlignment="textStart"
+        app:tabContentStart="28dp"
         app:tabGravity="start"
         app:tabIndicatorColor="@color/tab_highlight"
         app:tabIndicatorFullWidth="false"
-        app:tabMaxWidth="0dp"
+        app:tabMinWidth="0dp"
         app:tabMode="scrollable"
+        app:tabPaddingEnd="20dp"
+        app:tabPaddingStart="20dp"
         app:tabSelectedTextColor="@color/tab_highlight"
         app:tabTextAppearance="@style/CustomTabText"
         app:tabTextColor="@color/tab_default_color" />
@@ -54,14 +59,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tabLayout"
-        app:layout_anchor="@id/tabLayout"
-        />
+        app:layout_anchor="@id/tabLayout" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/background_gradient_screen_bottom" />
+
     <com.illuminz.application.ui.custom.CartBarView
         android:id="@+id/cartBarView"
         android:layout_width="match_parent"

@@ -47,7 +47,7 @@ class FoodItem(
             }
 
 
-            tvFoodTitle.text = serviceCategoryItem.name.orEmpty()
+            tvFoodTitle.text = serviceCategoryItem.itemName.orEmpty()
             tvPrice.text = CurrencyFormatter.format(
                 amount = serviceCategoryItem.price?.toDouble().orZero(),
                 currencyCode = "INR"

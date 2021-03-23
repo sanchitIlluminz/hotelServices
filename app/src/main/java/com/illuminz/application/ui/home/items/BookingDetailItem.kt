@@ -5,7 +5,9 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_booking_details.view.*
 
-class BookingDetailItem : Item() {
+class BookingDetailItem(
+    var callback:Callback
+) : Item() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.apply {
 
@@ -25,6 +27,10 @@ class BookingDetailItem : Item() {
 
             tvCheckOutTime.text = "11:00 AM"
 
+            tvExtendStay.setOnClickListener {
+                callback.onExtendStayClicked()
+            }
+
         }
     }
 
@@ -32,5 +38,9 @@ class BookingDetailItem : Item() {
 
     override fun getSpanSize(spanCount: Int, position: Int): Int {
         return 6
+    }
+
+    interface Callback {
+        fun onExtendStayClicked()
     }
 }

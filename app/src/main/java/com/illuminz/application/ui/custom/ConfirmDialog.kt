@@ -48,8 +48,8 @@ class ConfirmDialog(): DaggerBaseDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.tvTitle.text = arguments?.getString(KEY_TITLE)
-        view.tvSubtitle.text = arguments?.getString(KEY_SUBTITLE)
+        view.tvTitle.text = requireArguments().getString(KEY_TITLE)
+        view.tvSubtitle.text = requireArguments().getString(KEY_SUBTITLE)
 
         val fragment = HomeFragment.newInstance()
         btnOkay.setOnClickListener {
