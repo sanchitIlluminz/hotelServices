@@ -12,23 +12,22 @@ import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_feedback.*
 
 class FeedbackFragment : DaggerBaseFragment() {
-
     companion object {
         const val TAG = "FeedbackFragment"
 
-        fun newInstance():FeedbackFragment{
+        fun newInstance(): FeedbackFragment {
             return FeedbackFragment()
         }
     }
 
     private lateinit var ratingAdapter: GroupAdapter<GroupieViewHolder>
+
     private var selectedFeedbackRatingItem: FeedbackRatingItem? = null
 
     override fun getLayoutResId(): Int = R.layout.fragment_feedback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initialise()
         setListeners()
     }
@@ -40,18 +39,18 @@ class FeedbackFragment : DaggerBaseFragment() {
 
         ratingAdapter.setOnItemClickListener { item, view ->
 
-            if (item is FeedbackRatingItem && item != selectedFeedbackRatingItem && selectedFeedbackRatingItem !=null){
+            if (item is FeedbackRatingItem && item != selectedFeedbackRatingItem && selectedFeedbackRatingItem != null) {
                 item.selected = true
                 item.notifyChanged()
 
                 selectedFeedbackRatingItem?.selected = false
                 selectedFeedbackRatingItem?.notifyChanged()
                 selectedFeedbackRatingItem = item
-            }else if(item is FeedbackRatingItem && selectedFeedbackRatingItem ==null){
+            } else if (item is FeedbackRatingItem && selectedFeedbackRatingItem == null) {
                 item.selected = true
                 item.notifyChanged()
-                selectedFeedbackRatingItem = item
 
+                selectedFeedbackRatingItem = item
             }
         }
 
@@ -65,14 +64,14 @@ class FeedbackFragment : DaggerBaseFragment() {
         rvFeedback.adapter = ratingAdapter
         rvFeedback.supportsChangeAnimations(false)
 
-        val item = listOf(      FeedbackRatingItem(rating = 1),
-                                FeedbackRatingItem(rating = 2),
-                                FeedbackRatingItem(rating = 3),
-                                FeedbackRatingItem(rating = 4),
-                                FeedbackRatingItem(rating = 5)
+        val item = listOf(
+            FeedbackRatingItem(rating = 1),
+            FeedbackRatingItem(rating = 2),
+            FeedbackRatingItem(rating = 3),
+            FeedbackRatingItem(rating = 4),
+            FeedbackRatingItem(rating = 5)
         )
 
         ratingAdapter.addAll(item)
-
     }
 }

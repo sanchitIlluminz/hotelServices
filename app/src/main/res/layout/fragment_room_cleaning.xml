@@ -34,9 +34,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivDivider"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
-        android:layout_marginTop="@dimen/spacing_screen_horizontal_2"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginStart="@dimen/app_margin_1"
+        android:layout_marginTop="@dimen/app_margin_1"
+        android:layout_marginEnd="@dimen/app_margin_1"
         android:fontFamily="@font/inter_semi_bold"
         android:text="@string/when_should_we_come_for_cleaning"
         android:textColor="@color/text_color_2"
@@ -47,8 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvTitle"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginStart="@dimen/app_margin_1"
+        android:layout_marginEnd="@dimen/app_margin_1"
         android:fontFamily="@font/inter_regular"
         android:text="@string/choose_at_what_time_you_want_to_clean_your_room"
         android:textColor="@color/sub_heading_text_color"
@@ -59,9 +59,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvDescription"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginStart="@dimen/app_margin_1"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2">
+        android:layout_marginEnd="@dimen/app_margin_1">
 
 
         <androidx.appcompat.widget.AppCompatRadioButton
@@ -106,7 +106,7 @@
         android:layout_alignStart="@id/radioGroup"
         android:layout_marginStart="52dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal"
+        android:layout_marginEnd="@dimen/app_margin"
         android:enabled="true"
         android:fontFamily="@font/inter_regular"
         android:text="@string/wednesday_25_nov"
@@ -117,7 +117,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/tvSelectedTimeLabel"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal"
+        android:layout_marginStart="@dimen/app_margin"
         android:layout_toEndOf="@id/tvSelectedTimeLabel">
 
         <TextView
@@ -146,7 +146,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/spacing_screen_horizontal_2"
+        android:layout_margin="@dimen/app_margin_1"
         android:text="@string/confirm" />
 
 </RelativeLayout>

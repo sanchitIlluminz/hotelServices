@@ -4,7 +4,10 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorPrimaryDark"
-    android:padding="12dp">
+    android:paddingTop="@dimen/app_margin_half_1"
+    android:paddingBottom="@dimen/app_margin_half_1"
+    android:paddingStart="@dimen/app_margin_1"
+    android:paddingEnd="@dimen/app_margin_1">
 
     <TextView
         android:id="@+id/tvTitle"

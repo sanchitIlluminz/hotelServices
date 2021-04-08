@@ -23,7 +23,10 @@ class FoodItem(
 ) : Item(), AddMenuItemView.Callback {
     override fun bind(viewHolder: GroupieViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.firstOrNull() == QuantityChangedPayload) {
-            viewHolder.itemView.quantityView.setQuantity(serviceCategoryItem.quantity.orZero(), true)
+            viewHolder.itemView.quantityView.setQuantity(
+                serviceCategoryItem.quantity.orZero(),
+                true
+            )
         } else {
             super.bind(viewHolder, position, payloads)
         }
@@ -31,9 +34,8 @@ class FoodItem(
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         //type 0 is for veg and 1 is for non veg//
-
         viewHolder.itemView.apply {
-            if (serviceCategoryItem.image!=null){
+            if (serviceCategoryItem.image != null) {
                 ivImage.visible()
 
                 GlideApp.with(this)
@@ -42,10 +44,14 @@ class FoodItem(
                     .error(R.color.black)
                     .centerCrop()
                     .into(ivImage)
-            }else{
+            } else {
                 ivImage.gone()
             }
 
+            if (hideThumbnail == true) {
+                ivImage.gone()
+                tvFoodRemark.gone()
+            }
 
             tvFoodTitle.text = serviceCategoryItem.itemName.orEmpty()
             tvPrice.text = CurrencyFormatter.format(
@@ -68,16 +74,10 @@ class FoodItem(
                 tvFoodRemark.visible()
                 tvFoodRemark.text = remark
             }
-
-            if (hideThumbnail == true) {
-                ivImage.gone()
-                tvFoodRemark.gone()
-            }
         }
     }
 
     override fun getLayout(): Int = R.layout.item_food
-
 
     interface Callback {
         fun onIncreaseFoodItemClicked(foodItem: FoodItem)

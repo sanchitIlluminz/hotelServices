@@ -32,22 +32,13 @@
         android:layout_below="@id/ivDivider"
         android:layout_alignParentStart="true"
         android:clipToPadding="false"
-        android:paddingTop="@dimen/spacing_screen_horizontal"
-        android:paddingBottom="@dimen/spacing_screen_horizontal">
+        android:paddingTop="@dimen/app_margin"
+        android:paddingBottom="@dimen/app_margin">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/spacing_screen_horizontal"-->
-<!--                android:layout_marginEnd="@dimen/spacing_screen_horizontal"-->
-<!--                android:fontFamily="@font/inter_medium"-->
-<!--                android:text="@string/your_order"-->
-<!--                android:textColor="@color/heading_text_color_4"-->
-<!--                android:textSize="@dimen/text_medium" />-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCart"
@@ -56,16 +47,16 @@
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="6"
-                tools:listitem="@layout/item_food_cart" />
+                tools:listitem="@layout/item_laundry" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilSuggestions"
                 style="@style/AppTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginTop="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal">
+                android:layout_marginStart="@dimen/app_margin"
+                android:layout_marginTop="@dimen/app_margin"
+                android:layout_marginEnd="@dimen/app_margin">
 
                 <com.core.ui.custom.ClearFocusTextInputEditText
                     android:id="@+id/etSuggestions"
@@ -82,34 +73,12 @@
                     tools:text="gfchvbjknlmhjvg" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--            <TextView-->
-            <!--                android:id="@+id/tvCoupon"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="@dimen/spacing_screen_horizontal_2"-->
-            <!--                android:layout_marginBottom="@dimen/spacing_screen_horizontal_2"-->
-            <!--                android:background="@color/coupon_background"-->
-            <!--                android:clickable="true"-->
-            <!--                android:drawablePadding="8dp"-->
-            <!--                android:focusable="true"-->
-            <!--                android:fontFamily="@font/inter_regular"-->
-            <!--                android:gravity="start|center_vertical"-->
-            <!--                android:paddingStart="@dimen/spacing_screen_horizontal"-->
-            <!--                android:paddingTop="20dp"-->
-            <!--                android:paddingEnd="@dimen/spacing_screen_horizontal"-->
-            <!--                android:paddingBottom="20dp"-->
-            <!--                android:text="@string/apply_coupon"-->
-            <!--                android:textColor="@color/coupon_text_color_1"-->
-            <!--                android:textSize="@dimen/text_default"-->
-            <!--                app:drawableEndCompat="@drawable/ic_rightsidearrow"-->
-            <!--                app:drawableStartCompat="@drawable/ic_coupons" />-->
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginTop="@dimen/spacing_screen_horizontal_2"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal"
+                android:layout_marginStart="@dimen/app_margin_1"
+                android:layout_marginTop="@dimen/app_margin_1"
+                android:layout_marginEnd="@dimen/app_margin"
                 android:fontFamily="@font/inter_medium"
                 android:text="@string/bill_details"
                 android:textColor="@color/text_color_food"
@@ -118,8 +87,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_screen_horizontal"
-                android:layout_marginEnd="@dimen/spacing_screen_horizontal">
+                android:paddingStart="@dimen/app_margin_1"
+                android:paddingEnd="@dimen/app_margin_1">
 
                 <TextView
                     android:id="@+id/tvItemTotalLabel"

@@ -224,25 +224,6 @@ class LaundryListFragment : DaggerBaseFragment(), LaundryItem.Callback {
             cartList = cartList,
             laundryType = laundryType
         )
-//        if (laundryItem.laundryType == AppConstants.LAUNDARY_ONLY_IRON) {
-//            changeLocalCartList(
-//                serviceCategoryItemDto = laundryItem.serviceCategoryItem,
-//                cartList = onlyIronCartList
-//            )
-//            viewModel.updateFinalCartList(
-//                cartList = onlyIronCartList,
-//                laundryType = AppConstants.LAUNDARY_ONLY_IRON
-//            )
-//        } else {
-//            changeLocalCartList(
-//                serviceCategoryItemDto = laundryItem.serviceCategoryItem,
-//                cartList = washIronCartList
-//            )
-//            viewModel.updateFinalCartList(
-//                cartList = washIronCartList,
-//                laundryType = AppConstants.LAUNDARY_WASH_IRON
-//            )
-//        }
     }
 
     /**
@@ -258,8 +239,8 @@ class LaundryListFragment : DaggerBaseFragment(), LaundryItem.Callback {
         cartList: MutableList<ServiceCategoryItemDto>
     ) {
         //Check if item is already present in list or not
-        val newItem = cartList.find {
-            (it.id == serviceCategoryItemDto.id)
+        val newItem = cartList.find {   serviceCategoryItem ->
+            (serviceCategoryItem.id == serviceCategoryItemDto.id)
         }
 
         when (newItem) {

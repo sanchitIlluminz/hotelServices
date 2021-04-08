@@ -30,8 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivDivider"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal"
-        android:layout_marginTop="@dimen/spacing_screen_horizontal"
+        android:layout_marginStart="@dimen/app_margin"
+        android:layout_marginTop="@dimen/app_margin"
         android:fontFamily="@font/inter_medium"
         android:text="@string/choose_payment_method"
         android:textColor="@color/text_color_5"
@@ -42,8 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvPaymentMethodLabel"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal"
-        android:layout_marginTop="@dimen/spacing_screen_horizontal">
+        android:layout_marginStart="@dimen/app_margin"
+        android:layout_marginTop="@dimen/app_margin">
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/rbCheckOut"
@@ -87,7 +87,7 @@
         android:textColor="@color/text_color_5"
         android:text="@string/scan_to_pay"
         android:layout_below="@id/radioGroup"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal"
+        android:layout_marginStart="@dimen/app_margin"
         android:layout_marginTop="40dp"
         />
 

@@ -18,8 +18,8 @@
 
     <dimen name="bottom_navigation_text">10sp</dimen>
 
-    <dimen name="spacing_screen_horizontal">20dp</dimen>
-    <dimen name="spacing_screen_horizontal_2">24dp</dimen>
+    <dimen name="app_margin">20dp</dimen>
+    <dimen name="app_margin_1">24dp</dimen>
     <dimen name="app_margin_half">10dp</dimen>
     <dimen name="app_margin_half_1">12dp</dimen>
 

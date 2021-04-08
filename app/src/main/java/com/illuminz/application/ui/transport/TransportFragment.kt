@@ -106,22 +106,22 @@ class TransportFragment : DaggerBaseFragment() {
 
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(true)
-            setContentView(R.layout.dialog_transport)
+            setContentView(R.layout.dialog_transport_old)
 
             window?.apply {
                 setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 setGravity(Gravity.CENTER)
             }
 
-            tvTransportName.text = title
-            tvDistancePerKm.text = price
+//            tvTransportName.text = title
+//            tvDistancePerKm.text = price
 
-            GlideApp.with(context)
-                .load(image)
-                .placeholder(R.color.colorPrimary)
-                .error(R.color.black)
-                .centerCrop()
-                .into(ivTransport)
+//            GlideApp.with(context)
+//                .load(image)
+//                .placeholder(R.color.colorPrimary)
+//                .error(R.color.black)
+//                .centerCrop()
+//                .into(ivTransport)
 
             btRequest.setOnClickListener {
                 dismiss()

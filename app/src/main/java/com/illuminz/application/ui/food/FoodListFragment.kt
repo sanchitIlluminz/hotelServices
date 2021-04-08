@@ -19,6 +19,7 @@ import com.illuminz.application.ui.custom.CartBarView
 import com.illuminz.application.ui.food.items.*
 import com.illuminz.application.utils.QuantityChangedPayload
 import com.illuminz.data.models.common.Status
+import com.illuminz.data.models.request.CartRequest
 import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.illuminz.data.models.response.ServiceCategoryDto
 import com.xwray.groupie.GroupAdapter
@@ -26,7 +27,9 @@ import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.dialog_menu.*
 import kotlinx.android.synthetic.main.fragment_food_list.*
 
-class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
+class FoodListFragment(
+
+) : DaggerBaseFragment(), FoodItem.Callback,
     VegNonVegItem.Callback, CartBarView.Callback, SearchFoodDialogFragment.Callback {
     companion object {
         const val TAG = "FoodListFragment"
@@ -59,6 +62,9 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
     private var cartList = mutableListOf<ServiceCategoryItemDto>()
 
     private var menuList = mutableListOf<MenuDialogItem>()
+
+
+    private var cartBarViewVisible = false
 
     private lateinit var serviceId: String
     private lateinit var serviceTag: String
@@ -93,7 +99,7 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
 
     private fun setListeners() {
         toolbar.setNavigationOnClickListener {
-            activity?.onBackPressed()
+            requireActivity().onBackPressed()
         }
 
         btnMenu.setOnClickListener {
@@ -106,73 +112,6 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
         }
 
         cartBarView.setCallback(this)
-    }
-
-    private fun setData(list: List<ServiceCategoryDto>) {
-        serviceCategoryList.clear()
-        serviceCategoryItemList.clear()
-        menuList.clear()
-
-        foodAdapter.clear()
-
-        serviceCategoryList.addAll(list)
-
-        btnMenu.visible()
-
-        addMealTimings(vegOnly = true, nonVegOnly = false)
-
-        // Total items of type veg or non veg
-        val itemCount = getItemCount(list = list, vegStatus = VEG)
-
-        // Add category name and items
-        list.forEachIndexed{ index,serviceCategory ->
-            //Category
-            val title = serviceCategory.categoryName.orEmpty()
-            val itemCountFormatted = if (index == 0) {
-                resources.getQuantityString(
-                    R.plurals.category_count,
-                    itemCount,
-                    itemCount
-                )
-            } else {
-                null
-            }
-
-            val titleItem = TitleItem(title = title, items = itemCountFormatted)
-            foodAdapter.add(titleItem)
-
-            // Add items
-            serviceCategory.itemsArr?.forEach { categoryItem ->
-                if (categoryItem.vegStatus == VEG) {
-                    val item = FoodItem(serviceCategoryItem = categoryItem, callback = this)
-                    foodAdapter.add(item)
-                    serviceCategoryItemList.add(categoryItem)
-                }
-            }
-        }
-
-        serviceCategoryList.forEach { serviceCategoryItem ->
-            menuList.add(
-                MenuDialogItem(
-                    title = serviceCategoryItem.categoryName.orEmpty(),
-                    number = serviceCategoryItem.itemsArr?.size.orZero()
-                )
-            )
-        }
-//            if (index == 0) {
-//                val titleItem = TitleItem(
-//                    title = list[index].categoryName.orEmpty(),
-//                    items = resources.getQuantityString(
-//                        R.plurals.category_count,
-//                        itemCount,
-//                        itemCount
-//                    )
-//                )
-//                foodAdapter.add(titleItem)
-//            } else {
-//                val titleItem = TitleItem(title = list[index].categoryName.orEmpty())
-//                foodAdapter.add(titleItem)
-//            }
     }
 
     private fun setObservers() {
@@ -195,23 +134,112 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
         })
     }
 
-    override fun onIncreaseFoodItemClicked(foodItem: FoodItem) {
-        serviceCategoryItemList.forEach {
-            if (it.id == foodItem.serviceCategoryItem.id) {
-                it.quantity = foodItem.serviceCategoryItem.quantity
+    private fun setData(list: List<ServiceCategoryDto>) {
+        serviceCategoryList.clear()
+        serviceCategoryItemList.clear()
+        menuList.clear()
+        foodAdapter.clear()
+
+        serviceCategoryList.addAll(list)
+        serviceCategoryList.forEach { serviceCategoryItem ->
+            serviceCategoryItem.itemsArr?.forEach {
+                serviceCategoryItemList.add(it)
             }
         }
-//        viewModel.updateFoodList(foodItem.serviceCategoryItem)
+
+        viewModel.updateFoodList(serviceCategoryItemList)
+        val savedCartList = viewModel.getSavedCartList()
+        //Update cartList when returning from cart fragment
+        if (cartList.size != 0 || savedCartList?.size!=0 ) {
+            cartList.clear()
+
+            savedCartList?.forEach { savedCartItem ->
+                serviceCategoryItemList.forEach { serviceCategoryItem ->
+                    if (serviceCategoryItem.id == savedCartItem.id) {
+                        cartList.add(serviceCategoryItem)
+                    }
+                }
+            }
+//            serviceCategoryList.forEach { serviceCategory ->
+//                serviceCategory.itemsArr?.forEach { serviceCategoryItem ->
+//                    savedCartList?.forEach { savedCartItem ->
+//                        if (savedCartItem.id == serviceCategoryItem.id) {
+//                            cartList.add(serviceCategoryItem)
+//                        }
+//                    }
+//                }
+//            }
+        }
+        btnMenu.visible()
+
+        addMealTimings(vegOnly = true, nonVegOnly = false)
+
+        // Total items of type veg
+        val itemCount = getInitialItemCount(list = list, vegStatus = VEG)
+
+        // Add category name and items
+        list.forEachIndexed { index, serviceCategory ->
+            //Category
+            val title = serviceCategory.categoryName.orEmpty()
+
+            //With first title item count is also added
+            val itemCountFormatted = if (index == 0) {
+                resources.getQuantityString(
+                    R.plurals.category_count,
+                    itemCount,
+                    itemCount
+                )
+            } else {
+                null
+            }
+
+            val foodCategoryCount = serviceCategory.itemsArr?.size.orZero()
+            val titleItem = TitleItem(
+                title = title,
+                totalItemCount = itemCountFormatted,
+                foodCategoryCount = foodCategoryCount
+            )
+            foodAdapter.add(titleItem)
+
+            // Add items
+            serviceCategory.itemsArr?.forEach { categoryItem ->
+                if (categoryItem.vegStatus == VEG) {
+                    val item = FoodItem(serviceCategoryItem = categoryItem, callback = this)
+                    foodAdapter.add(item)
+//                    serviceCategoryItemList.add(categoryItem)
+                }
+            }
+        }
+
+        serviceCategoryList.forEach { serviceCategoryItem ->
+            menuList.add(
+                MenuDialogItem(
+                    title = serviceCategoryItem.categoryName.orEmpty(),
+                    number = serviceCategoryItem.itemsArr?.size.orZero()
+                )
+            )
+        }
+
+        if (cartList.size != 0) {
+            setCartItems()
+        }
+    }
+
+    override fun onIncreaseFoodItemClicked(foodItem: FoodItem) {
+        serviceCategoryItemList.forEach { serviceCategoryItem ->
+            if (serviceCategoryItem.id == foodItem.serviceCategoryItem.id) {
+                serviceCategoryItem.quantity = foodItem.serviceCategoryItem.quantity
+            }
+        }
         changeCartItems(foodItem.serviceCategoryItem)
     }
 
     override fun onDecreaseFoodItemClicked(foodItem: FoodItem) {
-        serviceCategoryItemList.forEach {
-            if (it.id == foodItem.serviceCategoryItem.id) {
-                it.quantity = foodItem.serviceCategoryItem.quantity
+        serviceCategoryItemList.forEach { serviceCategoryItem ->
+            if (serviceCategoryItem.id == foodItem.serviceCategoryItem.id) {
+                serviceCategoryItem.quantity = foodItem.serviceCategoryItem.quantity
             }
         }
-//        viewModel.updateFoodList(foodItem.serviceCategoryItem)
         changeCartItems(foodItem.serviceCategoryItem)
     }
 
@@ -226,9 +254,13 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
 
             window?.apply {
                 setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                val marginY = if (cartBarViewVisible)
+                    140
+                else
+                    80
                 setGravity(Gravity.BOTTOM or Gravity.END)
                 attributes.x = context.dpToPx(24) // left margin
-                attributes.y = context.dpToPx(140) // bottom margin
+                attributes.y = context.dpToPx(marginY) // bottom margin
             }
 
             rvDialogMenu.adapter = menuAdapter
@@ -254,53 +286,43 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
         addMealTimings(vegOnly, nonVegOnly)
 
         if (vegOnly && !nonVegOnly) {
-            val itemCount = getItemCount(list = serviceCategoryList, vegStatus = VEG)
-            addFoodCategoryItems(vegStatus = VEG, itemCount = itemCount)
+            val itemCount = getItemCount(list = serviceCategoryItemList, vegStatus = VEG)
+            addFoodCategoryItems(vegStatus = VEG, totalItemCount = itemCount)
+            setMenuList(VEG)
         } else if (nonVegOnly && !vegOnly) {
-            val itemCount = getItemCount(list = serviceCategoryList, vegStatus = NON_VEG)
-            addFoodCategoryItems(vegStatus = NON_VEG, itemCount = itemCount)
+            val itemCount = getItemCount(list = serviceCategoryItemList, vegStatus = NON_VEG)
+            addFoodCategoryItems(vegStatus = NON_VEG, totalItemCount = itemCount)
+            setMenuList(NON_VEG)
         } else {
-            val itemCount = getItemCount(list = serviceCategoryList, vegStatus = ALL)
-            addFoodCategoryItems(vegStatus = ALL, itemCount = itemCount)
+            val itemCount = getItemCount(list = serviceCategoryItemList, vegStatus = ALL)
+            addFoodCategoryItems(vegStatus = ALL, totalItemCount = itemCount)
+            setMenuList()
         }
     }
 
-    override fun onCartBarClick() {
-        val list = arrayListOf<ServiceCategoryItemDto>()
-        for (i in 0 until cartList.size) {
-            val item = ServiceCategoryItemDto(
-                id = cartList[i].id,
-                price = cartList[i].price,
-                itemName = cartList[i].itemName,
-                quantity = cartList[i].quantity,
-                vegStatus = cartList[i].vegStatus
-            )
-            list.add(item)
-        }
-
-        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG) == null) {
-            val fragment = CartFragment.newInstance(TAG, list)
-            parentFragmentManager.beginTransaction()
-                .setCustomAnimations(AnimationDirection.End)
-                .add(R.id.fragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
-    }
-
-    private fun addFoodCategoryItems(vegStatus: Int? = null, itemCount: Int) {
+    private fun addFoodCategoryItems(vegStatus: Int? = null, totalItemCount: Int) {
         serviceCategoryList.forEachIndexed { index, serviceCategory ->
             val title = serviceCategoryList[index].categoryName.orEmpty()
             val itemCountFormatted = if (index == 0) {
                 resources.getQuantityString(
                     R.plurals.category_count,
-                    itemCount,
-                    itemCount
+                    totalItemCount,
+                    totalItemCount
                 )
             } else {
                 null
             }
-            val titleItem = TitleItem(title = title, items = itemCountFormatted)
+
+            val categoryItemCount = serviceCategory.itemsArr?.filter { serviceCategoryItem ->
+                (serviceCategoryItem.vegStatus == vegStatus) ||
+                        (vegStatus == ALL)
+            }?.size.orZero()
+
+            val titleItem = TitleItem(
+                title = title,
+                totalItemCount = itemCountFormatted,
+                foodCategoryCount = categoryItemCount
+            )
             foodAdapter.add(titleItem)
 
             serviceCategory.itemsArr?.forEach { categoryItem ->
@@ -310,33 +332,6 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
                 }
             }
         }
-
-//        for (i in serviceCategoryList.indices) {
-//            if (i == 0) {
-//                val titleItem = TitleItem(
-//                    title = serviceCategoryList[i].categoryName.orEmpty(),
-//                    items = resources.getQuantityString(
-//                        R.plurals.category_count,
-//                        itemCount,
-//                        itemCount
-//                    )
-//                )
-//                foodAdapter.add(titleItem)
-//            } else {
-//                val titleItem = TitleItem(title = serviceCategoryList[i].categoryName.orEmpty())
-//                foodAdapter.add(titleItem)
-//            }
-//
-//            serviceCategoryList[i].itemsArr?.forEach { categoryItem ->
-//                if (vegStatus == ALL) {
-//                    val item = FoodItem(serviceCategoryItem = categoryItem, callback = this)
-//                    foodAdapter.add(item)
-//                } else if (categoryItem.vegStatus == vegStatus) {
-//                    val item = FoodItem(serviceCategoryItem = categoryItem, callback = this)
-//                    foodAdapter.add(item)
-//                }
-//            }
-//        }
     }
 
     private fun addMealTimings(vegOnly: Boolean, nonVegOnly: Boolean) {
@@ -353,6 +348,28 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
         foodAdapter.add(titleItem)
         foodAdapter.addAll(mealTimingItem)
         foodAdapter.add(mealTypeItem)
+    }
+
+    override fun onCartBarClick() {
+        val list = arrayListOf<CartRequest>()
+        for (i in 0 until cartList.size) {
+            val item = CartRequest(
+                id = cartList[i].id,
+                quantity = cartList[i].quantity
+            )
+            list.add(item)
+        }
+
+        viewModel.addSavedCart(list, tag.orEmpty())
+
+        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG) == null) {
+            val fragment = CartFragment.newInstance(TAG, list)
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(AnimationDirection.End)
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun onIncreaseSearchItemClicked(serviceCategoryItem: ServiceCategoryItemDto) {
@@ -410,29 +427,45 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
         }
 
         // Calculate total price and item count
-        cartList.forEach {
-            itemCount += it.quantity
-            totalPrice += (it.price.orZero() * it.quantity)
+        cartList.forEach { serviceCategoryItem ->
+            itemCount += serviceCategoryItem.quantity
+            totalPrice += (serviceCategoryItem.price.orZero() * serviceCategoryItem.quantity)
         }
 
         // Set visibilty and data of cartBar
         if (cartList.size != 0) {
             cartBarView.visible()
+            cartBarViewVisible = true
             flCartBar.visible()
             cartBarView.setItemPrice(totalPrice = totalPrice, items = itemCount)
         } else {
             cartBarView.gone()
+            cartBarViewVisible = false
             flCartBar.gone()
         }
     }
 
-    private fun getItemCount(list: List<ServiceCategoryDto>, vegStatus: Int): Int {
+    private fun setCartItems() {
+        var itemCount = 0
+        var totalPrice = 0.0
+
+        // Calculate total price and item count
+        cartList.forEach { serviceCategoryItem ->
+            itemCount += serviceCategoryItem.quantity
+            totalPrice += (serviceCategoryItem.price.orZero() * serviceCategoryItem.quantity)
+        }
+
+        cartBarView.visible()
+        cartBarViewVisible = true
+        flCartBar.visible()
+        cartBarView.setItemPrice(totalPrice = totalPrice, items = itemCount)
+    }
+
+    private fun getItemCount(list: List<ServiceCategoryItemDto>, vegStatus: Int): Int {
         var count = 0
-        list.forEach { serviceCategory ->
-            serviceCategory.itemsArr?.forEach { serviceCategoryItem ->
-                if (vegStatus == ALL || serviceCategoryItem.vegStatus == vegStatus) {
-                    count += 1
-                }
+        list.forEach { serviceCategoryItem ->
+            if (vegStatus == ALL || serviceCategoryItem.vegStatus == vegStatus) {
+                count += 1
             }
         }
         return count
@@ -441,4 +474,54 @@ class FoodListFragment : DaggerBaseFragment(), FoodItem.Callback,
     private fun scrollToPosition(position: Int) {
         rvFood.scrollToPosition(position)
     }
+
+    private fun getInitialItemCount(list: List<ServiceCategoryDto>, vegStatus: Int): Int {
+        var count = 0
+        list.forEach { serviceCategory ->
+            serviceCategory.itemsArr?.forEach { serviceCategoryItem ->
+                if (vegStatus == ALL || serviceCategoryItem.vegStatus == vegStatus) {
+                    count += 1
+                }
+            }
+        }
+
+        return count
+    }
+
+    private fun setMenuList(type: Int? = null) {
+        menuList.clear()
+
+        serviceCategoryList.forEach { serviceCategory ->
+            val title = serviceCategory.categoryName.orEmpty()
+            var number = if (type == VEG || type == NON_VEG) {
+                var count = 0
+                serviceCategory.itemsArr?.forEach { serviceCategoryItem ->
+                    if (serviceCategoryItem.vegStatus == type) {
+                        count += 1
+                    }
+                }
+                count
+            } else {
+                serviceCategory.itemsArr?.size.orZero()
+            }
+
+            if (number != 0) {
+                menuList.add(
+                    MenuDialogItem(
+                        title = title,
+                        number = number
+                    )
+                )
+            }
+        }
+
+        if (menuList.size == 0) {
+            menuList.add(
+                MenuDialogItem(
+                    title = "No Items Available", number = 0
+                )
+            )
+        }
+    }
+
 }

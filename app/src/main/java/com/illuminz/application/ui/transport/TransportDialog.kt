@@ -17,7 +17,7 @@ class TransportDialog : DaggerBaseDialogFragment() {
         }
     }
 
-    override fun getLayoutResId(): Int = R.layout.dialog_transport
+    override fun getLayoutResId(): Int = R.layout.dialog_transport_old
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)

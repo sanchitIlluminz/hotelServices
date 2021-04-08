@@ -136,4 +136,6 @@
     <string name="cart_bar_view_title_label">Review your order</string>
     <string name="item_no_search_result_title">No Results found</string>
     <string name="fragment_massage_list_schedule_my_appointment">Schedule my appointment</string>
+    <string name="fragment_housekeeping_title">Housekeeping</string>
+    <string name="fragment_housekeeping_enter_your_item">Enter your item</string>
 </resources>

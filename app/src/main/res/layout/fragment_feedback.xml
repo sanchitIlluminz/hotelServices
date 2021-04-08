@@ -31,10 +31,10 @@
         android:fontFamily="@font/inter_medium"
         android:textSize="@dimen/text_large"
         android:textColor="@color/text_color"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginStart="@dimen/app_margin_1"
+        android:layout_marginEnd="@dimen/app_margin_1"
         android:text="@string/rate_your_experience_with_us"
-        android:layout_marginTop="@dimen/spacing_screen_horizontal"
+        android:layout_marginTop="@dimen/app_margin"
         android:layout_below="@id/ivDivider"/>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -45,9 +45,9 @@
         android:orientation="horizontal"
         tools:listitem="@layout/item_feedback_rating"
         android:layout_marginStart="@dimen/app_margin_half"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal"
+        android:layout_marginEnd="@dimen/app_margin"
         tools:itemCount="5"
-        android:layout_marginTop="@dimen/spacing_screen_horizontal"
+        android:layout_marginTop="@dimen/app_margin"
         android:layout_below="@id/tvTitle"/>
 
     <TextView
@@ -71,8 +71,8 @@
         android:fontFamily="@font/inter_medium"
         android:textSize="@dimen/text_large"
         android:textColor="@color/text_color"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginStart="@dimen/app_margin_1"
+        android:layout_marginEnd="@dimen/app_margin_1"
         android:text="@string/anything_that_can_be_improved"
         android:layout_marginTop="36dp"
         android:layout_below="@id/rvFeedback"/>
@@ -82,10 +82,10 @@
         style="@style/AppTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginStart="@dimen/app_margin_1"
+        android:layout_marginEnd="@dimen/app_margin_1"
         android:layout_below="@id/tvFeedbackQ"
-        android:layout_marginTop="@dimen/spacing_screen_horizontal"
+        android:layout_marginTop="@dimen/app_margin"
         android:layout_above="@id/btSubmitFeedback">
 
         <com.core.ui.custom.ClearFocusTextInputEditText
@@ -108,9 +108,9 @@
         android:layout_alignParentBottom="true"
         style="@style/AppButton.Unelivated.PrimaryButton"
         android:text="@string/submit_feedback"
-        android:layout_marginBottom="@dimen/spacing_screen_horizontal"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginBottom="@dimen/app_margin"
+        android:layout_marginStart="@dimen/app_margin_1"
+        android:layout_marginEnd="@dimen/app_margin_1"
         />
 
 </RelativeLayout>

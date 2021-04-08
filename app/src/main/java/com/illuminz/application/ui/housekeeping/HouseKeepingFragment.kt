@@ -1,66 +1,112 @@
-package com.illuminz.application.ui.housekeeping;
+package com.illuminz.application.ui.housekeeping
 
-import android.os.Bundle;
+import com.core.ui.base.DaggerBaseFragment
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.core.extensions.isNetworkActiveWithMessage
+import com.illuminz.application.R
+import com.illuminz.application.ui.housekeeping.items.HouseKeepingItem
+import com.illuminz.application.ui.laundry.LaundryFragment
+import com.illuminz.data.models.common.Status
+import com.illuminz.data.models.response.ServiceCategoryItemDto
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import kotlinx.android.synthetic.main.fragment_house_keeping.*
+import javax.inject.Inject
 
-import androidx.fragment.app.Fragment;
+class HouseKeepingFragment : DaggerBaseFragment() {
+    companion object{
+        const val TAG = "HouseKeepingFragment"
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+        private const val KEY_SERVICE_ID = "KEY_SERVICE_ID"
+        private const val KEY_service_TAG = "KEY_TAG"
 
-import com.illuminz.application.R;
+        private const val FLIPPER_CHILD_RESULT = 0
+        private const val FLIPPER_CHILD_LOADING = 1
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HouseKeepingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class HouseKeepingFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public HouseKeepingFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HouseKeepingFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HouseKeepingFragment newInstance(String param1, String param2) {
-        HouseKeepingFragment fragment = new HouseKeepingFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        fun newInstance(serviceId: String, serviceTag: String): HouseKeepingFragment{
+            val fragment = HouseKeepingFragment()
+            val arguments = Bundle()
+            arguments.putString(KEY_SERVICE_ID, serviceId)
+            arguments.putString(KEY_service_TAG, serviceTag)
+            fragment.arguments = arguments
+            return fragment
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_house_keeping, container, false);
+    private lateinit var serviceId :String
+    private lateinit var serviceTag :String
+
+    private lateinit var adapter:GroupAdapter<GroupieViewHolder>
+
+    private val viewModel by lazy {
+        ViewModelProvider(this,viewModelFactory) [HouseKeepingViewModel::class.java]
+    }
+
+    override fun getLayoutResId(): Int = R.layout.fragment_house_keeping
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initialise()
+        setObservers()
+        setListener()
+    }
+
+    private fun initialise() {
+        serviceId = requireArguments().getString(KEY_SERVICE_ID).orEmpty()
+        serviceTag = requireArguments().getString(KEY_service_TAG).orEmpty()
+
+        adapter = GroupAdapter()
+        rvHouseKeeping.adapter = adapter
+
+        if (requireContext().isNetworkActiveWithMessage()){
+            viewModel.getHouseKeeping(serviceId, serviceTag)
+        }
+
+        val item = listOf(
+            HouseKeepingItem(title = "Dental Kit"),
+            HouseKeepingItem(title = "Shower Kit"),
+            HouseKeepingItem(title = "Shaving Kit"),
+            HouseKeepingItem(title = "Room Cleaning"),
+            HouseKeepingItem(title = "Others")
+        )
+        adapter.addAll(item)
+    }
+
+    private fun setListener() {
+        toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
+    }
+
+    private fun setObservers() {
+        viewModel.getHouseObserver().observe(viewLifecycleOwner, Observer { resource ->
+            when(resource.status){
+                Status.LOADING ->{
+                   viewFlipper.displayedChild = FLIPPER_CHILD_LOADING
+                }
+
+                Status.SUCCESS ->{
+                    viewFlipper.displayedChild = FLIPPER_CHILD_RESULT
+//                    resource.data?.let { setBasicData(it)  }
+                }
+
+                Status.ERROR ->{
+                    viewFlipper.displayedChild = FLIPPER_CHILD_RESULT
+                }
+            }
+        })
+    }
+
+    private fun setBasicData(list: List<ServiceCategoryItemDto>) {
+//        list.forEachIndexed{index, serviceCategoryItem ->
+//            adapter.add(
+//                HouseKeepingItem(title = serviceCategoryItem.title)
+//            )
+//        }
     }
 }

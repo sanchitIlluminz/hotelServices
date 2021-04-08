@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            android:paddingBottom="@dimen/spacing_screen_horizontal"
+            android:paddingBottom="@dimen/app_margin"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="6"
             tools:listitem="@layout/items_massage" />

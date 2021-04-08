@@ -35,6 +35,7 @@ class MassageListFragment : DaggerBaseFragment(), MassageItem.Callback,
 
         private const val FLIPPER_CHILD_RESULT =0
         private const val FLIPPER_CHILD_LOADING =1
+
         fun newInstance(serviceId: String, serviceTag: String): MassageListFragment{
             val fragment =  MassageListFragment()
             val arguments = Bundle()
@@ -121,7 +122,6 @@ class MassageListFragment : DaggerBaseFragment(), MassageItem.Callback,
         list.forEach { serviceCategory ->
             massageAdapter.add(MassageItem(serviceCategory,this))
         }
-
         massageList.addAll(list)
     }
 
@@ -139,14 +139,14 @@ class MassageListFragment : DaggerBaseFragment(), MassageItem.Callback,
             list.add(item)
         }
 
-        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG) == null) {
-            val fragment = CartFragment.newInstance(TAG, list)
-            parentFragmentManager.beginTransaction()
-                .setCustomAnimations(AnimationDirection.End)
-                .add(R.id.fragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
+//        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG) == null) {
+//            val fragment = CartFragment.newInstance(TAG, list)
+//            parentFragmentManager.beginTransaction()
+//                .setCustomAnimations(AnimationDirection.End)
+//                .add(R.id.fragmentContainer, fragment)
+//                .addToBackStack(null)
+//                .commit()
+//        }
     }
 
     override fun onIncreaseMassageItemClicked(massageItem: MassageItem) {
@@ -218,9 +218,9 @@ class MassageListFragment : DaggerBaseFragment(), MassageItem.Callback,
         }
 
         // Calculate total price and item count
-        cartList.forEach {
-            itemCount += it.quantity
-            totalPrice += (it.price.orZero() * it.quantity)
+        cartList.forEach {  serviceCategoryItem ->
+            itemCount += serviceCategoryItem.quantity
+            totalPrice += (serviceCategoryItem.price.orZero() * serviceCategoryItem.quantity)
         }
 
         // Set visibilty and data of cartBar

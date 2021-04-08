@@ -1,4 +1,4 @@
-package com.illuminz.application.ui.food.items
+package com.illuminz.application.ui.cart.items
 
 import com.core.extensions.gone
 import com.core.extensions.orZero
@@ -8,29 +8,29 @@ import com.illuminz.application.ui.custom.AddMenuItemView
 import com.illuminz.application.ui.food.FoodListFragment
 import com.illuminz.application.ui.laundry.LaundryFragment
 import com.illuminz.application.utils.QuantityChangedPayload
-import com.illuminz.data.models.response.ServiceCategoryItemDto
+import com.illuminz.data.models.response.CartItemDto
 import com.illuminz.data.utils.CurrencyFormatter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_food_cart.view.*
 
 class CartItem(
-    val serviceCategoryItem: ServiceCategoryItemDto,
+    val itemDetails: CartItemDto,
     var callback: Callback,
     private val fragmentTag: String? = null
 ) : Item(), AddMenuItemView.Callback {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.firstOrNull() == QuantityChangedPayload) {
-            viewHolder.itemView.quantityView.setQuantity(serviceCategoryItem.quantity, true)
+            viewHolder.itemView.quantityView.setQuantity(itemDetails.quantity.orZero(), true)
             if (fragmentTag!=LaundryFragment.TAG) {
                 viewHolder.itemView.tvPrice.text = CurrencyFormatter.format(
-                    amount = serviceCategoryItem.price.orZero() * serviceCategoryItem.quantity.toDouble(),
+                    amount = itemDetails.price.orZero() * itemDetails.quantity.orZero().toDouble(),
                     currencyCode = "INR"
                 )
             } else {
                 viewHolder.itemView.tvPrice.text = CurrencyFormatter.format(
-                    amount = getPrice() * serviceCategoryItem.quantity.toDouble(),
+                    amount = getPrice() * itemDetails.quantity.orZero().toDouble(),
                     currencyCode = "INR"
                 )
             }
@@ -41,16 +41,16 @@ class CartItem(
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.apply {
-            tvTitle.text = serviceCategoryItem.itemName
+            tvTitle.text = itemDetails.itemName
             var price = 0.0
             quantityView.setCallback(this@CartItem)
-            quantityView.setQuantity(serviceCategoryItem.quantity, false)
+            quantityView.setQuantity(itemDetails.quantity.orZero(), false)
 
             when (fragmentTag) {
                 FoodListFragment.TAG -> {
                     ivFoodType.visible()
                     ivFoodType.setImageResource(R.drawable.ic_vegsymbol)
-                    price = serviceCategoryItem.price.orZero().toDouble()
+                    price = itemDetails.price.orZero()
                 }
                 LaundryFragment.TAG -> {
                     ivFoodType.gone()
@@ -59,11 +59,11 @@ class CartItem(
 
                 else -> {
                     ivFoodType.gone()
-                    price = serviceCategoryItem.price.orZero().toDouble()
+                    price = itemDetails.price.orZero()
                 }
             }
             tvPrice.text = CurrencyFormatter.format(
-                amount = price * serviceCategoryItem.quantity.toDouble(),
+                amount = price * itemDetails.quantity.orZero().toDouble(),
                 currencyCode = "INR"
             )
         }
@@ -73,39 +73,39 @@ class CartItem(
 
     interface Callback {
         fun onIncreaseCartItemClicked(
-            serviceCategoryItem: ServiceCategoryItemDto,
+            cartItem: CartItemDto,
             laundryItem: Boolean = false
         )
 
         fun onDecreaseCartItemClicked(
-            serviceCategoryItem: ServiceCategoryItemDto,
+            cartItem: CartItem,
             laundryItem: Boolean = false
         )
     }
 
     override fun onIncreaseMenuItemQuantityClicked() {
-        notifyChanged(QuantityChangedPayload)
-        serviceCategoryItem.quantity += 1
+//        notifyChanged(QuantityChangedPayload)
+        itemDetails.quantity = itemDetails.quantity?.plus(1)
         if (fragmentTag == LaundryFragment.TAG)
-            callback.onIncreaseCartItemClicked(serviceCategoryItem, true)
+            callback.onIncreaseCartItemClicked(itemDetails, true)
         else
-            callback.onIncreaseCartItemClicked(serviceCategoryItem)
+            callback.onIncreaseCartItemClicked(itemDetails)
     }
 
     override fun onDecreaseMenuItemQuantityClicked() {
-        notifyChanged(QuantityChangedPayload)
-        serviceCategoryItem.quantity -= 1
+        itemDetails.quantity = itemDetails.quantity?.minus(1)
         if (fragmentTag == LaundryFragment.TAG)
-            callback.onDecreaseCartItemClicked(serviceCategoryItem, true)
+            callback.onDecreaseCartItemClicked(this@CartItem, true)
         else
-            callback.onDecreaseCartItemClicked(serviceCategoryItem)
+            callback.onDecreaseCartItemClicked(this@CartItem)
     }
 
     private fun getPrice(): Double {
-        return if (serviceCategoryItem.ironingPrice != null) {
-            serviceCategoryItem.ironingPrice.orZero()
-        } else {
-            serviceCategoryItem.washIroningPrice.orZero()
-        }
+//        return if (cartItem.ironingPrice != null) {
+//            cartItem.ironingPrice.orZero()
+//        } else {
+//            cartItem.washIroningPrice.orZero()
+//        }
+        return 0.0
     }
 }

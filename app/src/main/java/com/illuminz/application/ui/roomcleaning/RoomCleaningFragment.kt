@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.PopupWindow
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.core.ui.base.DaggerBaseFragment
@@ -21,12 +22,14 @@ import kotlinx.android.synthetic.main.fragment_room_cleaning.*
 class RoomCleaningFragment : DaggerBaseFragment() {
     companion object {
         const val TAG = "RoomCleaningFragment"
+
         fun newInstance(): RoomCleaningFragment {
             return RoomCleaningFragment()
         }
     }
 
     private val scheduleTimings = listOf("10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM")
+
     private lateinit var cleaningPopup: PopupWindow
 
     override fun getLayoutResId(): Int = R.layout.fragment_room_cleaning
@@ -38,7 +41,6 @@ class RoomCleaningFragment : DaggerBaseFragment() {
     }
 
     private fun setListeners() {
-
         toolbar.setNavigationOnClickListener {
             activity?.onBackPressed()
         }
@@ -46,36 +48,19 @@ class RoomCleaningFragment : DaggerBaseFragment() {
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.rbNow -> {
-                    tvSelectedTimeLabel.setTextColor(resources.getColor(R.color.colorPrimary))
-                    tvSelectedTime.setTextColor(resources.getColor(R.color.colorPrimary))
-
+                    tvSelectedTimeLabel.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorPrimary))
+                    tvSelectedTime.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorPrimary))
                     tvSelectedTime.isEnabled = false
-//                    spnSelectedTime.isEnabled = false
                 }
                 else -> {
-                    tvSelectedTimeLabel.setTextColor(resources.getColor(R.color.sub_heading_text_color_1))
-                    tvSelectedTime.setTextColor(resources.getColor(R.color.text_color_2))
+                    tvSelectedTimeLabel.setTextColor(ContextCompat.getColor(requireContext(),R.color.sub_heading_text_color_1))
+                    tvSelectedTime.setTextColor(ContextCompat.getColor(requireContext(),R.color.text_color_2))
                     tvSelectedTime.isEnabled = true
-//                    spnSelectedTime.isEnabled = true
                 }
             }
         }
 
         tvSelectedTime.setOnClickListener {
-
-//            AppAlertDialogBuilder(requireContext(),lifecycle)
-//                .setTitle(getString(R.string.choose_title))
-//                .setItems(scheduleTimings){ _, position ->
-//                    tvSelectedTime.setText(scheduleTimings.get(position))
-//                }
-//                .create()
-//                .show()
-//
-//            view?.hideKeyboard()
-
-//            spnSelectedTime.performClick()
-//            spnSelectedTime.visible()
-
             cleaningPopup = showPopupWindow()
             cleaningPopup.run {
                 isOutsideTouchable = true
@@ -83,23 +68,7 @@ class RoomCleaningFragment : DaggerBaseFragment() {
                 setBackgroundDrawable(ColorDrawable(Color.WHITE))
                 showAsDropDown(tvSelectedTime)
             }
-
         }
-//        spnSelectedTime.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(
-//                parent: AdapterView<*>?,
-//                view: View?,
-//                position: Int,
-//                id: Long
-//            ) {
-//                tvSelectedTime.setText(spnSelectedTime.selectedItem.toString())
-//                spnSelectedTime.gone()
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {
-//                spnSelectedTime.gone()
-//            }
-//        }
 
         btOrderNow.setOnClickListener {
             showConfirmationDialog(
@@ -113,7 +82,6 @@ class RoomCleaningFragment : DaggerBaseFragment() {
         val dialog = context?.let { Dialog(it) }
 
         dialog?.run {
-
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(false)
             val contentView = View.inflate(requireContext(), R.layout.dialog_confirm, null)
@@ -135,22 +103,13 @@ class RoomCleaningFragment : DaggerBaseFragment() {
         }
     }
 
-    private fun initialise() {
-//        val adapter =
-//            ArrayAdapter(requireContext(), R.layout.spinner_item, R.id.tvTime, scheduleTimings)
-//
-//        spnSelectedTime?.adapter = adapter
-//        adapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
-    }
-
+    private fun initialise() {}
 
     fun showPopupWindow(): PopupWindow {
-
         val view = View.inflate(requireContext(), R.layout.popup_cleaning_time, null)
         val recyclerView = view.findViewById<RecyclerView>(R.id.rvPopupCleaning)
 
-        val adapter:GroupAdapter<GroupieViewHolder> = GroupAdapter()
-
+        val adapter: GroupAdapter<GroupieViewHolder> = GroupAdapter()
         recyclerView.adapter = adapter
 
         scheduleTimings.forEach {
@@ -159,17 +118,20 @@ class RoomCleaningFragment : DaggerBaseFragment() {
         }
 
         adapter.setOnItemClickListener { item, view ->
-            if (item is PopupCleaningItem){
+            if (item is PopupCleaningItem) {
                 tvSelectedTime.text = item.time
                 cleaningPopup.let {
-                    if(it.isShowing){
+                    if (it.isShowing) {
                         it.dismiss()
                     }
                 }
             }
         }
 
-        return PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
+        return PopupWindow(
+            view,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 }

@@ -4,10 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.core.di.ViewModelFactory
 import com.core.di.ViewModelKey
+import com.illuminz.application.ui.cart.CartViewModel
 import com.illuminz.application.ui.food.FoodViewModel
 import com.illuminz.application.ui.home.ServicesViewModel
+import com.illuminz.application.ui.housekeeping.HouseKeepingViewModel
 import com.illuminz.application.ui.laundry.LaundryViewModel
 import com.illuminz.application.ui.massage.MassageViewModel
+import com.illuminz.application.ui.nearbyplaces.NearbyViewModel
 import com.illuminz.application.ui.welcome.WelcomeViewModel
 import dagger.Binds
 import dagger.Module
@@ -39,6 +42,21 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MassageViewModel::class)
     abstract fun massageViewModel(viewModel: MassageViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HouseKeepingViewModel::class)
+    abstract fun houseKeepingViewModel(viewModel: HouseKeepingViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NearbyViewModel::class)
+    abstract fun nearbyViewModel(viewModel: NearbyViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CartViewModel::class)
+    abstract fun cartViewModel(viewModel: CartViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

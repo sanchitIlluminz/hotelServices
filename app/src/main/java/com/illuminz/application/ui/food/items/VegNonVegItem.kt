@@ -15,16 +15,15 @@ class VegNonVegItem(
             cbVeg.isChecked = isVegOnly
             cbNonVeg.isChecked = isNonVegOnly
 
-            cbVeg.setOnCheckedChangeListener { buttonView, isChecked ->
+            cbVeg.setOnCheckedChangeListener { _, isChecked ->
                 isVegOnly = isChecked
                 callback.vegOnlyClickListener(isVegOnly, isNonVegOnly)
             }
 
-            cbNonVeg.setOnCheckedChangeListener { buttonView, isChecked ->
+            cbNonVeg.setOnCheckedChangeListener { _, isChecked ->
                 isNonVegOnly =isChecked
                 callback.vegOnlyClickListener(isVegOnly, isNonVegOnly)
             }
-
         }
     }
 

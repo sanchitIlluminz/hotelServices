@@ -40,7 +40,7 @@
                 android:text="Enter number of days"
                 android:textColor="@color/dialog_text_color"
                 android:textSize="@dimen/text_large"
-                app:lineHeight="@dimen/spacing_screen_horizontal_2" />
+                app:lineHeight="@dimen/app_margin_1" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilFeedback"
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tilFeedback"
-                android:layout_marginTop="@dimen/spacing_screen_horizontal"
+                android:layout_marginTop="@dimen/app_margin"
                 android:text="@string/confirm"
                 android:visibility="visible" />
         </RelativeLayout>

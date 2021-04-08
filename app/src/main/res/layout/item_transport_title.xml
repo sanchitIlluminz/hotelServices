@@ -10,7 +10,7 @@
     tools:text="Please check places where you want to go or Click Other Place"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:layout_marginTop="@dimen/spacing_screen_horizontal"
+    android:layout_marginTop="@dimen/app_margin"
     android:layout_marginBottom="12dp">
 
 </TextView>

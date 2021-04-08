@@ -27,6 +27,12 @@ data class ServiceCategoryItemDto(
     @field:SerializedName("serviceId")
     val serviceId: String? = null,
 
+    @field:SerializedName("distance")
+    val distance: String? = null,
+
+    @field:SerializedName("gallery")
+    val gallery: List<String>? = null,
+
     @field:SerializedName("categoryName")
     val categoryName: String? = null,
 
@@ -52,4 +58,4 @@ data class ServiceCategoryItemDto(
     val washIroningPrice: Double? = null,
 
     var quantity: Int = 0
-):Parcelable
+) : Parcelable

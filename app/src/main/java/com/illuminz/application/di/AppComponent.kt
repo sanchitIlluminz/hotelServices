@@ -17,6 +17,7 @@ import javax.inject.Singleton
         ContextModule::class,
         RepositoryModule::class,
         ErrorModule::class,
+        DatabaseBindingModule::class,
         AndroidSupportInjectionModule::class]
 )
 @Singleton

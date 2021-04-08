@@ -119,8 +119,8 @@
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal"
+        android:layout_marginStart="@dimen/app_margin"
+        android:layout_marginEnd="@dimen/app_margin"
         android:layout_weight="1.2">
 
         <TextView

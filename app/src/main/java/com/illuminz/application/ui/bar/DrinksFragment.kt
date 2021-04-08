@@ -23,12 +23,14 @@ class DrinksFragment : DaggerBaseFragment(), DrinkItem.Callback, DrinkDialog.Cal
     CartBarView.Callback {
     companion object {
         const val TAG = "DrinksFragment"
+
         fun newInstance(): DrinksFragment {
             return DrinksFragment()
         }
     }
 
     private lateinit var barAdapter: GroupAdapter<GroupieViewHolder>
+
     private var itemSelected: Int? = 0
     private var totalPrice: Double = 0.00
 

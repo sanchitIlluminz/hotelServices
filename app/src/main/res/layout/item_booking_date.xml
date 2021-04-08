@@ -16,9 +16,9 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_regular"
         android:gravity="center"
-        android:paddingStart="@dimen/spacing_screen_horizontal_2"
+        android:paddingStart="@dimen/app_margin_1"
         android:paddingTop="8dp"
-        android:paddingEnd="@dimen/spacing_screen_horizontal_2"
+        android:paddingEnd="@dimen/app_margin_1"
         android:textColor="@color/text_color_3"
         android:textSize="@dimen/text_medium"
         tools:text="Jan" />

@@ -35,47 +35,34 @@ class BookTableFragment : DaggerBaseFragment() {
 
     private lateinit var hourAdapter: GroupAdapter<GroupieViewHolder>
     private lateinit var minutesAdapter: GroupAdapter<GroupieViewHolder>
+    private lateinit var calendarAdapter: GroupAdapter<GroupieViewHolder>
 
     private var selectedHourPosition = 0
     private var selectedMinutePosition = 0
 
     private var selectedHourItem:BookingTimeItem? = null
-
-    private lateinit var calendarAdapter: GroupAdapter<GroupieViewHolder>
-    private lateinit var itemList: List<BookingDateItem>
     private var selectedBookingDateItem: BookingDateItem? = null
+
+    private lateinit var itemList: List<BookingDateItem>
+
     private var guestNumber:Int =1
 
     private lateinit var hrList1:ArrayList<Int>
     private lateinit var hrList2:ArrayList<Int>
     private lateinit var hrList3:ArrayList<Int>
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initialise()
         setListeners()
     }
 
     private fun initialise() {
-//        viewpager.adapter = TimeViewPager(childFragmentManager, lifecycle)
-
         tvGuestNumber.text = guestNumber.toString()
-
-//        TabLayoutMediator(tabs, viewpager) { tab, position ->
-//            when (position) {
-//                0 -> tab.text = getString(R.string.breakfast)
-//                1 -> tab.text = getString(R.string.lunch)
-//                2 -> tab.text = getString(R.string.dinner)
-//            }
-//        }.attach()
-
-
-//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.breakfast)),0)
-//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.lunch)),1)
-//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.dinner)),2)
 
         calendarAdapter = GroupAdapter()
         rvCalendar.adapter = calendarAdapter
+
         itemList = listOf(
             BookingDateItem(date = "25", day = "Thu", selected = true).also {
                 selectedBookingDateItem = it
@@ -87,7 +74,6 @@ class BookTableFragment : DaggerBaseFragment() {
         )
 
         calendarAdapter.addAll(itemList)
-
 
         hrList1 = arrayListOf(9, 10, 11)
         hrList2 = arrayListOf(1, 2, 3)
@@ -125,10 +111,7 @@ class BookTableFragment : DaggerBaseFragment() {
             hourAdapter.add(hrItem)
         }
 
-
-
         minutesAdapter = GroupAdapter()
-
         rvMin.adapter = minutesAdapter
         rvMin.clipToPadding = false
         rvMin.setPadding(0, padding, 0, padding)
@@ -136,13 +119,11 @@ class BookTableFragment : DaggerBaseFragment() {
             callback = object : SliderLayoutManager.OnItemSelectedListener {
                 override fun onItemSelected(layoutPosition: Int) {
                     selectedMinutePosition = layoutPosition
-
                 }
             }
         }
 
         var min = 0
-
         for (i in 0..60) {
             val minItem = BookingTimeItem(min)
             minutesAdapter.add(minItem)
@@ -164,7 +145,6 @@ class BookTableFragment : DaggerBaseFragment() {
 
             showDialog( getString(R.string.reservation_confirmed),
                 "7 Dec, 10:20 AM, 4 Guests")
-
         }
 
         calendarAdapter.setOnItemClickListener { item, _ ->
@@ -174,7 +154,6 @@ class BookTableFragment : DaggerBaseFragment() {
 
                 selectedBookingDateItem?.selected = false
                 selectedBookingDateItem?.notifyChanged()
-
                 selectedBookingDateItem = item
             }
         }
@@ -191,29 +170,6 @@ class BookTableFragment : DaggerBaseFragment() {
                 tvGuestNumber.setText(guestNumber.toString())
 
         }
-
-//        tabLayout.setOnTabSelectedListener(object : OnTabSelectedListener {
-//            override fun onTabSelected(tab: TabLayout.Tab) {
-//
-//                when (tabLayout.selectedTabPosition) {
-//                    0 -> {
-//                        setHourAdapterItems(hrList1,getString(R.string.am))
-//                    }
-//
-//                    1 -> {
-//                        setHourAdapterItems(hrList2,getString(R.string.pm))
-//                    }
-//
-//                    else -> {
-//                        setHourAdapterItems(hrList3,getString(R.string.pm))
-//                    }
-//                }
-//
-//            }
-//
-//            override fun onTabUnselected(tab: TabLayout.Tab) {}
-//            override fun onTabReselected(tab: TabLayout.Tab) {}
-//        })
 
         hourAdapter.setOnItemClickListener { _, view ->
             rvHour.smoothScrollToPosition(rvHour.getChildLayoutPosition(view))
@@ -243,7 +199,6 @@ class BookTableFragment : DaggerBaseFragment() {
         val dialog = context?.let { Dialog(it) }
 
         dialog?.run {
-
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(false)
             setContentView(R.layout.dialog_confirm)

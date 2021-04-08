@@ -6,8 +6,8 @@
     android:background="@color/colorPrimaryDark"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
-    android:paddingStart="@dimen/spacing_screen_horizontal"
-    android:paddingEnd="@dimen/spacing_screen_horizontal"
+    android:paddingStart="@dimen/app_margin"
+    android:paddingEnd="@dimen/app_margin"
     android:gravity="center_vertical">
 
 
@@ -33,7 +33,7 @@
         android:layout_alignBaseline="@id/quantityView"
         android:layout_toStartOf="@id/quantityView"
         android:layout_toEndOf="@id/ivFoodType"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal"
+        android:layout_marginEnd="@dimen/app_margin"
         android:gravity="center_vertical"
         android:lineSpacingMultiplier="1.2"
         android:maxLength="90"

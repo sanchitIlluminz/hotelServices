@@ -48,8 +48,8 @@
         style="@style/AppButton.Unelivated.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal"
+        android:layout_marginStart="@dimen/app_margin"
+        android:layout_marginEnd="@dimen/app_margin"
         tools:text="Button" />
 
 </LinearLayout>

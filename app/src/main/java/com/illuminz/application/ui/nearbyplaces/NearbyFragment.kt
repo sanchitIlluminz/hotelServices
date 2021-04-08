@@ -2,66 +2,117 @@ package com.illuminz.application.ui.nearbyplaces
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.core.extensions.isNetworkActiveWithMessage
 import com.core.extensions.setCustomAnimations
 import com.core.ui.base.DaggerBaseFragment
 import com.core.utils.AnimationDirection
 import com.illuminz.application.R
+import com.illuminz.application.ui.food.items.TitleItem
 import com.illuminz.application.ui.nearbyplaces.items.NearbyItem
-import com.illuminz.application.ui.nearbyplaces.items.NearbySubTitleItem
+import com.illuminz.application.ui.nearbyplaces.items.NearbyTitleItem
+import com.illuminz.data.models.common.Status
+import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_nearby.*
+import kotlinx.android.synthetic.main.fragment_nearby.toolbar
 
 class NearbyFragment : DaggerBaseFragment() {
-
     companion object {
         const val TAG ="NearbyFragment"
 
-        private const val  KEY_TITLE= "KEY_TITLE"
-        private const val  KEY_SUBTITLE= "KEY_SUBTITLE"
-        private const val  KEY_LIST_IMAGE= "KEY_LIST_IMAGE"
+        private const val KEY_SERVICE_ID = "KEY_SERVICE_ID"
+        private const val KEY_service_TAG = "KEY_TAG"
 
-        fun newInstance(title: String, subtitle: String, imageList: java.util.ArrayList<String>): NearbyFragment{
+        private const val FLIPPER_CHILD_RESULT = 0
+        private const val FLIPPER_CHILD_LOADING = 1
 
-            val args = Bundle()
-
-            args.putString(KEY_TITLE, title)
-            args.putString(KEY_SUBTITLE, subtitle)
-            args.putStringArrayList(KEY_LIST_IMAGE, imageList)
-
+        fun newInstance(serviceId: String, serviceTag: String): NearbyFragment{
             val fragment = NearbyFragment()
-            fragment.arguments = args
+            val arguments = Bundle()
+            arguments.putString(KEY_SERVICE_ID, serviceId)
+            arguments.putString(KEY_service_TAG, serviceTag)
+            fragment.arguments = arguments
             return fragment
-
         }
     }
 
+    private lateinit var serviceId :String
+    private lateinit var serviceTag :String
+
     private lateinit var  adapter: GroupAdapter<GroupieViewHolder>
-    private lateinit var imageList:ArrayList<String>
+
+    private val viewModel by lazy {
+        ViewModelProvider(this,viewModelFactory) [NearbyViewModel::class.java]
+    }
 
     override fun getLayoutResId(): Int = R.layout.fragment_nearby
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initialise()
         setListeners()
+        setObservers()
+    }
+
+    private fun initialise() {
+        adapter = GroupAdapter()
+        rvNearby.adapter = adapter
+
+        val layoutManager = rvNearby.layoutManager as GridLayoutManager
+        layoutManager.spanSizeLookup = adapter.spanSizeLookup
+
+        serviceId = requireArguments().getString(KEY_SERVICE_ID).orEmpty()
+        serviceTag = requireArguments().getString(KEY_service_TAG).orEmpty()
+
+        if (requireContext().isNetworkActiveWithMessage() && viewModel.nearbyListEmpty()){
+            viewModel.getNearbyPlaces(serviceId, serviceTag)
+        }
+    }
+
+    private fun setObservers() {
+        viewModel.getNearbyObserver().observe(viewLifecycleOwner, Observer { resource ->
+            when(resource.status){
+                Status.LOADING ->{
+                    viewFlipper.displayedChild = FLIPPER_CHILD_LOADING
+                }
+
+                Status.SUCCESS ->{
+                    viewFlipper.displayedChild = FLIPPER_CHILD_RESULT
+                    resource.data?.let {  setBasicData(it) }
+                }
+
+                Status.ERROR ->{
+                    viewFlipper.displayedChild = FLIPPER_CHILD_RESULT
+                }
+            }
+        })
+    }
+
+    private fun setBasicData(list: List<ServiceCategoryItemDto>) {
+        adapter.clear()
+        adapter.add(NearbyTitleItem("Places to visit, Things to do, and more in Mumbai"))
+
+        list.forEach{ serviceCategoryItem ->
+            adapter.add(NearbyItem(serviceCategoryItem))
+        }
     }
 
     private fun setListeners() {
         toolbar.setNavigationOnClickListener {
-            activity?.onBackPressed()
+            requireActivity().onBackPressed()
         }
 
         adapter.setOnItemClickListener { item, view ->
             if (item is NearbyItem){
-
-                if (parentFragmentManager.findFragmentByTag(tag) == null) {
+                if (parentFragmentManager.findFragmentByTag(NearbyGalleryFragment.TAG) == null) {
                     parentFragmentManager.beginTransaction()
                         .setCustomAnimations(AnimationDirection.End)
                         .replace(R.id.fragmentContainer,
-                            NearbyGalleryFragment.newInstance(imageList),
+                            NearbyGalleryFragment.newInstance(item.serviceCategoryItem),
                             NearbyGalleryFragment.TAG)
                         .addToBackStack(NearbyGalleryFragment.TAG)
                         .commit()
@@ -76,71 +127,5 @@ class NearbyFragment : DaggerBaseFragment() {
 //                    .show(childFragmentManager, ConfirmDialog.TAG)
             }
         }
-    }
-
-    private fun initialise() {
-        adapter = GroupAdapter()
-        rvNearby.adapter = adapter
-
-        val layoutManager = rvNearby.layoutManager as GridLayoutManager
-        layoutManager.spanSizeLookup = adapter.spanSizeLookup
-
-        arguments?.getString(KEY_TITLE)?.let { toolbar.title = it }
-
-        val item2 = arguments?.getString(KEY_SUBTITLE)?.let { NearbySubTitleItem(subTitle = it) }
-
-        val item3 = listOf(
-            NearbyItem(image = "https://2.bp.blogspot.com/-kIlA_BjfIqQ/T-CQ8WuaC7I/AAAAAAAAAkE/dTo_8UZxBBU/s1600/Mumbai+322.JPG",
-                        title = "Gate of India Mumbai"),
-            NearbyItem(image = "https://www.visittnt.com/blog/wp-content/uploads/2018/05/Marine-drive.jpg",
-                        title = "Marine Drive"),
-            NearbyItem(image = "https://lp-cms-production.imgix.net/2019-06/99ad019a84817e4bb5248d47c70dd1d2-chhatrapati-shivaji-terminus.jpg",
-                        title = "Chhatrapati Shivaji Maharaj Vast…"),
-            NearbyItem(image = "https://static.toiimg.com/photo/61984337.cms",
-                        title = "Chatrapati Shivaji Termi…"),
-            NearbyItem(image = "https://www.fabhotels.com/blog/wp-content/uploads/2019/06/Haji-Ali-Dargah_600-1280x720.jpg",
-                        title = "Haji Ali Dargah"),
-            NearbyItem(image = "https://upload.wikimedia.org/wikipedia/commons/6/62/Mumbai_Dhobi_Ghat_Laundry_District.JPG",
-                        title = "Dhobi Ghat, Mumbai")
-        )
-
-        if (item2 != null) {
-            adapter.add(item2)
-        }
-        arguments?.getStringArrayList(KEY_LIST_IMAGE)?.let {
-            it.forEach { item ->
-                val nearbyItem = NearbyItem(image = item, title = "title")
-                adapter.add(nearbyItem)
-            }
-        }
-//        adapter.addAll(item3)
-
-
-        imageList = arrayListOf("https://blog.architizer.com/wp-content/uploads/Heydar-ALiyev-Center-in-Baku_cropped.jpg",
-                                "https://www.touropia.com/gfx/d/best-places-to-visit-in-india/amritsar.jpg?v=1",
-                                "https://www.planetware.com/photos-large/IND/india-top-attractions-jaisalmer.jpg",
-                                "https://www.planetware.com/wpimages/2019/11/india-best-places-to-visit-agra.jpg",
-                                "https://static.toiimg.com/photo/54599572.cms",
-                                "https://www.transindiatravels.com/wp-content/uploads/the-red-fort-delhi.jpg",
-                                "https://img.traveltriangle.com/blog/wp-content/uploads/2017/01/Untitled-design-4.jpg",
-                                "https://www.indianholiday.com/images/travel-destination/delhi.jpg",
-                                "https://www.holidify.com/images/tooltipImages/MUNNAR.jpg",
-                                "https://www.touropia.com/gfx/d/tourist-attractions-in-india/hawa_mahal.jpg?v=1",
-                                "https://www.transindiatravels.com/wp-content/uploads/gateway-of-india-mumbai.jpg",
-            "https://static.toiimg.com/photo/67977105/4.jpg?width=748&resize=4",
-            "https://cdn.cnn.com/cnnnext/dam/assets/181010131059-australia-best-beaches-cossies-beach-cocos3.jpg",
-            "https://static.toiimg.com/photo/32791811.cms",
-            "https://www.history.com/.image/t_share/MTU3ODc5MDg3NTA5MDg3NTYx/taj-mahal-2.jpg",
-            "https://i1.wp.com/www.omanobserver.om/wp-content/uploads/2019/11/Sea-coast.jpg?fit=1500%2C840&ssl=1",
-            "https://api.timeforkids.com/wp-content/uploads/2017/08/170227012793_hero.jpg",
-            "https://static.toiimg.com/photo/67977105/4.jpg?width=748&resize=4",
-            "https://static.toiimg.com/photo/67977105/4.jpg?width=748&resize=4",
-            "https://cdn.cnn.com/cnnnext/dam/assets/181010131059-australia-best-beaches-cossies-beach-cocos3.jpg",
-            "https://static.toiimg.com/photo/32791811.cms",
-            "https://www.history.com/.image/t_share/MTU3ODc5MDg3NTA5MDg3NTYx/taj-mahal-2.jpg",
-            "https://i1.wp.com/www.omanobserver.om/wp-content/uploads/2019/11/Sea-coast.jpg?fit=1500%2C840&ssl=1",
-            "https://api.timeforkids.com/wp-content/uploads/2017/08/170227012793_hero.jpg",
-            "https://static.toiimg.com/photo/67977105/4.jpg?width=748&resize=4")
-
     }
 }

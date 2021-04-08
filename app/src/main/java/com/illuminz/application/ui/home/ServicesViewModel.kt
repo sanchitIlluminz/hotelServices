@@ -13,7 +13,11 @@ class ServicesViewModel @Inject constructor(
 ) :BaseViewModel(){
 
     private val servicesObserver by lazy { SingleLiveEvent<Resource<List<ServiceDto>>>() }
+
     private lateinit var serviceList : List<ServiceDto>
+
+    fun getServiceObserver(): SingleLiveEvent<Resource<List<ServiceDto>>> = servicesObserver
+
 
     fun getServices(){
         launch {
@@ -34,5 +38,4 @@ class ServicesViewModel @Inject constructor(
         return this::serviceList.isInitialized
     }
 
-    fun getServiceObserver(): SingleLiveEvent<Resource<List<ServiceDto>>> = servicesObserver
 }

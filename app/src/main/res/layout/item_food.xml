@@ -5,7 +5,9 @@
     android:id="@+id/cdServiceItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="14dp"
+    android:paddingStart="@dimen/app_margin_1"
+    android:paddingEnd="@dimen/app_margin_1"
+    android:paddingBottom="14dp"
     tools:background="@color/colorPrimaryDark">
 
     <com.makeramen.roundedimageview.RoundedImageView
@@ -19,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@color/light_gray"
         app:riv_corner_radius="8dp"
-        tools:visibility="gone"
+        tools:visibility="visible"
         />
 
     <ImageView
@@ -28,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="@dimen/spacing_screen_horizontal"
+        android:layout_marginTop="@dimen/app_margin"
         android:src="@drawable/ic_vegsymbol"
         app:layout_constraintBottom_toBottomOf="@id/barrier1"
         app:layout_constraintStart_toStartOf="parent"

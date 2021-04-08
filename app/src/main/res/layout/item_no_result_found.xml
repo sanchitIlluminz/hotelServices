@@ -8,8 +8,8 @@
     android:textColor="@color/text_color_food"
     android:textSize="@dimen/text_large"
     android:text="@string/item_no_search_result_title"
-    android:paddingStart="@dimen/spacing_screen_horizontal"
-    android:paddingEnd="@dimen/spacing_screen_horizontal"
+    android:paddingStart="@dimen/app_margin"
+    android:paddingEnd="@dimen/app_margin"
     android:paddingTop="@dimen/app_margin_half_1"
     android:paddingBottom="@dimen/app_margin_half_1"
     android:background="@color/radio_button_text_color">

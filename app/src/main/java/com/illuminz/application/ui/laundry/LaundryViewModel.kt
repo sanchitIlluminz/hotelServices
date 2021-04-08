@@ -39,11 +39,11 @@ class LaundryViewModel @Inject constructor(
     fun getLaundryDetails(id: String, tag: String, laundryType: String) {
         launch {
             laundryObserver.value = Resource.loading()
-            val resource = userRepository.getServiceProduct(id, tag)
+            val response = userRepository.getServiceProduct(id, tag)
 
             if (laundryType == AppConstants.LAUNDARY_ONLY_IRON) {
                 originalOnlyIronList.clear()
-                resource.data?.forEach { serviceCategoryItem ->
+                response.data?.forEach { serviceCategoryItem ->
                     if (serviceCategoryItem.ironingPrice != null) {
                         val itemDto = ServiceCategoryItemDto(
                             id = serviceCategoryItem.id,
@@ -56,7 +56,7 @@ class LaundryViewModel @Inject constructor(
                 }
             } else {
                 originalWashIronList.clear()
-                resource.data?.forEach { serviceCategoryItem ->
+                response.data?.forEach { serviceCategoryItem ->
                     if (serviceCategoryItem.washIroningPrice != null) {
                         val itemDto = ServiceCategoryItemDto(
                             id = serviceCategoryItem.id,
@@ -68,7 +68,7 @@ class LaundryViewModel @Inject constructor(
                     }
                 }
             }
-            laundryObserver.value = resource
+            laundryObserver.value = response
         }
     }
 
@@ -128,14 +128,14 @@ class LaundryViewModel @Inject constructor(
             washIronCartList.addAll(cartList)
         }
 
-        onlyIronCartList.forEach {
-            price += it.ironingPrice.orZero() * it.quantity.orZero()
-            items += it.quantity.orZero()
+        onlyIronCartList.forEach {  serviceCategoryItem ->
+            price += serviceCategoryItem.ironingPrice.orZero() * serviceCategoryItem.quantity.orZero()
+            items += serviceCategoryItem.quantity.orZero()
         }
 
-        washIronCartList.forEach {
-            price += it.washIroningPrice.orZero() * it.quantity.orZero()
-            items += it.quantity.orZero()
+        washIronCartList.forEach {  serviceCategoryItem ->
+            price += serviceCategoryItem.washIroningPrice.orZero() * serviceCategoryItem.quantity.orZero()
+            items += serviceCategoryItem.quantity.orZero()
         }
 
         finalPriceObserver.value =

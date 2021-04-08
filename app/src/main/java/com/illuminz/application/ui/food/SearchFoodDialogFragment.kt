@@ -44,13 +44,7 @@ class SearchFoodDialogFragment(var callback: Callback) : DaggerAppCompatDialogFr
         )[FoodViewModel::class.java]
     }
 
-//    private val isRestaurantOpen by lazy {
-//        restaurantDetailsViewModel.isRestaurantOpen()
-//    }
-
     private val displayedSearchItems by lazy { mutableListOf<FoodItem>() }
-
-//    private val noResultFoundItem by lazy { SearchNoResultFoundItem() }
 
     private lateinit var searchAdapter: GroupAdapter<GroupieViewHolder>
 
@@ -99,9 +93,6 @@ class SearchFoodDialogFragment(var callback: Callback) : DaggerAppCompatDialogFr
             }
         })
 
-//        searchView.queryHint =
-//            getString(R.string.restaurant_details_search_label_search_in_with_name,
-//                restaurantDetailsViewModel.getRestaurantName())
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -123,7 +114,6 @@ class SearchFoodDialogFragment(var callback: Callback) : DaggerAppCompatDialogFr
                     Status.LOADING -> {
                         displayedSearchItems.clear()
                         searchAdapter.clear()
-//                        searchAdapter.add(LoadingItem())
                     }
 
                     Status.SUCCESS -> {
@@ -132,18 +122,12 @@ class SearchFoodDialogFragment(var callback: Callback) : DaggerAppCompatDialogFr
                             displayedSearchItems.clear()
                             searchAdapter.clear()
                         } else {
-                            /* val menuItems = searchMenuItems.map {
-                                 RestaurantDetailsMenuItem(it,
-                                     this@RestaurantDetailsSearchDialogFragment,
-                                     isRestaurantOpen)
-                             }*/
-
                             displayedSearchItems.clear()
                             searchAdapter.clear()
 
-                            if (resource.data?.isEmpty() == true){
+                            if (resource.data?.isEmpty() == true) {
                                 searchAdapter.add(NoResultFoundItem())
-                            }else{
+                            } else {
                                 resource.data?.forEach {
                                     searchAdapter.add(
                                         FoodItem(
@@ -154,22 +138,10 @@ class SearchFoodDialogFragment(var callback: Callback) : DaggerAppCompatDialogFr
                                     )
                                 }
                             }
-                        /*      if (menuItems.isNotEmpty()) {
-                                      displayedMenuItems.addAll(menuItems)
-                                      searchAdapter.add(DividerItem(requireContext().dpToPx(16)))
-                                      searchAdapter.addAll(menuItems)
-                                  } else {
-                                      searchAdapter.add(noResultFoundItem)
-                                  }*/
                         }
                     }
 
                     Status.ERROR -> {
-//                        val error = resource.error
-//                        if (error is AppError.ApiFailure && error.throwable !is CancellationException) {
-//                            displayedSearchItems.clear()
-//                            searchAdapter.clear()
-//                        }
                     }
                 }
             })

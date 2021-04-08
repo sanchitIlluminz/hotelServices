@@ -10,6 +10,7 @@ import com.illuminz.application.ui.cart.CartFragment
 import com.illuminz.application.ui.food.FoodListFragment
 import com.illuminz.application.ui.food.SearchFoodDialogFragment
 import com.illuminz.application.ui.home.FeedbackFragment
+import com.illuminz.application.ui.housekeeping.HouseKeepingFragment
 import com.illuminz.application.ui.laundry.LaundryFragment
 import com.illuminz.application.ui.laundry.LaundryListFragment
 import com.illuminz.application.ui.laundry.SearchLaundryDialogFragment
@@ -83,6 +84,9 @@ abstract class FragmentBindingModule {
 
     @ContributesAndroidInjector
     abstract fun nearbyGalleryFragment() : NearbyGalleryFragment
+
+    @ContributesAndroidInjector
+    abstract fun houseKeepingFragment() : HouseKeepingFragment
 
     @ContributesAndroidInjector
     abstract fun restaurantDetailsSearchDialogFragment() : SearchFoodDialogFragment

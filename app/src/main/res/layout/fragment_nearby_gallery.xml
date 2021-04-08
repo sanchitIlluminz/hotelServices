@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.nearbyplaces.NearbyGalleryFragment"
-    android:paddingBottom="@dimen/spacing_screen_horizontal_2">
+    android:paddingBottom="@dimen/app_margin_1">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -26,12 +26,12 @@
         android:id="@+id/rvNearbyGallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/spacing_screen_horizontal"
-        android:paddingBottom="@dimen/spacing_screen_horizontal"
+        android:paddingTop="@dimen/app_margin"
+        android:paddingBottom="@dimen/app_margin"
         android:clipToPadding="false"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        android:paddingStart="@dimen/spacing_screen_horizontal_2"
-        android:paddingEnd="@dimen/spacing_screen_horizontal_2"
+        android:paddingStart="@dimen/app_margin_1"
+        android:paddingEnd="@dimen/app_margin_1"
         app:spanCount="2"
         tools:listitem="@layout/item_gallery_image_half_width"
         tools:itemCount="4"
@@ -46,8 +46,8 @@
         android:layout_marginTop="32dp"
         android:text="@string/request_a_call_back"
         android:textSize="@dimen/text_medium"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal_2"
-        android:layout_marginEnd="@dimen/spacing_screen_horizontal_2"
+        android:layout_marginStart="@dimen/app_margin_1"
+        android:layout_marginEnd="@dimen/app_margin_1"
         android:layout_alignParentBottom="true"
         />
 </RelativeLayout>

@@ -24,8 +24,10 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
     CartBarView.Callback {
     companion object {
         const val TAG = "LaundryFragment"
+
         private const val KEY_SERVICE_ID = "KEY_SERVICE_ID"
         private const val KEY_service_TAG = "KEY_TAG"
+
         fun newInstance(serviceId: String, serviceTag: String): LaundryFragment {
             val fragment = LaundryFragment()
             val arguments = Bundle()
@@ -47,7 +49,6 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initialise()
         setListeners()
         setObservers()
@@ -56,6 +57,7 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
     private fun initialise() {
         viewModel
         cartBarView.gone()
+
         serviceId = requireArguments().getString(KEY_SERVICE_ID).orEmpty()
         serviceTag = requireArguments().getString(KEY_service_TAG).orEmpty()
 
@@ -135,14 +137,14 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
             }
         }
 
-        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG) == null) {
-            val fragment = CartFragment.newInstance(TAG, list)
-            parentFragmentManager.beginTransaction()
-                .setCustomAnimations(AnimationDirection.End)
-                .add(R.id.fragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
+//        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG) == null) {
+//            val fragment = CartFragment.newInstance(TAG, list)
+//            parentFragmentManager.beginTransaction()
+//                .setCustomAnimations(AnimationDirection.End)
+//                .add(R.id.fragmentContainer, fragment)
+//                .addToBackStack(null)
+//                .commit()
+//        }
     }
 
     override fun onIncreaseSearchItemClicked(laundryItem: LaundryItem) {

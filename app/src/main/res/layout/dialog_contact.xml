@@ -36,7 +36,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@color/light_gray"
-                android:layout_marginTop="@dimen/spacing_screen_horizontal"
+                android:layout_marginTop="@dimen/app_margin"
                 />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvDialogContact"

@@ -32,7 +32,7 @@
         tools:text="330 ml"
         android:layout_toEndOf="@id/ivDivider"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/spacing_screen_horizontal"
+        android:layout_marginStart="@dimen/app_margin"
         />
 
     <ImageView

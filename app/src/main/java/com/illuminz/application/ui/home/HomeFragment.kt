@@ -20,11 +20,11 @@ import com.illuminz.application.ui.bar.DrinksFragment
 import com.illuminz.application.ui.bookTable.BookTableFragment
 import com.illuminz.application.ui.food.FoodListFragment
 import com.illuminz.application.ui.home.items.*
+import com.illuminz.application.ui.housekeeping.HouseKeepingFragment
 import com.illuminz.application.ui.laundry.LaundryFragment
 import com.illuminz.application.ui.massage.MassageListFragment
 import com.illuminz.application.ui.nearbyplaces.NearbyFragment
 import com.illuminz.application.ui.roomcleaning.RoomCleaningFragment
-import com.illuminz.application.ui.transport.TransportFragment
 import com.illuminz.data.models.common.Status
 import com.illuminz.data.models.response.ServiceDto
 import com.xwray.groupie.GroupAdapter
@@ -34,30 +34,32 @@ import kotlinx.android.synthetic.main.dialog_contact.*
 import kotlinx.android.synthetic.main.dialog_contact.btnOkay
 import kotlinx.android.synthetic.main.dialog_contact.tvTitle
 import kotlinx.android.synthetic.main.dialog_drink.*
+import kotlinx.android.synthetic.main.dialog_transport.*
 import kotlinx.android.synthetic.main.fragment_home.*
-
-
-class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
-
+class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
     companion object {
         const val TAG = "HomeFragment"
+
         private const val ORDER_FOOD = "food"
         private const val LAUNDRY = "laundary"
         private const val MASSAGE = "spa"
+        private const val HOUSE_KEEPING = "housekeeping"
         private const val ROOM_CLEANING = "cleaning"
         private const val BAR = "BAR"
         private const val BOOK_TABLE = "tablebooking"
         private const val NEARBY = "places"
         private const val TRANSPORT = "transport"
         private const val GYM = "gym"
+
         fun newInstance(): HomeFragment {
             return HomeFragment()
         }
-
     }
 
     private lateinit var adapter: GroupAdapter<GroupieViewHolder>
+
     private var serviceList = mutableListOf<ServiceDto>()
+
     private val viewModel by lazy {
         ViewModelProvider(requireActivity(), viewModelFactory)[ServicesViewModel::class.java]
     }
@@ -73,20 +75,17 @@ class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
 
 
     private fun initialise() {
-
         adapter = GroupAdapter()
         val layoutManager = (rvHome.layoutManager as GridLayoutManager)
         layoutManager.spanSizeLookup = adapter.spanSizeLookup
         rvHome.adapter = adapter
 
-        if (context?.isNetworkActiveWithMessage() == true && !viewModel.serviceListAvailable()) {
+        if (requireContext().isNetworkActiveWithMessage() && !viewModel.serviceListAvailable()) {
             viewModel.getServices()
         }
-        if (viewModel.serviceListAvailable()){
+        if (viewModel.serviceListAvailable()) {
             setData(viewModel.getServiceList())
         }
-
-//        adapter.add(RoomServiceItem())
     }
 
 
@@ -108,7 +107,6 @@ class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
             showContactDialog(list, 1)
         }
 
-
         adapter.setOnItemClickListener { item, _ ->
 
             if (item is ServicesItem) {
@@ -129,6 +127,14 @@ class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
                         openFragment(fragment, MassageListFragment.TAG)
                     }
 
+                    HOUSE_KEEPING -> {
+                        val fragment = HouseKeepingFragment.newInstance(
+                            serviceId = item.serviceDto.id.orEmpty(),
+                            serviceTag = item.serviceDto.tag.orEmpty()
+                        )
+                        openFragment(fragment, HouseKeepingFragment.TAG)
+                    }
+
                     ROOM_CLEANING -> {
                         val fragment = RoomCleaningFragment.newInstance()
                         openFragment(fragment, RoomCleaningFragment.TAG)
@@ -144,8 +150,8 @@ class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
                     }
                     NEARBY -> {
                         val fragment = NearbyFragment.newInstance(
-                            getString(R.string.nearby_places),
-                            getString(R.string.places_to_visit), nearbyList()
+                            serviceId = item.serviceDto.id.orEmpty(),
+                            serviceTag = item.serviceDto.tag.orEmpty()
                         )
                         openFragment(fragment, NearbyFragment.TAG)
                     }
@@ -154,21 +160,17 @@ class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
             } else if (item is MoreServicesItem) {
                 when (item.serviceDto.tag) {
                     TRANSPORT -> {
-//                            val url = "https://images.newindianexpress.com/uploads/user/imagelibrary/2019/10/20/w900X450/North_DMC.jpg"
-//                            val title = "New Delhi Railway Station"
-//                            val price = CurrencyFormatter.format(amount = 1000.00, currencyCode = "INR")
-//                            val distance = "220km"
-
-                        val fragment = TransportFragment.newInstance()
-                        openFragment(fragment, TransportFragment.TAG)
+//                        val fragment = TransportFragment.newInstance()
+//                        openFragment(fragment, TransportFragment.TAG)
+                        showTransportDialog()
                     }
 
                     GYM -> {
-                        val fragment = NearbyFragment.newInstance(
-                            getString(R.string.gym_features),
-                            getString(R.string.gym_subtitle), gymList()
-                        )
-                        openFragment(fragment, NearbyFragment.TAG)
+//                        val fragment = NearbyFragment.newInstance(
+//                            getString(R.string.gym_features),
+//                            getString(R.string.gym_subtitle), gymList()
+//                        )
+//                        openFragment(fragment, NearbyFragment.TAG)
                     }
 
                     LAUNDRY -> {
@@ -189,6 +191,7 @@ class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
                 Status.LOADING -> {
                     showLoading()
                 }
+
                 Status.SUCCESS -> {
                     dismissLoading()
                     resource.data?.let {
@@ -196,6 +199,7 @@ class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
                         setData(it)
                     }
                 }
+
                 Status.ERROR -> {
                     dismissLoading()
                     handleError(resource.error)
@@ -209,18 +213,30 @@ class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
         adapter.add(BookingDetailItem(this))
         adapter.add(ServiceTitleItem(getString(R.string.services)))
 
-        for (i in list.indices) {
-            if (i < 6) {
-                val item = ServicesItem(list[i])
-                adapter.add(item)
+        list.forEachIndexed{index, service ->
+            val item = if (index < 6) {
+               ServicesItem(service)
             } else {
-                if (i == 6) {
+                if (index == 6) {
                     adapter.add(ServiceTitleItem("MORE SERVICES"))
                 }
-                val item = MoreServicesItem(list[i])
-                adapter.add(item)
+                 MoreServicesItem(service)
             }
+            adapter.add(item)
         }
+
+//        for (i in list.indices) {
+//            if (i < 6) {
+//                val item = ServicesItem(list[i])
+//                adapter.add(item)
+//            } else {
+//                if (i == 6) {
+//                    adapter.add(ServiceTitleItem("MORE SERVICES"))
+//                }
+//                val item = MoreServicesItem(list[i])
+//                adapter.add(item)
+//            }
+//        }
     }
 
     private fun openFragment(fragment: DaggerBaseFragment, tag: String) {
@@ -304,7 +320,7 @@ class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
         dialog?.show()
     }
 
-    private fun showExtendStayDialog(){
+    private fun showExtendStayDialog() {
         val dialog = context?.let { Dialog(it) }
 
         dialog?.apply {
@@ -319,8 +335,10 @@ class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
 
             btConfirm.setOnClickListener {
                 dismiss()
-                showConfirmationDialog("Thank you","Our team will contact you \n" +
-                        "within 10 mins.")
+                showConfirmationDialog(
+                    "Thank you", "Our team will contact you \n" +
+                            "within 10 mins."
+                )
             }
         }
 
@@ -350,7 +368,6 @@ class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
         val dialog = context?.let { Dialog(it) }
 
         dialog?.run {
-
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(false)
             setContentView(R.layout.dialog_confirm)
@@ -371,4 +388,22 @@ class HomeFragment : DaggerBaseFragment(),BookingDetailItem.Callback {
         }
     }
 
+    private fun showTransportDialog() {
+        val dialog = context?.let { Dialog(it) }
+        dialog?.run {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(true)
+            setContentView(R.layout.dialog_transport)
+
+            window?.apply {
+                setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                setGravity(Gravity.CENTER)
+            }
+
+            btRequest.setOnClickListener {
+                dismiss()
+            }
+            show()
+        }
+    }
 }

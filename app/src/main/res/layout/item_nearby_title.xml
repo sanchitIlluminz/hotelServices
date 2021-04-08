@@ -10,5 +10,5 @@
     android:paddingEnd="14dp"
     android:fontFamily="@font/inter_semi_bold"
     android:textSize="@dimen/text_xxhuge"
-    android:textColor="@color/text_color_2"
+    android:textColor="@color/sub_heading_text_color"
     tools:text="Nearby Places"/>
