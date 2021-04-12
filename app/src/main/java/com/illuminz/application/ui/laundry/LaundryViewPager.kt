@@ -18,8 +18,8 @@ class LaundryViewPager(
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> LaundryListFragment.newInstance(AppConstants.LAUNDARY_ONLY_IRON,serviceId,serviceTag)
-            else -> LaundryListFragment.newInstance(AppConstants.LAUNDARY_WASH_IRON,serviceId,serviceTag)
+            0 -> LaundryListFragment.newInstance(AppConstants.LAUNDRY_ONLY_IRON,serviceId,serviceTag)
+            else -> LaundryListFragment.newInstance(AppConstants.LAUNDRY_WASH_IRON,serviceId,serviceTag)
         }
     }
 }

@@ -6,12 +6,12 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class CartRequest(
-    @field:SerializedName("id")
-    val id:String? =null,
+    @field: SerializedName("room")
+    val room:Int? = null,
 
-    @field:SerializedName("quantity")
-    var quantity:Int? =null,
+    @field: SerializedName("groupCode")
+    val groupCode:String? = null,
 
-    @field:SerializedName("type")
-    var type:Int? =null
-): Parcelable
+    @field: SerializedName("itemlist")
+    val itemList:List<CartItemDetail>? = null
+):Parcelable

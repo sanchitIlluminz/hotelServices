@@ -34,6 +34,8 @@ import kotlinx.android.synthetic.main.dialog_contact.*
 import kotlinx.android.synthetic.main.dialog_contact.btnOkay
 import kotlinx.android.synthetic.main.dialog_contact.tvTitle
 import kotlinx.android.synthetic.main.dialog_drink.*
+import kotlinx.android.synthetic.main.dialog_drink.btConfirm
+import kotlinx.android.synthetic.main.dialog_extend_stay.*
 import kotlinx.android.synthetic.main.dialog_transport.*
 import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
@@ -340,6 +342,9 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
                             "within 10 mins."
                 )
             }
+            ivClose.setOnClickListener {
+                dismiss()
+            }
         }
 
         dialog?.show()
@@ -356,7 +361,7 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
     private fun getWifiList(): List<ContactDialogItem> {
         return listOf(
             ContactDialogItem(title = "Name", value = "EmpireWifi1"),
-            ContactDialogItem(title = "Paasword", value = "ANM230v1")
+            ContactDialogItem(title = "Password", value = "ANM230v1")
         )
     }
 

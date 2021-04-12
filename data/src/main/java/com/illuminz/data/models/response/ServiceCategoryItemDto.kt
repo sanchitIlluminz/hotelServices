@@ -57,5 +57,6 @@ data class ServiceCategoryItemDto(
     @field:SerializedName("washIroningPrice")
     val washIroningPrice: Double? = null,
 
-    var quantity: Int = 0
+    var quantity: Int = 0,
+    var laundryType: Int = 0
 ) : Parcelable

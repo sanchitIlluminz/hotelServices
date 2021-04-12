@@ -1,30 +1,47 @@
 package com.illuminz.application.ui.cart
 
 import com.core.extensions.orZero
-import com.illuminz.data.models.request.CartRequest
+import com.core.utils.AppConstants
+import com.illuminz.data.models.request.CartItemDetail
 import com.illuminz.data.models.response.ServiceCategoryItemDto
 import javax.inject.Inject
 
 class CartHandler @Inject constructor() {
-    private var savedCart: savedCart? = null
+    private var savedFoodCart: savedCart? = null
+    private var savedLaundryCart: savedCart? = null
 
-    fun addSavedCart(list: List<CartRequest>, tag: String) {
-        savedCart = savedCart(type = tag, items = list)
+    fun addSavedCart(list: List<CartItemDetail>, type: Int) {
+        if (type == AppConstants.CART_TYPE_FOOD)
+            savedFoodCart = savedCart( items = list)
+        else
+            savedLaundryCart = savedCart( items = list)
     }
 
     /**
      * Used to update the saved cart when changes in cartScreen are done
      */
-    fun changeSavedCart(currentCartList: List<CartRequest>?) {
+    fun changeSavedFoodCart(currentCartList: List<CartItemDetail>?) {
         currentCartList?.forEach { currentCartItem ->
-            savedCart?.items?.forEach { savedCartItem ->
+            savedFoodCart?.items?.forEach { savedCartItem ->
                 if (savedCartItem.id == currentCartItem.id) {
                     savedCartItem.quantity = currentCartItem.quantity
                 }
             }
         }
-        val newCartList = savedCart?.items?.filter { foodRequest -> foodRequest.quantity != 0 }
-        savedCart?.items = newCartList
+        val newCartList = savedFoodCart?.items?.filter { foodRequest -> foodRequest.quantity != 0 }
+        savedFoodCart?.items = newCartList
+    }
+
+    fun changeSavedLaundryCart(currentCartList: List<CartItemDetail>?) {
+        currentCartList?.forEach { currentCartItem ->
+            savedLaundryCart?.items?.forEach { savedCartItem ->
+                if ((savedCartItem.id == currentCartItem.id) && (savedCartItem.type == currentCartItem.type))  {
+                    savedCartItem.quantity = currentCartItem.quantity
+                }
+            }
+        }
+        val newCartList = savedLaundryCart?.items?.filter { laundryRequest -> laundryRequest.quantity != 0 }
+        savedLaundryCart?.items = newCartList
     }
 
     /**
@@ -33,7 +50,7 @@ class CartHandler @Inject constructor() {
      */
     fun updateFoodList(foodList: List<ServiceCategoryItemDto>) {
         foodList.forEach { serviceCategoryItem ->
-            savedCart?.items?.forEach { savedCartItem ->
+            savedFoodCart?.items?.forEach { savedCartItem ->
                 if (serviceCategoryItem.id == savedCartItem.id) {
                     serviceCategoryItem.quantity = savedCartItem.quantity.orZero()
                 }
@@ -41,11 +58,17 @@ class CartHandler @Inject constructor() {
         }
     }
 
-    fun getCartList(): List<CartRequest>? {
-        return savedCart?.items
+    fun getCartList(type: Int): List<CartItemDetail>? {
+        return if (type == AppConstants.CART_TYPE_FOOD)
+            savedFoodCart?.items
+        else
+            savedLaundryCart?.items
     }
 
-    fun emptySavedCart() {
-        savedCart = null
+    fun emptySavedCart(type: Int) {
+        if (type == AppConstants.CART_TYPE_FOOD)
+            savedFoodCart = null
+        else
+            savedLaundryCart = null
     }
 }

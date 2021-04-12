@@ -6,7 +6,8 @@ import com.illuminz.application.ui.bar.DrinksFragment
 import com.illuminz.application.ui.bar.items.DrinkDialog
 import com.illuminz.application.ui.bookTable.BookTableFragment
 import com.illuminz.application.ui.bookTable.BookingTimeFragment
-import com.illuminz.application.ui.cart.CartFragment
+import com.illuminz.application.ui.cart.FoodCartFragment
+import com.illuminz.application.ui.cart.LaundryCartFragment
 import com.illuminz.application.ui.food.FoodListFragment
 import com.illuminz.application.ui.food.SearchFoodDialogFragment
 import com.illuminz.application.ui.home.FeedbackFragment
@@ -80,7 +81,10 @@ abstract class FragmentBindingModule {
     abstract fun feedbackFragment() : FeedbackFragment
 
     @ContributesAndroidInjector
-    abstract fun cartFragment() : CartFragment
+    abstract fun foodCartFragment() : FoodCartFragment
+
+    @ContributesAndroidInjector
+    abstract fun laundryCartFragment() : LaundryCartFragment
 
     @ContributesAndroidInjector
     abstract fun nearbyGalleryFragment() : NearbyGalleryFragment

@@ -2,7 +2,7 @@ package com.illuminz.data.models.response
 
 import com.google.gson.annotations.SerializedName
 
-data class SaveOrderResponse (
+data class SaveLaundryOrderResponse(
     @field:SerializedName("status")
     private val status:Int? = null,
 
@@ -22,5 +22,5 @@ data class SaveOrderResponse (
     private val groupCode:String? = null,
 
     @field:SerializedName("orderDetail")
-    private val orderDetail:FoodCartResponse? = null
+    private val orderDetail:LaundryCartResponse? = null
 )

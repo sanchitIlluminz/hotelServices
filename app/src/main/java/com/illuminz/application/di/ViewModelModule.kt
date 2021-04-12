@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.core.di.ViewModelFactory
 import com.core.di.ViewModelKey
-import com.illuminz.application.ui.cart.CartViewModel
+import com.illuminz.application.ui.cart.FoodCartViewModel
+import com.illuminz.application.ui.cart.LaundryCartViewModel
 import com.illuminz.application.ui.food.FoodViewModel
 import com.illuminz.application.ui.home.ServicesViewModel
 import com.illuminz.application.ui.housekeeping.HouseKeepingViewModel
@@ -55,8 +56,13 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(CartViewModel::class)
-    abstract fun cartViewModel(viewModel: CartViewModel): ViewModel
+    @ViewModelKey(FoodCartViewModel::class)
+    abstract fun foodCartViewModel(viewModelFood: FoodCartViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LaundryCartViewModel::class)
+    abstract fun laundryCartViewModel(viewModelFood: LaundryCartViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

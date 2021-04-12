@@ -42,7 +42,7 @@ object CurrencyFormatter {
     fun format(amount: Double,
                languageCode: String? = selectedLanguageCode,
                countryCode: String? = DEFAULT_COUNTRY_CODE,
-               currencyCode: String? = null,
+               currencyCode: String? = DEFAULT_CURRENCY_CODE,
                fractionDigits: Int = DEFAULT_FRACTION_DIGITS): String {
         if (currencyCode == null) {
             decimalFormatter.minimumFractionDigits = fractionDigits

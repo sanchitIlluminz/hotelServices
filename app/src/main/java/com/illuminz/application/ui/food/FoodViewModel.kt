@@ -3,10 +3,11 @@ package com.illuminz.application.ui.food
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.core.ui.base.BaseViewModel
+import com.core.utils.AppConstants
 import com.core.utils.SingleLiveEvent
 import com.illuminz.application.ui.cart.CartHandler
 import com.illuminz.data.models.common.Resource
-import com.illuminz.data.models.request.CartRequest
+import com.illuminz.data.models.request.CartItemDetail
 import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.illuminz.data.models.response.ServiceCategoryDto
 import com.illuminz.data.repository.UserRepository
@@ -80,12 +81,12 @@ class FoodViewModel @Inject constructor(
     }
 
 
-    fun addSavedCart(list: List<CartRequest>, tag: String){
-        cartHandler.addSavedCart(list,tag)
+    fun addSavedCart(list: List<CartItemDetail>){
+        cartHandler.addSavedCart(list,AppConstants.CART_TYPE_FOOD)
     }
 
-    fun getSavedCartList(): List<CartRequest>? {
-        return cartHandler.getCartList()
+    fun getSavedCartList(): List<CartItemDetail>? {
+        return cartHandler.getCartList(AppConstants.CART_TYPE_FOOD)
     }
 
 }

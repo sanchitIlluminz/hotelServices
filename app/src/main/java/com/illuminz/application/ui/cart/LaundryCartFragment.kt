@@ -6,46 +6,48 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
+import android.widget.PopupWindow
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.core.extensions.gone
 import com.core.extensions.isNetworkActiveWithMessage
 import com.core.extensions.orZero
 import com.core.extensions.visible
 import com.core.ui.base.DaggerBaseFragment
 import com.illuminz.application.R
+import com.illuminz.application.ui.cart.items.CartItem
+import com.illuminz.application.ui.cart.items.TaxesDetailPopUpItem
 import com.illuminz.application.ui.custom.CartBarView
 import com.illuminz.application.ui.food.FoodListFragment
-import com.illuminz.application.ui.cart.items.CartItem
 import com.illuminz.application.ui.laundry.LaundryFragment
 import com.illuminz.application.ui.massage.MassageListFragment
 import com.illuminz.data.models.common.Status
-import com.illuminz.data.models.request.FoodCartRequest
+import com.illuminz.data.models.request.CartItemDetail
 import com.illuminz.data.models.request.CartRequest
-import com.illuminz.data.models.response.CartItemDto
-import com.illuminz.data.models.response.FoodCartResponse
-import com.illuminz.data.models.response.ServiceCategoryItemDto
-import com.illuminz.data.models.response.TaxesResponse
+import com.illuminz.data.models.response.*
 import com.illuminz.data.utils.CurrencyFormatter
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.dialog_confirm.*
 import kotlinx.android.synthetic.main.fragment_cart.*
-import kotlinx.android.synthetic.main.fragment_cart.cartBarView
-import kotlinx.android.synthetic.main.fragment_cart.toolbar
 
-class CartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callback {
+class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callback {
 
     companion object {
         const val TAG = "CartFragment"
 
+        private const val TAX_TYPE_FOOD = 1
+        private const val TAX_TYPE_LIQUOR = 2
+
         private const val KEY_TITLE = "KEY_TITLE"
         private const val KEY_CART_ITEMS = "KEY_CART_ITEMS"
 
-        fun newInstance(title: String, list: ArrayList<CartRequest>): CartFragment {
-            val fragment = CartFragment()
+        fun newInstance(title: String, list: ArrayList<CartItemDetail>): LaundryCartFragment {
+            val fragment = LaundryCartFragment()
             val arguments = Bundle()
             arguments.putString(KEY_TITLE, title)
             arguments.putParcelableArrayList(KEY_CART_ITEMS, list)
@@ -55,11 +57,15 @@ class CartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callba
     }
 
     private lateinit var cartAdapter: GroupAdapter<GroupieViewHolder>
+    private var popUpAdapter : GroupAdapter<GroupieViewHolder> = GroupAdapter()
+    private lateinit var taxPopup: PopupWindow
 
-    private var cartItemRequestList = mutableListOf<CartRequest>()
+    private var cartItemRequestList = mutableListOf<CartItemDetail>()
     private var cartItemsDetailList = mutableListOf<CartItemDto>()
 
-    private var taxesResponse = TaxesResponse()
+
+
+    private var taxesResponse = mutableListOf<TaxesDto>()
 
     private lateinit var cartType: String
 
@@ -69,7 +75,7 @@ class CartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callba
     private var changedCartItem: CartItem? = null
 
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[CartViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[LaundryCartViewModel::class.java]
     }
 
     override fun getLayoutResId(): Int = R.layout.fragment_cart
@@ -81,27 +87,60 @@ class CartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callba
         setObservers()
     }
 
-    private fun setObservers() {
-        viewModel.getFoodCartObserver().observe(viewLifecycleOwner, Observer { resource ->
-            when (resource.status) {
-                Status.LOADING -> {
-                    showLoading()
-                }
+    private fun initialise() {
+        cartType = requireArguments().getString(KEY_TITLE).orEmpty()
+        cartItemRequestList.addAll(
+            requireArguments().getParcelableArrayList(KEY_CART_ITEMS) ?: emptyList()
+        )
 
-                Status.SUCCESS -> {
-                    dismissLoading()
-                    setBasicData(resource.data)
+        tvLiquorTaxes.gone()
+        tvLiquorTaxesLabel.gone()
+        tvFoodTaxesLabel.text = "Taxes"
 
-                }
+        val roomNo = 111
+        val groupCode = "111"
+        val cartItemList = mutableListOf<CartItemDetail>()
 
-                Status.ERROR -> {
-                    dismissLoading()
-                    handleError(resource.error)
-                    updateCartList()
-                }
+        cartItemRequestList.forEach { cartItem ->
+            cartItemList.add(cartItem)
+        }
+
+        val cartRequest = CartRequest(
+            room = roomNo,
+            groupCode = groupCode,
+            itemList = cartItemList
+        )
+
+        cartAdapter = GroupAdapter()
+        rvCart.adapter = cartAdapter
+
+        if (requireContext().isNetworkActiveWithMessage()) {
+            quantityDecreasedCase = false
+            quantityIncreasedCase = false
+
+           viewModel.getLaundryCart(cartRequest)
+        }
+    }
+
+    private fun setListeners() {
+        toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
+        tvFoodTaxesLabel.setOnClickListener {
+            taxPopup = showPopUpWindow()
+            taxPopup.run {
+                isOutsideTouchable = true
+                isFocusable = true
+                setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                showAsDropDown(it)
             }
-        })
+        }
 
+        cartBarView.setCallback(this)
+    }
+
+    private fun setObservers() {
         viewModel.getSaveCartObserver().observe(viewLifecycleOwner, Observer { resource ->
             when (resource.status) {
                 Status.LOADING -> {
@@ -122,32 +161,40 @@ class CartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callba
                 }
             }
         })
-    }
 
-    private fun updateCartList() {
-        val quantityChange = when {
-            quantityIncreasedCase -> -1
-            quantityDecreasedCase -> 1
-            else -> 0
-        }
+        viewModel.getLaundryCartObserver().observe(viewLifecycleOwner, Observer { resource ->
+            when(resource.status){
+                Status.LOADING ->{
+                    showLoading()
+                }
 
-        cartItemsDetailList.forEach { item ->
-            if (item.id == changedCartItem?.itemDetails?.id) {
-                item.quantity = item.quantity?.plus(quantityChange)
+                Status.SUCCESS ->{
+                    dismissLoading()
+                    setBasicData(resource.data)
+                }
+
+                Status.ERROR ->{
+                    dismissLoading()
+                    handleError(resource.error)
+                    updateCartList()
+                }
             }
-        }
+        })
     }
 
-    private fun setBasicData(data: FoodCartResponse?) {
+    private fun setBasicData(data: LaundryCartResponse?) {
         cartAdapter.clear()
         cartItemsDetailList.clear()
+        taxesResponse.clear()
+
         data?.items?.forEach { cartItemDetails ->
             if (cartItemDetails.quantity != 0) {
                 cartItemsDetailList.add(cartItemDetails)
             }
         }
 
-        data?.taxes?.let { taxesResponse = it }
+        data?.taxes?.let { taxesResponse.addAll(it) }
+//        data?.taxes?.let { taxesResponse = it as MutableList<TaxesDto> }
 
         var itemCount = 0
         cartItemsDetailList.forEach {
@@ -192,44 +239,19 @@ class CartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callba
         }
 
         changeCartItems()
-        cartBarView.setButtonText(getString(R.string.proceed_to_pay))
     }
 
-    private fun setListeners() {
-        toolbar.setNavigationOnClickListener {
-            requireActivity().onBackPressed()
+    private fun updateCartList() {
+        val quantityChange = when {
+            quantityIncreasedCase -> -1
+            quantityDecreasedCase -> 1
+            else -> 0
         }
 
-        cartBarView.setCallback(this)
-    }
-
-    private fun initialise() {
-        cartType = requireArguments().getString(KEY_TITLE).orEmpty()
-        cartItemRequestList.addAll(
-            requireArguments().getParcelableArrayList(KEY_CART_ITEMS) ?: emptyList()
-        )
-
-        val roomNo = 111
-        val groupCode = "111"
-        val itemList = mutableListOf<CartRequest>()
-
-        cartItemRequestList.forEach { foodRequest ->
-            itemList.add(foodRequest)
-        }
-
-        val foodCartRequest = FoodCartRequest(
-            room = roomNo,
-            groupCode = groupCode,
-            itemList = itemList
-        )
-
-        cartAdapter = GroupAdapter()
-        rvCart.adapter = cartAdapter
-
-        if (requireContext().isNetworkActiveWithMessage()) {
-            quantityDecreasedCase = false
-            quantityIncreasedCase = false
-            viewModel.getFoodCart(foodCartRequest)
+        cartItemsDetailList.forEach { item ->
+            if (item.id == changedCartItem?.itemDetails?.id) {
+                item.quantity = item.quantity?.plus(quantityChange)
+            }
         }
     }
 
@@ -256,7 +278,7 @@ class CartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callba
 //            viewModel.getFoodCart(foodCartRequest)
 //        }
         if (requireContext().isNetworkActiveWithMessage()) {
-            viewModel.saveFoodCart(getCartRequest())
+            viewModel.saveLaundryCart(getCartRequest())
         }
     }
 
@@ -267,7 +289,7 @@ class CartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callba
         quantityDecreasedCase = false
         quantityIncreasedCase = true
         if (requireContext().isNetworkActiveWithMessage()) {
-            viewModel.getFoodCart(getCartRequest())
+            viewModel.getLaundryCart(getCartRequest())
 //            viewModel.getFoodCart(getCartRequest(quantityChange = -1, changedItemId = cartItem.id))
         } else {
             cartItem.quantity = cartItem.quantity?.minus(1)
@@ -301,14 +323,13 @@ class CartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callba
         quantityIncreasedCase = false
         if (requireContext().isNetworkActiveWithMessage()) {
             if (cartItem.itemDetails.quantity == 0) {
-//                cartAdapter.remove(cartItem)
                 cartItemsDetailList.forEach { item ->
-                    if (item.id == cartItem.itemDetails.id) {
+                    if ((item.id == cartItem.itemDetails.id) && (item.laundryType == cartItem.itemDetails.laundryType)) {
                         item.quantity = 0
                     }
                 }
             }
-            viewModel.getFoodCart(getCartRequest())
+            viewModel.getLaundryCart(getCartRequest())
 //            viewModel.getFoodCart(getCartRequest(quantityChange = -1, changedItemId = cartItem.itemDetails.id))
 
         } else {
@@ -369,52 +390,38 @@ class CartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callba
             setBillDetails()
         } else {
             cartBarView.gone()
-            setBillDetails()
+//            setBillDetails()
+            requireActivity().onBackPressed()
+
         }
     }
 
     private fun setBillDetails(
     ) {
-//        tvItemTotal.text = CurrencyFormatter.format(
-//            amount = totalItemPrice.orZero()
-//
-//        )
-//
-//        tvServiceCharges.text = CurrencyFormatter.format(
-//            amount = serviceCharge.orZero()
-//        )
-//
-//        tvTaxes.text = CurrencyFormatter.format(
-//            amount = taxes.orZero()
-//        )
-//
-//        val totalAmount = totalItemPrice.orZero() + serviceCharge.orZero() + taxes.orZero()
-//        tvTotalAmount.text = CurrencyFormatter.format(
-//            amount = totalAmount.orZero()
-//        )
-
         var itemTotal = 0.0
-        var foodTotalTax = 0.0
-        var liquorTotalTax = 0.0
+        var totalTax = 0.0
         var cartItemCount = 0
+
         cartItemsDetailList.forEach { cartItemsDetail ->
             itemTotal += cartItemsDetail.cartTotal.orZero()
             cartItemCount += cartItemsDetail.quantity.orZero()
         }
 
-        taxesResponse.foodTaxes?.forEach { foodTax ->
-            foodTotalTax += foodTax.debit.orZero()
+        taxesResponse.forEach { tax ->
+            totalTax += tax.debit.orZero()
         }
 
         tvItemTotal.text = CurrencyFormatter.format(
             amount = itemTotal.orZero()
         )
 
-        tvTaxes.text = CurrencyFormatter.format(
-            amount = foodTotalTax.orZero()
+        tvFoodTaxes.text = CurrencyFormatter.format(
+            amount = totalTax.orZero()
         )
 
-        val totalAmount = itemTotal.orZero() + foodTotalTax.orZero() + liquorTotalTax.orZero()
+        setTaxVisibility(totalTax, tvFoodTaxesLabel, tvFoodTaxes)
+
+        val totalAmount = itemTotal.orZero() + totalTax.orZero()
         tvTotalAmount.text = CurrencyFormatter.format(
             amount = totalAmount.orZero()
         )
@@ -464,23 +471,53 @@ class CartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callba
     }
 
     private fun getCartRequest(
-    ): FoodCartRequest {
+    ): CartRequest {
         val roomNo = 111
         val groupCode = "111"
-        val itemList = mutableListOf<CartRequest>()
+        val cartItemDetailList = mutableListOf<CartItemDetail>()
 
         cartItemsDetailList.forEach { cartItem ->
-            val foodRequestDto = CartRequest(
+            val cartItemDetail = CartItemDetail(
                 id = cartItem.id,
-                quantity = cartItem.quantity.orZero()
+                quantity = cartItem.quantity.orZero(),
+                type = cartItem.laundryType
             )
-            itemList.add(foodRequestDto)
+            cartItemDetailList.add(cartItemDetail)
         }
 
-        return FoodCartRequest(
+        return CartRequest(
             room = roomNo,
             groupCode = groupCode,
-            itemList = itemList
+            itemList = cartItemDetailList
         )
+    }
+
+    private fun showPopUpWindow(): PopupWindow {
+        val contentView = View.inflate(requireContext(), R.layout.layout_tax_popup, null)
+        val recyclerView = contentView.findViewById<RecyclerView>(R.id.rvPopup)
+
+        popUpAdapter.clear()
+        recyclerView.adapter = popUpAdapter
+
+        taxesResponse.forEach { taxes ->
+                val item = TaxesDetailPopUpItem(taxes)
+                popUpAdapter.add(item)
+            }
+
+        return PopupWindow(
+            contentView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+    }
+
+    private fun setTaxVisibility(totalTax:Double, taxLabel: View, taxValue: View){
+        if (totalTax == 0.0){
+            taxLabel.gone()
+            taxValue.gone()
+        }else{
+            taxLabel.visible()
+            taxValue.visible()
+        }
     }
 }

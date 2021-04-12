@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import com.illuminz.data.extensions.toApiError
 import com.illuminz.data.extensions.toApiFailure
 import com.illuminz.data.models.common.Resource
-import com.illuminz.data.models.request.FoodCartRequest
+import com.illuminz.data.models.request.CartRequest
 import com.illuminz.data.models.response.*
 import com.illuminz.data.remote.SocketManager
 import com.illuminz.data.remote.UserApi
@@ -67,9 +67,9 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getFoodCart(foodCartRequest: FoodCartRequest) :Resource<FoodCartResponse>{
+    override suspend fun getFoodCart(cartRequest: CartRequest) :Resource<FoodCartResponse>{
        return try {
-           val response = userApi.getFoodCart(foodCartRequest)
+           val response = userApi.getFoodCart(cartRequest)
            if (response.isSuccessful){
                Resource.success(response.body()?.data)
            }else{
@@ -80,9 +80,9 @@ class UserRepositoryImpl @Inject constructor(
        }
     }
 
-    override suspend fun saveFoodOrder(foodCartRequest: FoodCartRequest): Resource<SaveOrderResponse> {
+    override suspend fun getLaundryCart(cartRequest: CartRequest): Resource<LaundryCartResponse> {
         return try {
-            val response = userApi.saveFoodOrder(foodCartRequest)
+            val response = userApi.getLaundryCart(cartRequest)
             if (response.isSuccessful){
                 Resource.success(response.body()?.data)
             }else{
@@ -93,5 +93,29 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun saveFoodOrder(cartRequest: CartRequest): Resource<SaveFoodOrderResponse> {
+        return try {
+            val response = userApi.saveFoodOrder(cartRequest)
+            if (response.isSuccessful){
+                Resource.success(response.body()?.data)
+            }else{
+                Resource.error(response.toApiError())
+            }
+        }catch (throwable:Throwable){
+            Resource.error(throwable.toApiFailure())
+        }
+    }
 
+    override suspend fun saveLaundryOrder(cartRequest: CartRequest): Resource<SaveLaundryOrderResponse> {
+        return try {
+            val response = userApi.saveLaundryOrder(cartRequest)
+            if (response.isSuccessful){
+                Resource.success(response.body()?.data)
+            }else{
+                Resource.error(response.toApiError())
+            }
+        }catch (throwable:Throwable){
+            Resource.error(throwable.toApiFailure())
+        }
+    }
 }

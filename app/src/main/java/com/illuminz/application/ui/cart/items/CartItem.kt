@@ -3,6 +3,7 @@ package com.illuminz.application.ui.cart.items
 import com.core.extensions.gone
 import com.core.extensions.orZero
 import com.core.extensions.visible
+import com.core.utils.AppConstants
 import com.illuminz.application.R
 import com.illuminz.application.ui.custom.AddMenuItemView
 import com.illuminz.application.ui.food.FoodListFragment
@@ -30,7 +31,7 @@ class CartItem(
                 )
             } else {
                 viewHolder.itemView.tvPrice.text = CurrencyFormatter.format(
-                    amount = getPrice() * itemDetails.quantity.orZero().toDouble(),
+                    amount = getPrice(itemDetails) * itemDetails.quantity.orZero().toDouble(),
                     currencyCode = "INR"
                 )
             }
@@ -54,7 +55,7 @@ class CartItem(
                 }
                 LaundryFragment.TAG -> {
                     ivFoodType.gone()
-                    price = getPrice()
+                    price = getPrice(itemDetails)
                 }
 
                 else -> {
@@ -100,12 +101,11 @@ class CartItem(
             callback.onDecreaseCartItemClicked(this@CartItem)
     }
 
-    private fun getPrice(): Double {
-//        return if (cartItem.ironingPrice != null) {
-//            cartItem.ironingPrice.orZero()
-//        } else {
-//            cartItem.washIroningPrice.orZero()
-//        }
-        return 0.0
+    private fun getPrice(itemDetails: CartItemDto): Double {
+        return if (itemDetails.laundryType == AppConstants.LAUNDRY_ONLY_IRON) {
+            itemDetails.ironingPrice.orZero()
+        } else {
+            itemDetails.washIroningPrice.orZero()
+        }
     }
 }

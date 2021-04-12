@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_laundry.view.*
 
 class LaundryItem(
     var serviceCategoryItem: ServiceCategoryItemDto,
-    val laundryType: String,
+    val laundryType: Int,
     val callback: Callback
 ) : Item(), AddMenuItemView.Callback {
 
@@ -29,7 +29,7 @@ class LaundryItem(
 
         viewHolder.itemView.apply {
 
-            if (laundryType == AppConstants.LAUNDARY_ONLY_IRON) {
+            if (laundryType == AppConstants.LAUNDRY_ONLY_IRON) {
                 tvPrice.text = CurrencyFormatter.format(
                     amount = serviceCategoryItem.ironingPrice.orZero(),
                     currencyCode = "INR"

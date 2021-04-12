@@ -14,12 +14,12 @@ import com.core.ui.base.DaggerBaseFragment
 import com.core.utils.AnimationDirection
 import com.core.utils.MealType
 import com.illuminz.application.R
-import com.illuminz.application.ui.cart.CartFragment
+import com.illuminz.application.ui.cart.FoodCartFragment
 import com.illuminz.application.ui.custom.CartBarView
 import com.illuminz.application.ui.food.items.*
 import com.illuminz.application.utils.QuantityChangedPayload
 import com.illuminz.data.models.common.Status
-import com.illuminz.data.models.request.CartRequest
+import com.illuminz.data.models.request.CartItemDetail
 import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.illuminz.data.models.response.ServiceCategoryDto
 import com.xwray.groupie.GroupAdapter
@@ -60,9 +60,7 @@ class FoodListFragment(
     private var serviceCategoryItemList = mutableListOf<ServiceCategoryItemDto>()
     private var serviceCategoryList = mutableListOf<ServiceCategoryDto>()
     private var cartList = mutableListOf<ServiceCategoryItemDto>()
-
     private var menuList = mutableListOf<MenuDialogItem>()
-
 
     private var cartBarViewVisible = false
 
@@ -212,12 +210,15 @@ class FoodListFragment(
         }
 
         serviceCategoryList.forEach { serviceCategoryItem ->
-            menuList.add(
-                MenuDialogItem(
-                    title = serviceCategoryItem.categoryName.orEmpty(),
-                    number = serviceCategoryItem.itemsArr?.size.orZero()
+            val categoryItemCount = serviceCategoryItem.itemsArr?.size.orZero()
+            if (categoryItemCount!=0){
+                menuList.add(
+                    MenuDialogItem(
+                        title = serviceCategoryItem.categoryName.orEmpty(),
+                        number = categoryItemCount
+                    )
                 )
-            )
+            }
         }
 
         if (cartList.size != 0) {
@@ -351,19 +352,19 @@ class FoodListFragment(
     }
 
     override fun onCartBarClick() {
-        val list = arrayListOf<CartRequest>()
+        val list = arrayListOf<CartItemDetail>()
         for (i in 0 until cartList.size) {
-            val item = CartRequest(
+            val item = CartItemDetail(
                 id = cartList[i].id,
                 quantity = cartList[i].quantity
             )
             list.add(item)
         }
 
-        viewModel.addSavedCart(list, tag.orEmpty())
+        viewModel.addSavedCart(list)
 
-        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG) == null) {
-            val fragment = CartFragment.newInstance(TAG, list)
+        if (parentFragmentManager.findFragmentByTag(FoodCartFragment.TAG) == null) {
+            val fragment = FoodCartFragment.newInstance(TAG, list)
             parentFragmentManager.beginTransaction()
                 .setCustomAnimations(AnimationDirection.End)
                 .replace(R.id.fragmentContainer, fragment)

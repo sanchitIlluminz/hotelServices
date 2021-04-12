@@ -2,43 +2,43 @@ package com.illuminz.application.ui.cart
 
 import androidx.lifecycle.LiveData
 import com.core.ui.base.BaseViewModel
+import com.core.utils.AppConstants
 import com.core.utils.SingleLiveEvent
 import com.illuminz.data.models.common.Resource
-import com.illuminz.data.models.request.FoodCartRequest
+import com.illuminz.data.models.request.CartRequest
 import com.illuminz.data.models.response.FoodCartResponse
-import com.illuminz.data.models.response.SaveOrderResponse
+import com.illuminz.data.models.response.SaveFoodOrderResponse
 import com.illuminz.data.repository.UserRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CartViewModel  @Inject constructor(
+class FoodCartViewModel  @Inject constructor(
     private val userRepository: UserRepository,
     private val cartHandler: CartHandler
 ) : BaseViewModel() {
     private val foodCartObserver by lazy { SingleLiveEvent<Resource<FoodCartResponse>>() }
-    private val saveCartObserver by lazy { SingleLiveEvent<Resource<SaveOrderResponse>>() }
+    private val saveCartObserver by lazy { SingleLiveEvent<Resource<SaveFoodOrderResponse>>() }
 
     fun getFoodCartObserver(): LiveData<Resource<FoodCartResponse>> = foodCartObserver
-    fun getSaveCartObserver(): LiveData<Resource<SaveOrderResponse>> = saveCartObserver
+    fun getSaveCartObserver(): LiveData<Resource<SaveFoodOrderResponse>> = saveCartObserver
 
-    fun getFoodCart(foodCartRequest: FoodCartRequest){
+    fun getFoodCart(cartRequest: CartRequest){
         launch {
             foodCartObserver.value = Resource.loading()
-            val response = userRepository.getFoodCart(foodCartRequest)
+            val response = userRepository.getFoodCart(cartRequest)
             if (response.isSuccess()){
-                cartHandler.changeSavedCart(foodCartRequest.itemList)
+                cartHandler.changeSavedFoodCart(cartRequest.itemList)
             }
             foodCartObserver.value = response
-
         }
     }
 
-    fun saveFoodCart(foodCartRequest: FoodCartRequest){
+    fun saveFoodCart(cartRequest: CartRequest){
         launch {
             saveCartObserver.value = Resource.loading()
-            val response = userRepository.saveFoodOrder(foodCartRequest)
+            val response = userRepository.saveFoodOrder(cartRequest)
             if (response.isSuccess()){
-                cartHandler.emptySavedCart()
+                cartHandler.emptySavedCart(AppConstants.CART_TYPE_FOOD)
             }
             saveCartObserver.value = response
         }

@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 class SearchLaundryDialogFragment(
     var callback: Callback,
-    private val laundryType:String
+    private val laundryType:Int
 ) : DaggerAppCompatDialogFragment(), LaundryItem.Callback {
 
     companion object {
@@ -43,7 +43,7 @@ class SearchLaundryDialogFragment(
     }
 
     private lateinit var searchAdapter: GroupAdapter<GroupieViewHolder>
-    private lateinit var searchLaundryType:String
+    private var searchLaundryType = -1
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -118,7 +118,7 @@ class SearchLaundryDialogFragment(
                                 searchAdapter.add(
                                     LaundryItem(
                                         serviceCategoryItem = it,
-                                        laundryType = AppConstants.LAUNDARY_ONLY_IRON,
+                                        laundryType = AppConstants.LAUNDRY_ONLY_IRON,
                                         callback = this
                                     )
                                 )
@@ -126,7 +126,7 @@ class SearchLaundryDialogFragment(
                                 searchAdapter.add(
                                     LaundryItem(
                                         serviceCategoryItem = it,
-                                        laundryType = AppConstants.LAUNDARY_WASH_IRON,
+                                        laundryType = AppConstants.LAUNDRY_WASH_IRON,
                                         callback = this
                                     )
                                 )

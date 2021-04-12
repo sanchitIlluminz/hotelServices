@@ -10,13 +10,11 @@ import com.core.utils.AnimationDirection
 import com.core.utils.AppConstants
 import com.google.android.material.tabs.TabLayoutMediator
 import com.illuminz.application.R
-import com.illuminz.application.ui.cart.CartFragment
+import com.illuminz.application.ui.cart.LaundryCartFragment
 import com.illuminz.application.ui.custom.CartBarView
-import com.illuminz.application.ui.food.FoodListFragment
 import com.illuminz.application.ui.laundry.items.LaundryItem
 import com.illuminz.data.models.common.Status
-import com.illuminz.data.models.response.ServiceCategoryDto
-import com.illuminz.data.models.response.ServiceCategoryItemDto
+import com.illuminz.data.models.request.CartItemDetail
 import kotlinx.android.synthetic.main.fragment_laundry.*
 import kotlinx.android.synthetic.main.fragment_laundry.toolbar
 
@@ -52,10 +50,12 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
         initialise()
         setListeners()
         setObservers()
+        setCart()
     }
 
+
+
     private fun initialise() {
-        viewModel
         cartBarView.gone()
 
         serviceId = requireArguments().getString(KEY_SERVICE_ID).orEmpty()
@@ -72,7 +72,7 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
     }
 
     private fun setObservers() {
-        viewModel.getPriceObserver().observe(viewLifecycleOwner, Observer { resource ->
+        viewModel.getAmountObserver().observe(viewLifecycleOwner, Observer { resource ->
             if (resource.status == Status.SUCCESS) {
                 // Set visibilty and data of cartBar
                 if (!resource?.data?.get(1).isNullOrZero()) {
@@ -98,10 +98,10 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
         ivSearch.setOnClickListener {
             val selectedTab = tabLayout.selectedTabPosition
 
-            val laundryType = if (selectedTab==0){
-                AppConstants.LAUNDARY_ONLY_IRON
-            }else{
-                AppConstants.LAUNDARY_WASH_IRON
+            val laundryType = if (selectedTab == 0) {
+                AppConstants.LAUNDRY_ONLY_IRON
+            } else {
+                AppConstants.LAUNDRY_WASH_IRON
             }
 
             val dialogFragment = SearchLaundryDialogFragment(this, laundryType)
@@ -111,46 +111,49 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
         cartBarView.setCallback(this)
     }
 
-
+    private fun setCart() {
+        val cartList = viewModel.getFinalCartList()
+    }
     override fun onCartBarClick() {
         val cartList = viewModel.getFinalCartList()
-        val list = arrayListOf<ServiceCategoryItemDto>()
-        for (i in 0 until cartList.size) {
 
-            if (cartList[i].ironingPrice!=null){
-                val item = ServiceCategoryItemDto(
+        val list = arrayListOf<CartItemDetail>()
+        for (i in 0 until cartList.size) {
+            if (cartList[i].ironingPrice != null) {
+                val item = CartItemDetail(
                     id = cartList[i].id,
-                    ironingPrice = cartList[i].ironingPrice,
-                    itemName = cartList[i].itemName,
+                    type = cartList[i].laundryType,
                     quantity = cartList[i].quantity
                 )
                 list.add(item)
             }
-            if (cartList[i].washIroningPrice!=null){
-                val item = ServiceCategoryItemDto(
+            if (cartList[i].washIroningPrice != null) {
+                val item = CartItemDetail(
                     id = cartList[i].id,
-                    washIroningPrice = cartList[i].washIroningPrice,
-                    itemName = cartList[i].itemName,
+                    type = cartList[i].laundryType,
                     quantity = cartList[i].quantity
                 )
                 list.add(item)
             }
+
         }
 
-//        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG) == null) {
-//            val fragment = CartFragment.newInstance(TAG, list)
-//            parentFragmentManager.beginTransaction()
-//                .setCustomAnimations(AnimationDirection.End)
-//                .add(R.id.fragmentContainer, fragment)
-//                .addToBackStack(null)
-//                .commit()
-//        }
+        viewModel.addSavedCart(list)
+
+        if (parentFragmentManager.findFragmentByTag(LaundryCartFragment.TAG) == null) {
+            val fragment = LaundryCartFragment.newInstance(TAG, list)
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(AnimationDirection.End)
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun onIncreaseSearchItemClicked(laundryItem: LaundryItem) {
-      val fragmentList = childFragmentManager.fragments
+        val fragmentList = childFragmentManager.fragments
         fragmentList.forEach { fragment ->
-            if (fragment is LaundryListFragment && fragment.getLaundryType() == laundryItem.laundryType){
+            if (fragment is LaundryListFragment && fragment.getLaundryType() == laundryItem.laundryType) {
                 fragment.updateLaundryAdapter(laundryItem)
             }
 
@@ -160,7 +163,7 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
     override fun onDecreaseSearchItemClicked(laundryItem: LaundryItem) {
         val fragmentList = childFragmentManager.fragments
         fragmentList.forEach { fragment ->
-            if (fragment is LaundryListFragment && fragment.getLaundryType() == laundryItem.laundryType){
+            if (fragment is LaundryListFragment && fragment.getLaundryType() == laundryItem.laundryType) {
                 fragment.updateLaundryAdapter(laundryItem)
             }
         }

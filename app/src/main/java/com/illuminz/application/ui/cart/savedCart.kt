@@ -1,9 +1,7 @@
 package com.illuminz.application.ui.cart
 
-import com.illuminz.data.models.request.CartRequest
+import com.illuminz.data.models.request.CartItemDetail
 
 data class savedCart (
-    var type: String? = null,
-
-    var items: List<CartRequest>? = null
+    var items: List<CartItemDetail>? = null
 )

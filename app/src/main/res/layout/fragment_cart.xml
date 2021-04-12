@@ -7,7 +7,7 @@
     android:background="@color/colorPrimaryDark"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".ui.cart.CartFragment">
+    tools:context=".ui.cart.FoodCartFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -115,23 +115,24 @@
                     tools:text="300" />
 
                 <TextView
-                    android:id="@+id/tvServiceChargesLabel"
+                    android:id="@+id/tvFoodTaxesLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvItemTotalLabel"
                     android:layout_alignParentStart="true"
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/inter_regular"
-                    android:text="@string/service_charges"
+                    android:text="@string/cart_fragment_food_taxes"
                     android:textColor="@color/color_price"
-                    android:textSize="@dimen/text_large" />
+                    android:textSize="@dimen/text_large"
+                    app:drawableEndCompat="@drawable/ic_info_24"/>
 
                 <TextView
-                    android:id="@+id/tvServiceCharges"
+                    android:id="@+id/tvFoodTaxes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/tvServiceChargesLabel"
-                    android:layout_alignBottom="@id/tvServiceChargesLabel"
+                    android:layout_alignTop="@id/tvFoodTaxesLabel"
+                    android:layout_alignBottom="@id/tvFoodTaxesLabel"
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/inter_regular"
                     android:textColor="@color/color_price"
@@ -139,23 +140,24 @@
                     tools:text="300" />
 
                 <TextView
-                    android:id="@+id/tvTaxesLabel"
+                    android:id="@+id/tvLiquorTaxesLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tvServiceChargesLabel"
+                    android:layout_below="@id/tvFoodTaxesLabel"
                     android:layout_alignParentStart="true"
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/inter_regular"
-                    android:text="@string/taxes"
+                    android:text="@string/cart_fragment_liquor_taxes"
                     android:textColor="@color/color_price"
-                    android:textSize="@dimen/text_large" />
+                    android:textSize="@dimen/text_large"
+                    app:drawableEndCompat="@drawable/ic_info_24" />
 
                 <TextView
-                    android:id="@+id/tvTaxes"
+                    android:id="@+id/tvLiquorTaxes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/tvTaxesLabel"
-                    android:layout_alignBottom="@id/tvTaxesLabel"
+                    android:layout_alignTop="@id/tvLiquorTaxesLabel"
+                    android:layout_alignBottom="@id/tvLiquorTaxesLabel"
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/inter_regular"
                     android:textColor="@color/color_price"
@@ -166,7 +168,7 @@
                     android:id="@+id/ivDivider1"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@id/tvTaxesLabel"
+                    android:layout_below="@id/tvLiquorTaxesLabel"
                     android:layout_marginTop="16dp"
                     android:background="@color/light_gray" />
 
