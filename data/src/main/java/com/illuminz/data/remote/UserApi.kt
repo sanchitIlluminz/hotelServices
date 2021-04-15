@@ -33,4 +33,13 @@ interface UserApi {
 
     @POST("savelaundaryorder")
     suspend fun saveLaundryOrder(@Body request: CartRequest): Response<ApiResponse<SaveLaundryOrderResponse>>
+
+    @GET("order/listing")
+    suspend fun getOrderListing(
+        @Query("room") room: Int?,
+        @Query("groupCode") groupCode:String?
+//        @Query("orderType") orderType:Int?,
+//        @Query("status") status:Int?,
+//        @Query("room") page:Int?
+    ):Response<ApiResponse<OrderListingResponse>>
 }

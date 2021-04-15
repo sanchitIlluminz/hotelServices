@@ -82,7 +82,7 @@ class LaundryListFragment : DaggerBaseFragment(), LaundryItem.Callback {
     }
 
     private fun setObservers() {
-        viewModel.getLaundaryObserver().observe(viewLifecycleOwner, Observer { resource ->
+        viewModel.getLaundryObserver().observe(viewLifecycleOwner, Observer { resource ->
             when (resource.status) {
                 Status.LOADING -> {
                     viewFlipper.displayedChild = FLIPPER_CHILD_LOADING
@@ -125,7 +125,7 @@ class LaundryListFragment : DaggerBaseFragment(), LaundryItem.Callback {
             AppConstants.LAUNDRY_WASH_IRON -> {
                 laundryAdapter.clear()
 
-                val laundryList = viewModel.getwashIronList()
+                val laundryList = viewModel.getWashIronList()
                 laundryList.forEach { serviceCategoryItem ->
                     laundryAdapter.add(
                         LaundryItem(

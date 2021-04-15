@@ -8,6 +8,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.illuminz.application.R
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -42,7 +43,7 @@ class TransportTitleItem(
             )
 
             spannable.setSpan(
-                ForegroundColorSpan(resources.getColor(R.color.tab_highlight)),
+                ForegroundColorSpan(ContextCompat.getColor(context, R.color.tab_highlight)),
                 50,
                 61,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE

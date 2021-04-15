@@ -11,12 +11,8 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_booking_time.*
 
-
 class BookingTimeFragment : DaggerBaseFragment() {
-
     companion object {
-        private const val TAG = "BookingFragment"
-
         private const val TAB_NUMBER = "TAB_NUMBER"
 
         fun newInstance(position: Int): BookingTimeFragment {
@@ -42,20 +38,19 @@ class BookingTimeFragment : DaggerBaseFragment() {
         setBasicData()
     }
 
-
     private fun initialise() {
         when (requireArguments().getInt(TAB_NUMBER)) {
             0 -> {
-                tvTime.setText(getString(R.string.am))
+                tvTime.setText(R.string.am)
             }
+
             else -> {
-                tvTime.setText(getString(R.string.pm))
+                tvTime.setText(R.string.pm)
             }
         }
     }
 
     private fun setBasicData() {
-
         val padding = requireContext().dpToPx((192 / 2) - (64 / 2))
 
         hourAdapter = GroupAdapter()
@@ -97,21 +92,21 @@ class BookingTimeFragment : DaggerBaseFragment() {
         when (arguments?.getInt(TAB_NUMBER)) {
             0 -> {
                 for (i in 1..hrList1.size) {
-                    val hrItem = BookingTimeItem(hrList1.get(i - 1))
+                    val hrItem = BookingTimeItem(hrList1[i - 1])
                     hourAdapter.add(hrItem)
                 }
             }
 
             1 -> {
                 for (i in 1..hrList2.size) {
-                    val hrItem = BookingTimeItem(hrList2.get(i - 1))
+                    val hrItem = BookingTimeItem(hrList2[i - 1])
                     hourAdapter.add(hrItem)
                 }
             }
 
             else -> {
                 for (i in 1..hrList3.size) {
-                    val hrItem = BookingTimeItem(hrList3.get(i - 1))
+                    val hrItem = BookingTimeItem(hrList3[i - 1])
                     hourAdapter.add(hrItem)
                 }
             }
@@ -122,6 +117,5 @@ class BookingTimeFragment : DaggerBaseFragment() {
             minutesAdapter.add(minItem)
             min = min.plus(1)
         }
-
     }
 }

@@ -20,6 +20,7 @@ import com.illuminz.application.ui.massage.SearchMassageDialogFragment
 import com.illuminz.application.ui.nearbyplaces.ImageDialogFragment
 import com.illuminz.application.ui.nearbyplaces.NearbyFragment
 import com.illuminz.application.ui.nearbyplaces.NearbyGalleryFragment
+import com.illuminz.application.ui.orderlisting.OrdersFragment
 import com.illuminz.application.ui.roomcleaning.RoomCleaningFragment
 import com.illuminz.application.ui.transport.TransportDialog
 import com.illuminz.application.ui.transport.TransportFragment
@@ -100,4 +101,7 @@ abstract class FragmentBindingModule {
 
     @ContributesAndroidInjector
     abstract fun searchMassageDialogFragment() : SearchMassageDialogFragment
+
+    @ContributesAndroidInjector
+    abstract fun ordersFragment() : OrdersFragment
 }

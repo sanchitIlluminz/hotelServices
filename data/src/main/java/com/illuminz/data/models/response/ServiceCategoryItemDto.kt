@@ -58,5 +58,6 @@ data class ServiceCategoryItemDto(
     val washIroningPrice: Double? = null,
 
     var quantity: Int = 0,
+
     var laundryType: Int = 0
 ) : Parcelable

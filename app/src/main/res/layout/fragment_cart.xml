@@ -25,180 +25,204 @@
         android:layout_below="@id/toolbar"
         android:background="@color/light_gray" />
 
-    <androidx.core.widget.NestedScrollView
+
+    <ViewFlipper
+        android:id="@+id/viewFlipper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/cartBarView"
         android:layout_below="@id/ivDivider"
         android:layout_alignParentStart="true"
-        android:clipToPadding="false"
-        android:paddingTop="@dimen/app_margin"
-        android:paddingBottom="@dimen/app_margin">
+        >
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:theme="@style/AppProgressBarAppColor" />
 
-        <LinearLayout
+        <com.illuminz.application.ui.custom.ErrorView
+            android:id="@+id/connectionErrorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:errorButtonText="@string/btn_retry"
+            app:errorButtonVisible="true"
+            app:errorMessage="@string/connection_error_message"
+            app:errorTitle="@string/connection_error" />
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/app_margin"
+            android:paddingBottom="@dimen/app_margin">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCart"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="6"
-                tools:listitem="@layout/item_laundry" />
+                android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilSuggestions"
-                style="@style/AppTextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/app_margin"
-                android:layout_marginTop="@dimen/app_margin"
-                android:layout_marginEnd="@dimen/app_margin">
-
-                <com.core.ui.custom.ClearFocusTextInputEditText
-                    android:id="@+id/etSuggestions"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_regular"
-                    android:hint="@string/any_suggestions"
-                    android:inputType="none"
-                    android:maxLength="@integer/full_name_max_length"
-                    android:paddingEnd="36dp"
-                    android:textSize="14sp"
-                    android:theme="@style/AppTextInputEditText"
-                    tools:ignore="RtlSymmetry"
-                    tools:text="gfchvbjknlmhjvg" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="6"
+                    tools:listitem="@layout/item_laundry" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/app_margin_1"
-                android:layout_marginTop="@dimen/app_margin_1"
-                android:layout_marginEnd="@dimen/app_margin"
-                android:fontFamily="@font/inter_medium"
-                android:text="@string/bill_details"
-                android:textColor="@color/text_color_food"
-                android:textSize="@dimen/text_medium" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/app_margin_1"
-                android:paddingEnd="@dimen/app_margin_1">
-
-                <TextView
-                    android:id="@+id/tvItemTotalLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="@string/item_total"
-                    android:textColor="@color/color_price"
-                    android:textSize="@dimen/text_large" />
-
-                <TextView
-                    android:id="@+id/tvItemTotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/tvItemTotalLabel"
-                    android:layout_alignBottom="@id/tvItemTotalLabel"
-                    android:layout_alignParentEnd="true"
-                    android:fontFamily="@font/inter_regular"
-                    android:textColor="@color/color_price"
-                    android:textSize="@dimen/text_large"
-                    tools:text="300" />
-
-                <TextView
-                    android:id="@+id/tvFoodTaxesLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tvItemTotalLabel"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="@string/cart_fragment_food_taxes"
-                    android:textColor="@color/color_price"
-                    android:textSize="@dimen/text_large"
-                    app:drawableEndCompat="@drawable/ic_info_24"/>
-
-                <TextView
-                    android:id="@+id/tvFoodTaxes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/tvFoodTaxesLabel"
-                    android:layout_alignBottom="@id/tvFoodTaxesLabel"
-                    android:layout_alignParentEnd="true"
-                    android:fontFamily="@font/inter_regular"
-                    android:textColor="@color/color_price"
-                    android:textSize="@dimen/text_large"
-                    tools:text="300" />
-
-                <TextView
-                    android:id="@+id/tvLiquorTaxesLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tvFoodTaxesLabel"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="@string/cart_fragment_liquor_taxes"
-                    android:textColor="@color/color_price"
-                    android:textSize="@dimen/text_large"
-                    app:drawableEndCompat="@drawable/ic_info_24" />
-
-                <TextView
-                    android:id="@+id/tvLiquorTaxes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/tvLiquorTaxesLabel"
-                    android:layout_alignBottom="@id/tvLiquorTaxesLabel"
-                    android:layout_alignParentEnd="true"
-                    android:fontFamily="@font/inter_regular"
-                    android:textColor="@color/color_price"
-                    android:textSize="@dimen/text_large"
-                    tools:text="300" />
-
-                <ImageView
-                    android:id="@+id/ivDivider1"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilSuggestions"
+                    style="@style/AppTextInputLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/tvLiquorTaxesLabel"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/light_gray" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/app_margin"
+                    android:layout_marginTop="@dimen/app_margin"
+                    android:layout_marginEnd="@dimen/app_margin">
+
+                    <com.core.ui.custom.ClearFocusTextInputEditText
+                        android:id="@+id/etSuggestions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_regular"
+                        android:hint="@string/any_suggestions"
+                        android:inputType="none"
+                        android:maxLength="@integer/full_name_max_length"
+                        android:paddingEnd="36dp"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTextInputEditText"
+                        tools:ignore="RtlSymmetry"
+                        tools:text="gfchvbjknlmhjvg" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
-                    android:id="@+id/tvTotalAmountLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/ivDivider1"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="@dimen/app_margin_1"
+                    android:layout_marginTop="@dimen/app_margin_1"
+                    android:layout_marginEnd="@dimen/app_margin"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Total Amount"
+                    android:text="@string/bill_details"
                     android:textColor="@color/text_color_food"
-                    android:textSize="@dimen/text_huge" />
+                    android:textSize="@dimen/text_medium" />
 
-                <TextView
-                    android:id="@+id/tvTotalAmount"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/tvTotalAmountLabel"
-                    android:layout_alignBottom="@id/tvTotalAmountLabel"
-                    android:layout_alignParentEnd="true"
-                    android:fontFamily="@font/inter_bold"
-                    android:textColor="@color/text_color_food"
-                    android:textSize="@dimen/text_huge"
-                    tools:text="300" />
+                    android:paddingStart="@dimen/app_margin_1"
+                    android:paddingEnd="@dimen/app_margin_1">
 
-            </RelativeLayout>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+                    <TextView
+                        android:id="@+id/tvItemTotalLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="@string/item_total"
+                        android:textColor="@color/color_price"
+                        android:textSize="@dimen/text_large" />
+
+                    <TextView
+                        android:id="@+id/tvItemTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/tvItemTotalLabel"
+                        android:layout_alignBottom="@id/tvItemTotalLabel"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/inter_regular"
+                        android:textColor="@color/color_price"
+                        android:textSize="@dimen/text_large"
+                        tools:text="300" />
+
+                    <TextView
+                        android:id="@+id/tvFoodTaxesLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvItemTotalLabel"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="@string/cart_fragment_food_taxes"
+                        android:textColor="@color/color_price"
+                        android:textSize="@dimen/text_large"
+                        app:drawableEndCompat="@drawable/ic_info_24"/>
+
+                    <TextView
+                        android:id="@+id/tvFoodTaxes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/tvFoodTaxesLabel"
+                        android:layout_alignBottom="@id/tvFoodTaxesLabel"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/inter_regular"
+                        android:textColor="@color/color_price"
+                        android:textSize="@dimen/text_large"
+                        tools:text="300" />
+
+                    <TextView
+                        android:id="@+id/tvLiquorTaxesLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvFoodTaxesLabel"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="@string/cart_fragment_liquor_taxes"
+                        android:textColor="@color/color_price"
+                        android:textSize="@dimen/text_large"
+                        app:drawableEndCompat="@drawable/ic_info_24" />
+
+                    <TextView
+                        android:id="@+id/tvLiquorTaxes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/tvLiquorTaxesLabel"
+                        android:layout_alignBottom="@id/tvLiquorTaxesLabel"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/inter_regular"
+                        android:textColor="@color/color_price"
+                        android:textSize="@dimen/text_large"
+                        tools:text="300" />
+
+                    <ImageView
+                        android:id="@+id/ivDivider1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@id/tvLiquorTaxesLabel"
+                        android:layout_marginTop="16dp"
+                        android:background="@color/light_gray" />
+
+                    <TextView
+                        android:id="@+id/tvTotalAmountLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ivDivider1"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Total Amount"
+                        android:textColor="@color/text_color_food"
+                        android:textSize="@dimen/text_huge" />
+
+                    <TextView
+                        android:id="@+id/tvTotalAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/tvTotalAmountLabel"
+                        android:layout_alignBottom="@id/tvTotalAmountLabel"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/inter_bold"
+                        android:textColor="@color/text_color_food"
+                        android:textSize="@dimen/text_huge"
+                        tools:text="300" />
+
+                </RelativeLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </ViewFlipper>
+
 
     <View
         android:layout_width="match_parent"

@@ -6,6 +6,7 @@ import com.illuminz.data.extensions.toApiError
 import com.illuminz.data.extensions.toApiFailure
 import com.illuminz.data.models.common.Resource
 import com.illuminz.data.models.request.CartRequest
+import com.illuminz.data.models.request.OrderListingRequest
 import com.illuminz.data.models.response.*
 import com.illuminz.data.remote.SocketManager
 import com.illuminz.data.remote.UserApi
@@ -109,6 +110,25 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun saveLaundryOrder(cartRequest: CartRequest): Resource<SaveLaundryOrderResponse> {
         return try {
             val response = userApi.saveLaundryOrder(cartRequest)
+            if (response.isSuccessful){
+                Resource.success(response.body()?.data)
+            }else{
+                Resource.error(response.toApiError())
+            }
+        }catch (throwable:Throwable){
+            Resource.error(throwable.toApiFailure())
+        }
+    }
+
+    override suspend fun getOrderListing(orderListingRequest: OrderListingRequest): Resource<OrderListingResponse> {
+        return try {
+            val response = userApi.getOrderListing(
+                room = 111,
+                groupCode = "111"
+//                status = orderListingRequest.status?.or(-1),
+//                orderType = orderListingRequest.orderType?.or(0),
+//                page = orderListingRequest.page?.or(-1)
+            )
             if (response.isSuccessful){
                 Resource.success(response.body()?.data)
             }else{

@@ -2,6 +2,7 @@ package com.illuminz.data.repository
 
 import com.illuminz.data.models.common.Resource
 import com.illuminz.data.models.request.CartRequest
+import com.illuminz.data.models.request.OrderListingRequest
 import com.illuminz.data.models.response.*
 
 interface UserRepository {
@@ -12,4 +13,5 @@ interface UserRepository {
     suspend fun getLaundryCart(cartRequest: CartRequest): Resource<LaundryCartResponse>
     suspend fun saveFoodOrder(cartRequest: CartRequest): Resource<SaveFoodOrderResponse>
     suspend fun saveLaundryOrder(cartRequest: CartRequest): Resource<SaveLaundryOrderResponse>
+    suspend fun getOrderListing(orderListingRequest: OrderListingRequest):Resource<OrderListingResponse>
 }

@@ -1,5 +1,6 @@
 package com.illuminz.application.ui.bookTable.items
 
+import androidx.core.content.ContextCompat
 import com.illuminz.application.R
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -8,14 +9,15 @@ import java.util.*
 
 class BookingTimeItem(
     val timeValue: Int,
-    var selected: Boolean = false) : Item() {
+    var selected: Boolean = false
+) : Item() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.apply {
             tvTimeValue.text = String.format(Locale.ENGLISH, "%02d", timeValue)
-            if (selected){
-                tvTimeValue.setTextColor(resources.getColor(R.color.green))
-            }else{
-                tvTimeValue.setTextColor(resources.getColor(R.color.text_color_3))
+            if (selected) {
+                tvTimeValue.setTextColor(ContextCompat.getColor(context, R.color.green))
+            } else {
+                tvTimeValue.setTextColor(ContextCompat.getColor(context, R.color.text_color_3))
             }
         }
     }

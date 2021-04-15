@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.core.extensions.gone
 import com.core.extensions.isNetworkActiveWithMessage
+import com.core.extensions.visible
 import com.illuminz.application.R
 import com.illuminz.application.ui.housekeeping.items.HouseKeepingItem
 import com.illuminz.application.ui.laundry.LaundryFragment
@@ -19,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_house_keeping.*
 import javax.inject.Inject
 
 class HouseKeepingFragment : DaggerBaseFragment() {
-    companion object{
+    companion object {
         const val TAG = "HouseKeepingFragment"
 
         private const val KEY_SERVICE_ID = "KEY_SERVICE_ID"
@@ -28,7 +30,7 @@ class HouseKeepingFragment : DaggerBaseFragment() {
         private const val FLIPPER_CHILD_RESULT = 0
         private const val FLIPPER_CHILD_LOADING = 1
 
-        fun newInstance(serviceId: String, serviceTag: String): HouseKeepingFragment{
+        fun newInstance(serviceId: String, serviceTag: String): HouseKeepingFragment {
             val fragment = HouseKeepingFragment()
             val arguments = Bundle()
             arguments.putString(KEY_SERVICE_ID, serviceId)
@@ -38,13 +40,13 @@ class HouseKeepingFragment : DaggerBaseFragment() {
         }
     }
 
-    private lateinit var serviceId :String
-    private lateinit var serviceTag :String
+    private lateinit var serviceId: String
+    private lateinit var serviceTag: String
 
-    private lateinit var adapter:GroupAdapter<GroupieViewHolder>
+    private lateinit var adapter: GroupAdapter<GroupieViewHolder>
 
     private val viewModel by lazy {
-        ViewModelProvider(this,viewModelFactory) [HouseKeepingViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[HouseKeepingViewModel::class.java]
     }
 
     override fun getLayoutResId(): Int = R.layout.fragment_house_keeping
@@ -63,7 +65,7 @@ class HouseKeepingFragment : DaggerBaseFragment() {
         adapter = GroupAdapter()
         rvHouseKeeping.adapter = adapter
 
-        if (requireContext().isNetworkActiveWithMessage()){
+        if (requireContext().isNetworkActiveWithMessage()) {
             viewModel.getHouseKeeping(serviceId, serviceTag)
         }
 
@@ -74,6 +76,7 @@ class HouseKeepingFragment : DaggerBaseFragment() {
             HouseKeepingItem(title = "Room Cleaning"),
             HouseKeepingItem(title = "Others")
         )
+
         adapter.addAll(item)
     }
 
@@ -81,21 +84,33 @@ class HouseKeepingFragment : DaggerBaseFragment() {
         toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
+
+        adapter.setOnItemClickListener { item, view ->
+            if (item is HouseKeepingItem) {
+
+                if (item.title.equals("Others")) {
+                    if (item.isChecked == true)
+                        tilHouseKeeping.visible()
+                    else
+                        tilHouseKeeping.gone()
+                }
+            }
+        }
     }
 
     private fun setObservers() {
         viewModel.getHouseObserver().observe(viewLifecycleOwner, Observer { resource ->
-            when(resource.status){
-                Status.LOADING ->{
-                   viewFlipper.displayedChild = FLIPPER_CHILD_LOADING
+            when (resource.status) {
+                Status.LOADING -> {
+                    viewFlipper.displayedChild = FLIPPER_CHILD_LOADING
                 }
 
-                Status.SUCCESS ->{
+                Status.SUCCESS -> {
                     viewFlipper.displayedChild = FLIPPER_CHILD_RESULT
 //                    resource.data?.let { setBasicData(it)  }
                 }
 
-                Status.ERROR ->{
+                Status.ERROR -> {
                     viewFlipper.displayedChild = FLIPPER_CHILD_RESULT
                 }
             }

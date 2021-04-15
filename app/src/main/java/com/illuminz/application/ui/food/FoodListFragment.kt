@@ -41,8 +41,9 @@ class FoodListFragment(
         private const val KEY_ID = "KEY_ID"
         private const val KEY_TAG = "KEY_TAG"
 
-        private const val FLIPPER_CHILD_RESULT = 0
-        private const val FLIPPER_CHILD_LOADING = 1
+        private const val FLIPPER_CHILD_RESULT = 2
+        private const val FLIPPER_CHILD_CONNECTION_ERROR = 2
+        private const val FLIPPER_CHILD_LOADING = 0
 
         fun newInstance(serviceId: String, serviceTag: String): FoodListFragment {
             val fragment = FoodListFragment()
@@ -125,7 +126,7 @@ class FoodListFragment(
                 }
 
                 Status.ERROR -> {
-                    viewFlipper.displayedChild = FLIPPER_CHILD_RESULT
+                    viewFlipper.displayedChild = FLIPPER_CHILD_CONNECTION_ERROR
                     handleError(resource.error)
                 }
             }
@@ -158,22 +159,13 @@ class FoodListFragment(
                     }
                 }
             }
-//            serviceCategoryList.forEach { serviceCategory ->
-//                serviceCategory.itemsArr?.forEach { serviceCategoryItem ->
-//                    savedCartList?.forEach { savedCartItem ->
-//                        if (savedCartItem.id == serviceCategoryItem.id) {
-//                            cartList.add(serviceCategoryItem)
-//                        }
-//                    }
-//                }
-//            }
         }
         btnMenu.visible()
 
-        addMealTimings(vegOnly = true, nonVegOnly = false)
+        addMealTimings(vegOnly = false,nonVegOnly = false)
 
         // Total items of type veg
-        val itemCount = getInitialItemCount(list = list, vegStatus = VEG)
+        val itemCount = getInitialItemCount(list = list, vegStatus = ALL)
 
         // Add category name and items
         list.forEachIndexed { index, serviceCategory ->
@@ -485,7 +477,6 @@ class FoodListFragment(
                 }
             }
         }
-
         return count
     }
 

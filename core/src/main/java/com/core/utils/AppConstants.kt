@@ -83,4 +83,7 @@ object AppConstants {
     const val CART_TYPE_FOOD = 111
     const val CART_TYPE_LAUNDRY = 222
 
+    const val FRAGMENT_TYPE_NEARBY = "FRAGMENT_TYPE_NEARBY"
+    const val FRAGMENT_TYPE_GYM = "FRAGMENT_TYPE_GYM"
+
 }

@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:clickable="true"
-    android:focusable="true"
-    android:orientation="vertical"
-    tools:context=".ui.laundry.LaundryFragment">
+    android:focusable="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -20,57 +18,75 @@
 
     <ImageView
         android:id="@+id/ivSearch"
-        android:layout_width="wrap_content"
+        android:layout_width="64dp"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignBaseline="@id/toolbar"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="24dp"
-        android:src="@drawable/ic_search" />
+        android:background="?attr/selectableItemBackground"
+        android:scaleType="center"
+        android:src="@drawable/ic_search"
+        tools:ignore="ContentDescription" />
 
-    <ImageView
+    <View
         android:id="@+id/ivDivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/toolbar"
         android:background="@color/light_gray" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ivDivider"
-        android:layout_marginTop="@dimen/app_margin"
-        android:background="@color/colorPrimaryDark"
-        android:textAlignment="textStart"
-        app:tabContentStart="28dp"
-        app:tabGravity="start"
-        app:tabIndicatorColor="@color/tab_highlight"
-        app:tabIndicatorFullWidth="false"
-        app:tabMinWidth="0dp"
-        app:tabMode="scrollable"
-        app:tabPaddingEnd="16dp"
-        app:tabPaddingStart="16dp"
-        app:tabSelectedTextColor="@color/tab_highlight"
-        app:tabTextAppearance="@style/CustomTabText"
-        app:tabTextColor="@color/tab_default_color" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpager"
+    <ViewFlipper
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tabLayout"
-        app:layout_anchor="@id/tabLayout" />
+        android:layout_below="@id/ivDivider">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/background_gradient_screen_bottom" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <com.illuminz.application.ui.custom.CartBarView
-        android:id="@+id/cartBarView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/app_margin"
+                android:background="@color/colorPrimaryDark"
+                android:textAlignment="textStart"
+                app:tabContentStart="28dp"
+                app:tabGravity="start"
+                app:tabIndicatorColor="@color/tab_highlight"
+                app:tabIndicatorFullWidth="false"
+                app:tabMinWidth="0dp"
+                app:tabMode="scrollable"
+                app:tabPaddingEnd="16dp"
+                app:tabPaddingStart="16dp"
+                app:tabSelectedTextColor="@color/tab_highlight"
+                app:tabTextAppearance="@style/CustomTabText"
+                app:tabTextColor="@color/tab_default_color" />
 
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tabLayout"
+                app:layout_anchor="@id/tabLayout" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/background_gradient_screen_bottom" />
+
+            <com.illuminz.application.ui.custom.CartBarView
+                android:id="@+id/cartBarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true" />
+
+        </RelativeLayout>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:theme="@style/AppProgressBarAppColor" />
+    </ViewFlipper>
 </RelativeLayout>

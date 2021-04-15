@@ -6,7 +6,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_veg_non_veg_selection.view.*
 
 class VegNonVegItem(
-    var isVegOnly: Boolean = true,
+    var isVegOnly: Boolean = false,
     var isNonVegOnly: Boolean = false,
     val callback: Callback
 ): Item() {

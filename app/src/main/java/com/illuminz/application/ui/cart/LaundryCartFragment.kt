@@ -46,6 +46,10 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
         private const val KEY_TITLE = "KEY_TITLE"
         private const val KEY_CART_ITEMS = "KEY_CART_ITEMS"
 
+        private const val CHILD_LOADING = 0
+        private const val CHILD_CONNECTION_ERROR = 1
+        private const val CHILD_RESULT = 2
+
         fun newInstance(title: String, list: ArrayList<CartItemDetail>): LaundryCartFragment {
             val fragment = LaundryCartFragment()
             val arguments = Bundle()
@@ -57,13 +61,13 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
     }
 
     private lateinit var cartAdapter: GroupAdapter<GroupieViewHolder>
-    private var popUpAdapter : GroupAdapter<GroupieViewHolder> = GroupAdapter()
+    private var popUpAdapter: GroupAdapter<GroupieViewHolder> = GroupAdapter()
     private lateinit var taxPopup: PopupWindow
 
     private var cartItemRequestList = mutableListOf<CartItemDetail>()
     private var cartItemsDetailList = mutableListOf<CartItemDto>()
 
-
+    private var quantityChanged = false
 
     private var taxesResponse = mutableListOf<TaxesDto>()
 
@@ -114,11 +118,13 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
         cartAdapter = GroupAdapter()
         rvCart.adapter = cartAdapter
 
+        cartBarView.gone()
+
         if (requireContext().isNetworkActiveWithMessage()) {
             quantityDecreasedCase = false
             quantityIncreasedCase = false
 
-           viewModel.getLaundryCart(cartRequest)
+            viewModel.getLaundryCart(cartRequest)
         }
     }
 
@@ -163,18 +169,19 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
         })
 
         viewModel.getLaundryCartObserver().observe(viewLifecycleOwner, Observer { resource ->
-            when(resource.status){
-                Status.LOADING ->{
-                    showLoading()
+            when (resource.status) {
+                Status.LOADING -> {
+                    viewFlipper.displayedChild = CHILD_LOADING
                 }
 
-                Status.SUCCESS ->{
-                    dismissLoading()
+                Status.SUCCESS -> {
+                    viewFlipper.displayedChild = CHILD_RESULT
+                    cartBarView.visible()
                     setBasicData(resource.data)
                 }
 
-                Status.ERROR ->{
-                    dismissLoading()
+                Status.ERROR -> {
+                    viewFlipper.displayedChild = CHILD_CONNECTION_ERROR
                     handleError(resource.error)
                     updateCartList()
                 }
@@ -193,7 +200,7 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
             }
         }
 
-        data?.taxes?.let { taxesResponse.addAll(it) }
+        data?.taxes?.laundryTaxes?.let { taxesResponse.addAll(it) }
 //        data?.taxes?.let { taxesResponse = it as MutableList<TaxesDto> }
 
         var itemCount = 0
@@ -286,6 +293,7 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
         cartItem: CartItemDto,
         laundryItem: Boolean
     ) {
+        quantityChanged = true
         quantityDecreasedCase = false
         quantityIncreasedCase = true
         if (requireContext().isNetworkActiveWithMessage()) {
@@ -319,6 +327,7 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
         cartItem: CartItem,
         laundryItem: Boolean
     ) {
+        quantityChanged = true
         quantityDecreasedCase = true
         quantityIncreasedCase = false
         if (requireContext().isNetworkActiveWithMessage()) {
@@ -500,9 +509,9 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
         recyclerView.adapter = popUpAdapter
 
         taxesResponse.forEach { taxes ->
-                val item = TaxesDetailPopUpItem(taxes)
-                popUpAdapter.add(item)
-            }
+            val item = TaxesDetailPopUpItem(taxes)
+            popUpAdapter.add(item)
+        }
 
         return PopupWindow(
             contentView,
@@ -511,11 +520,11 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
         )
     }
 
-    private fun setTaxVisibility(totalTax:Double, taxLabel: View, taxValue: View){
-        if (totalTax == 0.0){
+    private fun setTaxVisibility(totalTax: Double, taxLabel: View, taxValue: View) {
+        if (totalTax == 0.0) {
             taxLabel.gone()
             taxValue.gone()
-        }else{
+        } else {
             taxLabel.visible()
             taxValue.visible()
         }

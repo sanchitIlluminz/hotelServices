@@ -7,5 +7,5 @@ data class LaundryCartResponse (
     val items: List<CartItemDto>? = null,
 
     @field:SerializedName("taxes")
-    val taxes: List<TaxesDto>? = null
+    val taxes: TaxesResponse? = null
 )

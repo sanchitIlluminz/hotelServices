@@ -28,11 +28,10 @@ import javax.inject.Inject
 
 class SearchLaundryDialogFragment(
     var callback: Callback,
-    private val laundryType:Int
+    private val laundryType: Int
 ) : DaggerAppCompatDialogFragment(), LaundryItem.Callback {
-
     companion object {
-        const val TAG = "SearchLaundyDialogFragment"
+        const val TAG = "SearchLaundryDialogFragment"
     }
 
     @Inject
@@ -91,7 +90,7 @@ class SearchLaundryDialogFragment(
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.searchItems(newText,searchLaundryType)
+                viewModel.searchItems(newText, searchLaundryType)
                 return true
             }
 
@@ -110,9 +109,9 @@ class SearchLaundryDialogFragment(
                 Status.SUCCESS -> {
                     searchAdapter.clear()
                     val searchItems = resource.data
-                    if (searchItems?.isEmpty() == true){
+                    if (searchItems?.isEmpty() == true) {
                         searchAdapter.add(NoResultFoundItem())
-                    }else{
+                    } else {
                         searchItems?.forEach {
                             if (!it.ironingPrice.isNullOrZero()) {
                                 searchAdapter.add(

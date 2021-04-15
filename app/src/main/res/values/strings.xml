@@ -140,4 +140,6 @@
     <string name="fragment_housekeeping_enter_your_item">Enter your item</string>
     <string name="cart_fragment_food_taxes">Food taxes</string>
     <string name="cart_fragment_liquor_taxes">Liquor taxes</string>
+    <string name="fragment_title_gym">Gym</string>
+    <string name="btn_retry">Retry</string>
 </resources>

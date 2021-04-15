@@ -6,10 +6,9 @@ import android.text.style.ImageSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.core.R
-import kotlinx.android.synthetic.main.layout_error_view.view.*
+import kotlinx.android.synthetic.main.layout_welcome_dialog.view.*
 
 
 class ErrorView @JvmOverloads constructor(
@@ -19,7 +18,7 @@ class ErrorView @JvmOverloads constructor(
     private var errorButtonClickListener: ErrorButtonClickListener? = null
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.layout_error_view, this, true)
+        LayoutInflater.from(context).inflate(R.layout.layout_welcome_dialog, this, true)
 
         val typedArray =
             context.obtainStyledAttributes(attrs, R.styleable.ErrorView, defStyleAttr, 0)

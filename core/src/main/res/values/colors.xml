@@ -143,4 +143,7 @@
     <color name="screen_bottom_gradient_start">#FFFFFF</color>
     <color name="screen_bottom_gradient_end">#00FFFFFF</color>
 
+    <color name="errorViewTitle">#FF495968</color>
+    <color name="errorViewMessage">#FF6F7E8C</color>
+
 </resources>

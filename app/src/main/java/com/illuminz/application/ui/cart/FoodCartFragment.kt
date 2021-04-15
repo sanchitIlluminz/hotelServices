@@ -49,6 +49,10 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
         private const val KEY_TITLE = "KEY_TITLE"
         private const val KEY_CART_ITEMS = "KEY_CART_ITEMS"
 
+        private const val CHILD_LOADING = 0
+        private const val CHILD_CONNECTION_ERROR = 1
+        private const val CHILD_RESULT = 2
+
         fun newInstance(title: String, list: ArrayList<CartItemDetail>): FoodCartFragment {
             val fragment = FoodCartFragment()
             val arguments = Bundle()
@@ -66,7 +70,7 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
     private var cartItemRequestList = mutableListOf<CartItemDetail>()
     private var cartItemsDetailList = mutableListOf<CartItemDto>()
 
-
+    private var quantityChanged = false
 
     private var taxesResponse = TaxesResponse()
 
@@ -113,6 +117,8 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
         cartAdapter = GroupAdapter()
         rvCart.adapter = cartAdapter
 
+        cartBarView.gone()
+
         if (requireContext().isNetworkActiveWithMessage()) {
             quantityDecreasedCase = false
             quantityIncreasedCase = false
@@ -158,17 +164,29 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
         viewModel.getFoodCartObserver().observe(viewLifecycleOwner, Observer { resource ->
             when (resource.status) {
                 Status.LOADING -> {
-                    showLoading()
+                    if(quantityChanged){
+                       showLoading()
+                    }else{
+                        viewFlipper.displayedChild = CHILD_LOADING
+                    }
                 }
 
                 Status.SUCCESS -> {
-                    dismissLoading()
+                    if(quantityChanged){
+                        dismissLoading()
+                    }else{
+                        viewFlipper.displayedChild = CHILD_RESULT
+                    }
+                    cartBarView.visible()
                     setBasicData(resource.data)
-
                 }
 
                 Status.ERROR -> {
-                    dismissLoading()
+                    if(quantityChanged){
+                        dismissLoading()
+                    }else{
+                        viewFlipper.displayedChild = CHILD_CONNECTION_ERROR
+                    }
                     handleError(resource.error)
                     updateCartList()
                 }
@@ -276,6 +294,7 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
         cartItem: CartItemDto,
         laundryItem: Boolean
     ) {
+        quantityChanged = true
         quantityDecreasedCase = false
         quantityIncreasedCase = true
         if (requireContext().isNetworkActiveWithMessage()) {
@@ -309,6 +328,7 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
         cartItem: CartItem,
         laundryItem: Boolean
     ) {
+        quantityChanged = true
         quantityDecreasedCase = true
         quantityIncreasedCase = false
         if (requireContext().isNetworkActiveWithMessage()) {

@@ -9,6 +9,7 @@ import com.core.extensions.isNetworkActiveWithMessage
 import com.core.extensions.setCustomAnimations
 import com.core.ui.base.DaggerBaseFragment
 import com.core.utils.AnimationDirection
+import com.core.utils.AppConstants
 import com.illuminz.application.R
 import com.illuminz.application.ui.food.items.TitleItem
 import com.illuminz.application.ui.nearbyplaces.items.NearbyItem
@@ -22,31 +23,38 @@ import kotlinx.android.synthetic.main.fragment_nearby.toolbar
 
 class NearbyFragment : DaggerBaseFragment() {
     companion object {
-        const val TAG ="NearbyFragment"
+        const val TAG = "NearbyFragment"
 
         private const val KEY_SERVICE_ID = "KEY_SERVICE_ID"
         private const val KEY_service_TAG = "KEY_TAG"
+        private const val KEY_FRAGMENT_TYPE = "KEY_FRAGMENT_TYPE"
 
         private const val FLIPPER_CHILD_RESULT = 0
         private const val FLIPPER_CHILD_LOADING = 1
 
-        fun newInstance(serviceId: String, serviceTag: String): NearbyFragment{
+        fun newInstance(
+            serviceId: String,
+            serviceTag: String,
+            fragmentType: String
+        ): NearbyFragment {
             val fragment = NearbyFragment()
             val arguments = Bundle()
             arguments.putString(KEY_SERVICE_ID, serviceId)
             arguments.putString(KEY_service_TAG, serviceTag)
+            arguments.putString(KEY_FRAGMENT_TYPE, fragmentType)
             fragment.arguments = arguments
             return fragment
         }
     }
 
-    private lateinit var serviceId :String
-    private lateinit var serviceTag :String
+    private lateinit var serviceId: String
+    private lateinit var serviceTag: String
+    private lateinit var fragmentType: String
 
-    private lateinit var  adapter: GroupAdapter<GroupieViewHolder>
+    private lateinit var adapter: GroupAdapter<GroupieViewHolder>
 
     private val viewModel by lazy {
-        ViewModelProvider(this,viewModelFactory) [NearbyViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[NearbyViewModel::class.java]
     }
 
     override fun getLayoutResId(): Int = R.layout.fragment_nearby
@@ -67,25 +75,33 @@ class NearbyFragment : DaggerBaseFragment() {
 
         serviceId = requireArguments().getString(KEY_SERVICE_ID).orEmpty()
         serviceTag = requireArguments().getString(KEY_service_TAG).orEmpty()
+        fragmentType = requireArguments().getString(KEY_FRAGMENT_TYPE).orEmpty()
 
-        if (requireContext().isNetworkActiveWithMessage() && viewModel.nearbyListEmpty()){
+        val toolBarTitle = if (fragmentType == AppConstants.FRAGMENT_TYPE_NEARBY)
+            getString(R.string.nearby_places)
+        else
+            getString(R.string.fragment_title_gym)
+
+        toolbar.title = toolBarTitle
+
+        if (requireContext().isNetworkActiveWithMessage() && viewModel.nearbyListEmpty()) {
             viewModel.getNearbyPlaces(serviceId, serviceTag)
         }
     }
 
     private fun setObservers() {
         viewModel.getNearbyObserver().observe(viewLifecycleOwner, Observer { resource ->
-            when(resource.status){
-                Status.LOADING ->{
+            when (resource.status) {
+                Status.LOADING -> {
                     viewFlipper.displayedChild = FLIPPER_CHILD_LOADING
                 }
 
-                Status.SUCCESS ->{
+                Status.SUCCESS -> {
                     viewFlipper.displayedChild = FLIPPER_CHILD_RESULT
-                    resource.data?.let {  setBasicData(it) }
+                    resource.data?.let { setBasicData(it) }
                 }
 
-                Status.ERROR ->{
+                Status.ERROR -> {
                     viewFlipper.displayedChild = FLIPPER_CHILD_RESULT
                 }
             }
@@ -94,9 +110,14 @@ class NearbyFragment : DaggerBaseFragment() {
 
     private fun setBasicData(list: List<ServiceCategoryItemDto>) {
         adapter.clear()
-        adapter.add(NearbyTitleItem("Places to visit, Things to do, and more in Mumbai"))
+        val title = if (fragmentType == AppConstants.FRAGMENT_TYPE_NEARBY)
+            "Places to visit, Things to do, and more in Mumbai"
+        else
+            "You'll find something different in each of our clubs. Check out our favorites here"
 
-        list.forEach{ serviceCategoryItem ->
+        adapter.add(NearbyTitleItem(title))
+
+        list.forEach { serviceCategoryItem ->
             adapter.add(NearbyItem(serviceCategoryItem))
         }
     }
@@ -107,16 +128,19 @@ class NearbyFragment : DaggerBaseFragment() {
         }
 
         adapter.setOnItemClickListener { item, view ->
-            if (item is NearbyItem){
-                if (parentFragmentManager.findFragmentByTag(NearbyGalleryFragment.TAG) == null) {
-                    parentFragmentManager.beginTransaction()
-                        .setCustomAnimations(AnimationDirection.End)
-                        .replace(R.id.fragmentContainer,
-                            NearbyGalleryFragment.newInstance(item.serviceCategoryItem),
-                            NearbyGalleryFragment.TAG)
-                        .addToBackStack(NearbyGalleryFragment.TAG)
-                        .commit()
-                }
+            if (fragmentType == AppConstants.FRAGMENT_TYPE_NEARBY) {
+                if (item is NearbyItem) {
+                    if (parentFragmentManager.findFragmentByTag(NearbyGalleryFragment.TAG) == null) {
+                        parentFragmentManager.beginTransaction()
+                            .setCustomAnimations(AnimationDirection.End)
+                            .replace(
+                                R.id.fragmentContainer,
+                                NearbyGalleryFragment.newInstance(item.serviceCategoryItem),
+                                NearbyGalleryFragment.TAG
+                            )
+                            .addToBackStack(NearbyGalleryFragment.TAG)
+                            .commit()
+                    }
 //                val title = item.title
 //
 //                ImageDialogFragment.newInstance(title,getString(R.string.ten_km_away),imageList)
@@ -125,6 +149,7 @@ class NearbyFragment : DaggerBaseFragment() {
 //                ConfirmDialog.newInstance(getString(R.string.order_placed),
 //                    getString(R.string.order_will_be_delivered_in_time))
 //                    .show(childFragmentManager, ConfirmDialog.TAG)
+                }
             }
         }
     }

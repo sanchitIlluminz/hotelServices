@@ -54,91 +54,91 @@
         android:textColor="@color/sub_heading_text_color"
         android:textSize="@dimen/text_large" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvDescription"
-        android:layout_marginStart="@dimen/app_margin_1"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="@dimen/app_margin_1">
+<!--    <RadioGroup-->
+<!--        android:id="@+id/radioGroup"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/tvDescription"-->
+<!--        android:layout_marginStart="@dimen/app_margin_1"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:layout_marginEnd="@dimen/app_margin_1">-->
 
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbNow"
-            style="@style/RadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:checked="true"
-            android:fontFamily="@font/inter_medium"
-            android:layoutDirection="ltr"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:text="@string/request_now"
-            android:textAlignment="textStart"
-            android:textColor="@color/background_text_radio_button"
-            android:textSize="@dimen/text_xxhuge" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbLater"
-            style="@style/RadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="20dp"
-            android:checked="false"
-            android:fontFamily="@font/inter_medium"
-            android:layoutDirection="ltr"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:text="@string/schedule_for_later"
-            android:textAlignment="textStart"
-            android:textColor="@color/background_text_radio_button"
-            android:textSize="@dimen/text_xxhuge" />
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/tvSelectedTimeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/radioGroup"
-        android:layout_alignStart="@id/radioGroup"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="@dimen/app_margin"
-        android:enabled="true"
-        android:fontFamily="@font/inter_regular"
-        android:text="@string/wednesday_25_nov"
-        android:textColor="@color/sub_heading_text_color_1"
-        android:textSize="@dimen/text_huge" />
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/tvSelectedTimeLabel"
-        android:layout_marginStart="@dimen/app_margin"
-        android:layout_toEndOf="@id/tvSelectedTimeLabel">
 
         <TextView
-            android:id="@+id/tvSelectedTime"
-            android:layout_width="wrap_content"
+            android:id="@+id/rbNow"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_time_popup"
-            android:clickable="true"
-            android:enabled="false"
-            android:focusable="true"
+            android:layout_gravity="start"
+            android:layout_below="@id/tvDescription"
             android:fontFamily="@font/inter_medium"
-            android:padding="16dp"
-            android:text="@string/select_time"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/text_huge"
-            android:minWidth="150dp"
-            android:textStyle="bold"
-            app:drawableTint="@color/text_color_2"
-            android:drawablePadding="10dp"
-            app:drawableEndCompat="@drawable/background_dropdown" />
-    </RelativeLayout>
+            android:textColor="@color/text_color"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:drawablePadding="@dimen/app_margin_1"
+            android:text="@string/request_now"
+            android:textSize="@dimen/text_xxhuge"
+            android:layout_marginTop="@dimen/app_margin_1"
+            app:drawableStartCompat="@drawable/ic_radiobutton_active" />
+
+<!--        <androidx.appcompat.widget.AppCompatRadioButton-->
+<!--            android:id="@+id/rbLater"-->
+<!--            style="@style/RadioButton"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:checked="false"-->
+<!--            android:fontFamily="@font/inter_medium"-->
+<!--            android:layoutDirection="ltr"-->
+<!--            android:paddingStart="20dp"-->
+<!--            android:paddingEnd="20dp"-->
+<!--            android:text="@string/schedule_for_later"-->
+<!--            android:textAlignment="textStart"-->
+<!--            android:textColor="@color/background_text_radio_button"-->
+<!--            android:textSize="@dimen/text_xxhuge" />-->
+<!--    </RadioGroup>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvSelectedTimeLabel"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/radioGroup"-->
+<!--        android:layout_alignStart="@id/radioGroup"-->
+<!--        android:layout_marginStart="52dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:layout_marginEnd="@dimen/app_margin"-->
+<!--        android:enabled="true"-->
+<!--        android:fontFamily="@font/inter_regular"-->
+<!--        android:text="@string/wednesday_25_nov"-->
+<!--        android:textColor="@color/sub_heading_text_color_1"-->
+<!--        android:textSize="@dimen/text_huge" />-->
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignBaseline="@id/tvSelectedTimeLabel"-->
+<!--        android:layout_marginStart="@dimen/app_margin"-->
+<!--        android:layout_toEndOf="@id/tvSelectedTimeLabel">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvSelectedTime"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/background_time_popup"-->
+<!--            android:clickable="true"-->
+<!--            android:enabled="false"-->
+<!--            android:focusable="true"-->
+<!--            android:fontFamily="@font/inter_medium"-->
+<!--            android:padding="16dp"-->
+<!--            android:text="@string/select_time"-->
+<!--            android:textColor="@color/colorPrimary"-->
+<!--            android:textSize="@dimen/text_huge"-->
+<!--            android:minWidth="150dp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:drawableTint="@color/text_color_2"-->
+<!--            android:drawablePadding="10dp"-->
+<!--            app:drawableEndCompat="@drawable/background_dropdown" />-->
+<!--    </RelativeLayout>-->
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btOrderNow"

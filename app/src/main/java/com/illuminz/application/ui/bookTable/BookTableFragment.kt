@@ -14,18 +14,16 @@ import com.core.utils.SliderLayoutManager
 import com.illuminz.application.R
 import com.illuminz.application.ui.bookTable.items.BookingDateItem
 import com.illuminz.application.ui.bookTable.items.BookingTimeItem
+import com.illuminz.application.ui.custom.AddMenuItemView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.dialog_confirm.*
 import kotlinx.android.synthetic.main.fragment_book_table.*
-import kotlinx.android.synthetic.main.fragment_book_table.rvHour
-import kotlinx.android.synthetic.main.fragment_book_table.rvMin
 
-
-class BookTableFragment : DaggerBaseFragment() {
-
+class BookTableFragment : DaggerBaseFragment(), AddMenuItemView.Callback {
     companion object {
         const val TAG = "BookTableFragment"
+
         fun newInstance(): BookTableFragment {
             return BookTableFragment()
         }
@@ -40,16 +38,16 @@ class BookTableFragment : DaggerBaseFragment() {
     private var selectedHourPosition = 0
     private var selectedMinutePosition = 0
 
-    private var selectedHourItem:BookingTimeItem? = null
+    private var selectedHourItem: BookingTimeItem? = null
     private var selectedBookingDateItem: BookingDateItem? = null
 
     private lateinit var itemList: List<BookingDateItem>
 
-    private var guestNumber:Int =1
+    private var guestNumber: Int = 1
 
-    private lateinit var hrList1:ArrayList<Int>
-    private lateinit var hrList2:ArrayList<Int>
-    private lateinit var hrList3:ArrayList<Int>
+    private lateinit var hrList1: ArrayList<Int>
+    private lateinit var hrList2: ArrayList<Int>
+    private lateinit var hrList3: ArrayList<Int>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,7 +56,7 @@ class BookTableFragment : DaggerBaseFragment() {
     }
 
     private fun initialise() {
-        tvGuestNumber.text = guestNumber.toString()
+//        tvGuestNumber.text = guestNumber.toString()
 
         calendarAdapter = GroupAdapter()
         rvCalendar.adapter = calendarAdapter
@@ -89,15 +87,20 @@ class BookTableFragment : DaggerBaseFragment() {
             callback = object : SliderLayoutManager.OnItemSelectedListener {
                 override fun onItemSelected(layoutPosition: Int) {
                     selectedHourPosition = layoutPosition
-                    if (selectedHourItem!=null && selectedHourItem!= hourAdapter.getItem(selectedHourPosition) as BookingTimeItem){
+                    if (selectedHourItem != null && selectedHourItem != hourAdapter.getItem(
+                            selectedHourPosition
+                        ) as BookingTimeItem
+                    ) {
                         selectedHourItem?.selected = false
                         selectedHourItem?.notifyChanged()
 
-                        selectedHourItem = hourAdapter.getItem(selectedHourPosition) as BookingTimeItem
+                        selectedHourItem =
+                            hourAdapter.getItem(selectedHourPosition) as BookingTimeItem
                         selectedHourItem?.selected = true
                         selectedHourItem?.notifyChanged()
-                    }else if (selectedHourItem==null){
-                        selectedHourItem = hourAdapter.getItem(selectedHourPosition) as BookingTimeItem
+                    } else if (selectedHourItem == null) {
+                        selectedHourItem =
+                            hourAdapter.getItem(selectedHourPosition) as BookingTimeItem
                         selectedHourItem?.selected = true
                         selectedHourItem?.notifyChanged()
                     }
@@ -136,6 +139,8 @@ class BookTableFragment : DaggerBaseFragment() {
             activity?.onBackPressed()
         }
 
+        quantityView.setCallback(this)
+
         btConfirm.setOnClickListener {
 //            ConfirmDialog.newInstance(
 //                getString(R.string.reservation_confirmed),
@@ -143,8 +148,10 @@ class BookTableFragment : DaggerBaseFragment() {
 //            )
 //                .show(childFragmentManager, ConfirmDialog.TAG)
 
-            showDialog( getString(R.string.reservation_confirmed),
-                "7 Dec, 10:20 AM, 4 Guests")
+            showDialog(
+                getString(R.string.reservation_confirmed),
+                "7 Dec, 10:20 AM, 4 Guests"
+            )
         }
 
         calendarAdapter.setOnItemClickListener { item, _ ->
@@ -158,18 +165,18 @@ class BookTableFragment : DaggerBaseFragment() {
             }
         }
 
-        ibMinus.setOnClickListener {
-            if (guestNumber>1){
-                guestNumber = guestNumber.minus(1)
-                tvGuestNumber.setText(guestNumber.toString())
-            }
-        }
-
-        ibPlus.setOnClickListener {
-                guestNumber =guestNumber.plus(1)
-                tvGuestNumber.setText(guestNumber.toString())
-
-        }
+//        ibMinus.setOnClickListener {
+//            if (guestNumber>1){
+//                guestNumber = guestNumber.minus(1)
+//                tvGuestNumber.setText(guestNumber.toString())
+//            }
+//        }
+//
+//        ibPlus.setOnClickListener {
+//                guestNumber =guestNumber.plus(1)
+//                tvGuestNumber.setText(guestNumber.toString())
+//
+//        }
 
         hourAdapter.setOnItemClickListener { _, view ->
             rvHour.smoothScrollToPosition(rvHour.getChildLayoutPosition(view))
@@ -180,7 +187,7 @@ class BookTableFragment : DaggerBaseFragment() {
         }
     }
 
-    private fun setHourAdapterItems(hrList:ArrayList<Int>,timeZone:String){
+    private fun setHourAdapterItems(hrList: ArrayList<Int>, timeZone: String) {
         hourAdapter.clear()
         for (i in 1..hrList.size) {
             val hrItem = BookingTimeItem(hrList.get(i - 1))
@@ -189,7 +196,7 @@ class BookTableFragment : DaggerBaseFragment() {
         rvHour.scrollToPosition(0)
         rvMin.scrollToPosition(0)
 
-        if (timeZone==getString(R.string.am))
+        if (timeZone == getString(R.string.am))
             tvTime.text = getString(R.string.am)
         else
             tvTime.text = getString(R.string.pm)
@@ -217,5 +224,13 @@ class BookTableFragment : DaggerBaseFragment() {
             }
             show()
         }
+    }
+
+    override fun onIncreaseMenuItemQuantityClicked() {
+        guestNumber += 1
+    }
+
+    override fun onDecreaseMenuItemQuantityClicked() {
+        guestNumber -= 1
     }
 }

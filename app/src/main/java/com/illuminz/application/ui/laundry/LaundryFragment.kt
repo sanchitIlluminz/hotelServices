@@ -50,10 +50,8 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
         initialise()
         setListeners()
         setObservers()
-        setCart()
+        // getLaundryDetails()
     }
-
-
 
     private fun initialise() {
         cartBarView.gone()
@@ -74,17 +72,16 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
     private fun setObservers() {
         viewModel.getAmountObserver().observe(viewLifecycleOwner, Observer { resource ->
             if (resource.status == Status.SUCCESS) {
-                // Set visibilty and data of cartBar
-                if (!resource?.data?.get(1).isNullOrZero()) {
-                    cartBarView.visible()
-                    resource.data.let {
-                        cartBarView.setItemPrice(
-                            totalPrice = it?.get(0).orZero(),
-                            items = it?.get(1)?.toInt().orZero()
-                        )
-                    }
-                } else {
+                val quantity = resource.data?.first.orZero()
+                if (quantity == 0) {
                     cartBarView.gone()
+                } else {
+                    cartBarView.visible()
+                    val price = resource.data?.second.orZero()
+                    cartBarView.setItemPrice(
+                        totalPrice = price,
+                        items = quantity
+                    )
                 }
             }
         })
@@ -92,7 +89,7 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
 
     private fun setListeners() {
         toolbar.setNavigationOnClickListener {
-            activity?.onBackPressed()
+            requireActivity().onBackPressed()
         }
 
         ivSearch.setOnClickListener {
@@ -105,37 +102,40 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
             }
 
             val dialogFragment = SearchLaundryDialogFragment(this, laundryType)
-            dialogFragment.show(childFragmentManager, "")
+            dialogFragment.show(childFragmentManager, SearchLaundryDialogFragment.TAG)
         }
 
         cartBarView.setCallback(this)
     }
 
-    private fun setCart() {
-        val cartList = viewModel.getFinalCartList()
+    private fun getLaundryDetails() {
+        if (isNetworkActiveWithMessage()) {
+            viewModel.getLaundryDetails(serviceId, serviceTag, -1)
+        }
     }
+
     override fun onCartBarClick() {
         val cartList = viewModel.getFinalCartList()
-
         val list = arrayListOf<CartItemDetail>()
-        for (i in 0 until cartList.size) {
-            if (cartList[i].ironingPrice != null) {
+
+        cartList.forEach { cartItem ->
+            if (cartItem.ironingPrice != null) {
                 val item = CartItemDetail(
-                    id = cartList[i].id,
-                    type = cartList[i].laundryType,
-                    quantity = cartList[i].quantity
-                )
-                list.add(item)
-            }
-            if (cartList[i].washIroningPrice != null) {
-                val item = CartItemDetail(
-                    id = cartList[i].id,
-                    type = cartList[i].laundryType,
-                    quantity = cartList[i].quantity
+                    id = cartItem.id,
+                    type = cartItem.laundryType,
+                    quantity = cartItem.quantity
                 )
                 list.add(item)
             }
 
+            if (cartItem.washIroningPrice != null) {
+                val item = CartItemDetail(
+                    id = cartItem.id,
+                    type = cartItem.laundryType,
+                    quantity = cartItem.quantity
+                )
+                list.add(item)
+            }
         }
 
         viewModel.addSavedCart(list)
@@ -156,7 +156,6 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
             if (fragment is LaundryListFragment && fragment.getLaundryType() == laundryItem.laundryType) {
                 fragment.updateLaundryAdapter(laundryItem)
             }
-
         }
     }
 

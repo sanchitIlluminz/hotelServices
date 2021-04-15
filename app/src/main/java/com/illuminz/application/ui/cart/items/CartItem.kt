@@ -55,6 +55,10 @@ class CartItem(
                 }
                 LaundryFragment.TAG -> {
                     ivFoodType.gone()
+                    if (itemDetails.laundryType == AppConstants.LAUNDRY_ONLY_IRON)
+                        tvTitle.text = "${itemDetails.itemName}(only Iron)"
+                    else
+                        tvTitle.text = "${itemDetails.itemName}(wash & Iron)"
                     price = getPrice(itemDetails)
                 }
 

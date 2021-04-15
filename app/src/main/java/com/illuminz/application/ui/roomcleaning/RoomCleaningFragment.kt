@@ -45,30 +45,30 @@ class RoomCleaningFragment : DaggerBaseFragment() {
             activity?.onBackPressed()
         }
 
-        radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            when (checkedId) {
-                R.id.rbNow -> {
-                    tvSelectedTimeLabel.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorPrimary))
-                    tvSelectedTime.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorPrimary))
-                    tvSelectedTime.isEnabled = false
-                }
-                else -> {
-                    tvSelectedTimeLabel.setTextColor(ContextCompat.getColor(requireContext(),R.color.sub_heading_text_color_1))
-                    tvSelectedTime.setTextColor(ContextCompat.getColor(requireContext(),R.color.text_color_2))
-                    tvSelectedTime.isEnabled = true
-                }
-            }
-        }
-
-        tvSelectedTime.setOnClickListener {
-            cleaningPopup = showPopupWindow()
-            cleaningPopup.run {
-                isOutsideTouchable = true
-                isFocusable = true
-                setBackgroundDrawable(ColorDrawable(Color.WHITE))
-                showAsDropDown(tvSelectedTime)
-            }
-        }
+//        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+//            when (checkedId) {
+//                R.id.rbNow -> {
+//                    tvSelectedTimeLabel.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorPrimary))
+//                    tvSelectedTime.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorPrimary))
+//                    tvSelectedTime.isEnabled = false
+//                }
+//                else -> {
+//                    tvSelectedTimeLabel.setTextColor(ContextCompat.getColor(requireContext(),R.color.sub_heading_text_color_1))
+//                    tvSelectedTime.setTextColor(ContextCompat.getColor(requireContext(),R.color.text_color_2))
+//                    tvSelectedTime.isEnabled = true
+//                }
+//            }
+//        }
+//
+//        tvSelectedTime.setOnClickListener {
+//            cleaningPopup = showPopupWindow()
+//            cleaningPopup.run {
+//                isOutsideTouchable = true
+//                isFocusable = true
+//                setBackgroundDrawable(ColorDrawable(Color.WHITE))
+//                showAsDropDown(tvSelectedTime)
+//            }
+//        }
 
         btOrderNow.setOnClickListener {
             showConfirmationDialog(
@@ -117,16 +117,16 @@ class RoomCleaningFragment : DaggerBaseFragment() {
             adapter.add(popItem)
         }
 
-        adapter.setOnItemClickListener { item, view ->
-            if (item is PopupCleaningItem) {
-                tvSelectedTime.text = item.time
-                cleaningPopup.let {
-                    if (it.isShowing) {
-                        it.dismiss()
-                    }
-                }
-            }
-        }
+//        adapter.setOnItemClickListener { item, view ->
+//            if (item is PopupCleaningItem) {
+//                tvSelectedTime.text = item.time
+//                cleaningPopup.let {
+//                    if (it.isShowing) {
+//                        it.dismiss()
+//                    }
+//                }
+//            }
+//        }
 
         return PopupWindow(
             view,

@@ -7,5 +7,8 @@ data class TaxesResponse(
     val foodTaxes: List<TaxesDto>? = null,
 
     @field:SerializedName("liquorTaxes")
-    val liquorTaxes: List<TaxesDto>? = null
+    val liquorTaxes: List<TaxesDto>? = null,
+
+    @field:SerializedName("laundardyTaxes")
+    val laundryTaxes: List<TaxesDto>? = null
 )

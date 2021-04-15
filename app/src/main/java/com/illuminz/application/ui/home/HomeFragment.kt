@@ -15,6 +15,7 @@ import com.core.extensions.isNetworkActiveWithMessage
 import com.core.extensions.setCustomAnimations
 import com.core.ui.base.DaggerBaseFragment
 import com.core.utils.AnimationDirection
+import com.core.utils.AppConstants
 import com.illuminz.application.R
 import com.illuminz.application.ui.bar.DrinksFragment
 import com.illuminz.application.ui.bookTable.BookTableFragment
@@ -24,6 +25,7 @@ import com.illuminz.application.ui.housekeeping.HouseKeepingFragment
 import com.illuminz.application.ui.laundry.LaundryFragment
 import com.illuminz.application.ui.massage.MassageListFragment
 import com.illuminz.application.ui.nearbyplaces.NearbyFragment
+import com.illuminz.application.ui.orderlisting.OrdersFragment
 import com.illuminz.application.ui.roomcleaning.RoomCleaningFragment
 import com.illuminz.data.models.common.Status
 import com.illuminz.data.models.response.ServiceDto
@@ -122,11 +124,14 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
                     }
 
                     MASSAGE -> {
-                        val fragment = MassageListFragment.newInstance(
-                            serviceId = item.serviceDto.id.orEmpty(),
-                            serviceTag = item.serviceDto.tag.orEmpty()
-                        )
-                        openFragment(fragment, MassageListFragment.TAG)
+//                        val fragment = MassageListFragment.newInstance(
+//                            serviceId = item.serviceDto.id.orEmpty(),
+//                            serviceTag = item.serviceDto.tag.orEmpty()
+//                        )
+//                        openFragment(fragment, MassageListFragment.TAG)
+                        val fragment = OrdersFragment.newInstance()
+                        openFragment(fragment, OrdersFragment.TAG)
+
                     }
 
                     HOUSE_KEEPING -> {
@@ -153,8 +158,9 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
                     NEARBY -> {
                         val fragment = NearbyFragment.newInstance(
                             serviceId = item.serviceDto.id.orEmpty(),
-                            serviceTag = item.serviceDto.tag.orEmpty()
-                        )
+                            serviceTag = item.serviceDto.tag.orEmpty(),
+                            fragmentType = AppConstants.FRAGMENT_TYPE_NEARBY
+                            )
                         openFragment(fragment, NearbyFragment.TAG)
                     }
 
@@ -168,11 +174,12 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
                     }
 
                     GYM -> {
-//                        val fragment = NearbyFragment.newInstance(
-//                            getString(R.string.gym_features),
-//                            getString(R.string.gym_subtitle), gymList()
-//                        )
-//                        openFragment(fragment, NearbyFragment.TAG)
+                       val fragment = NearbyFragment.newInstance(
+                            serviceId = item.serviceDto.id.orEmpty(),
+                            serviceTag = item.serviceDto.tag.orEmpty(),
+                           fragmentType = AppConstants.FRAGMENT_TYPE_GYM
+                        )
+                        openFragment(fragment, NearbyFragment.TAG)
                     }
 
                     LAUNDRY -> {

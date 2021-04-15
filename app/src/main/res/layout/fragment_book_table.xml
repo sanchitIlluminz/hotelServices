@@ -223,50 +223,59 @@
                     android:textColor="@color/food_item_list_number"
                     android:text="@string/choose_an_available_time_slot"
                     android:layout_below="@id/tvSelectGuestLabel"/>
-                <LinearLayout
-                    android:id="@+id/llQuantity"
+
+                <com.illuminz.application.ui.custom.AddMenuItemView
+                    android:id="@+id/quantityView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="1dp"
-                    android:paddingBottom="1dp"
-                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_alignParentEnd="true"
-                    >
+                    android:layout_centerVertical="true"/>
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/llQuantity"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:paddingTop="1dp"-->
+<!--                    android:paddingBottom="1dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    >-->
 
-                    <ImageButton
-                        android:id="@+id/ibMinus"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/background_minus"
-                        android:src="@drawable/ic_min"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:scaleType="center"
-                        />
-                    <TextView
-                        android:id="@+id/tvGuestNumber"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:textColor="@color/text_color_2"
-                        android:textSize="@dimen/text_xxhuge"
-                        android:gravity="center"
-                        android:fontFamily="@font/inter_regular"
-                        tools:text="12"/>
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/ibMinus"-->
+<!--                        android:layout_width="40dp"-->
+<!--                        android:layout_height="40dp"-->
+<!--                        android:background="@drawable/background_minus"-->
+<!--                        android:src="@drawable/ic_min"-->
+<!--                        android:clickable="true"-->
+<!--                        android:focusable="true"-->
+<!--                        android:scaleType="center"-->
+<!--                        />-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/tvGuestNumber"-->
+<!--                        android:layout_width="60dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:clickable="true"-->
+<!--                        android:focusable="true"-->
+<!--                        android:textColor="@color/text_color_2"-->
+<!--                        android:textSize="@dimen/text_xxhuge"-->
+<!--                        android:gravity="center"-->
+<!--                        android:fontFamily="@font/inter_regular"-->
+<!--                        tools:text="12"/>-->
 
-                    <ImageButton
-                        android:id="@+id/ibPlus"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_plus"
-                        android:background="@drawable/background_minus"
-                        android:clickable="true"
-                        android:focusable="true"/>
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/ibPlus"-->
+<!--                        android:layout_width="40dp"-->
+<!--                        android:layout_height="40dp"-->
+<!--                        android:src="@drawable/ic_plus"-->
+<!--                        android:background="@drawable/background_minus"-->
+<!--                        android:clickable="true"-->
+<!--                        android:focusable="true"/>-->
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
             </RelativeLayout>
 
             <ImageView
