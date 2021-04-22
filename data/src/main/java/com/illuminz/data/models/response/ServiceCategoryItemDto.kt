@@ -19,7 +19,7 @@ data class ServiceCategoryItemDto(
     val image: String? = null,
 
     @field:SerializedName("price")
-    val price: Int? = null,
+    val price: Double? = null,
 
     @field:SerializedName("vegStatus")
     val vegStatus: Int? = null,

@@ -1,4 +1,4 @@
-package com.illuminz.application.ui.laundry
+package com.illuminz.application.ui.orderlisting
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -6,20 +6,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.core.utils.AppConstants
 
-class LaundryViewPager(
+class OrderViewPagerAdapter(
     fragmentManager: FragmentManager,
-    lifecycle: Lifecycle,
-    private val serviceId:String,
-    private val serviceTag:String
+    lifecycle: Lifecycle
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
-        return 2
+        return 3
     }
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> LaundryListFragment.newInstance(AppConstants.LAUNDRY_ONLY_IRON,serviceId,serviceTag)
-            else -> LaundryListFragment.newInstance(AppConstants.LAUNDRY_WASH_IRON,serviceId,serviceTag)
+            0 -> OrderListingFragment.newInstance(AppConstants.ORDER_TYPE_FOOD)
+            1 -> OrderListingFragment.newInstance(AppConstants.ORDER_TYPE_LAUNDRY)
+            else -> OrderListingFragment.newInstance(AppConstants.ORDER_TYPE_OTHERS)
         }
     }
 }

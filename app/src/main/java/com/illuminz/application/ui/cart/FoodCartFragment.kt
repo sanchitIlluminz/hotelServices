@@ -49,9 +49,9 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
         private const val KEY_TITLE = "KEY_TITLE"
         private const val KEY_CART_ITEMS = "KEY_CART_ITEMS"
 
-        private const val CHILD_LOADING = 0
-        private const val CHILD_CONNECTION_ERROR = 1
-        private const val CHILD_RESULT = 2
+        private const val CHILD_LOADING = 1
+        private const val CHILD_CONNECTION_ERROR = 2
+        private const val CHILD_RESULT = 0
 
         fun newInstance(title: String, list: ArrayList<CartItemDetail>): FoodCartFragment {
             val fragment = FoodCartFragment()
@@ -64,7 +64,7 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
     }
 
     private lateinit var cartAdapter: GroupAdapter<GroupieViewHolder>
-    private var popUpAdapter :GroupAdapter<GroupieViewHolder> = GroupAdapter()
+    private var popUpAdapter: GroupAdapter<GroupieViewHolder> = GroupAdapter()
     private lateinit var taxPopup: PopupWindow
 
     private var cartItemRequestList = mutableListOf<CartItemDetail>()
@@ -123,12 +123,6 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
             quantityDecreasedCase = false
             quantityIncreasedCase = false
             viewModel.getFoodCart(cartRequest)
-//            when(cartType){
-//                FoodListFragment.TAG ->
-//
-//                LaundryFragment.TAG -> viewModel.getLaundryCart(cartRequest)
-//            }
-
         }
     }
 
@@ -164,17 +158,17 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
         viewModel.getFoodCartObserver().observe(viewLifecycleOwner, Observer { resource ->
             when (resource.status) {
                 Status.LOADING -> {
-                    if(quantityChanged){
-                       showLoading()
-                    }else{
+                    if (quantityChanged) {
+                        showLoading()
+                    } else {
                         viewFlipper.displayedChild = CHILD_LOADING
                     }
                 }
 
                 Status.SUCCESS -> {
-                    if(quantityChanged){
+                    if (quantityChanged) {
                         dismissLoading()
-                    }else{
+                    } else {
                         viewFlipper.displayedChild = CHILD_RESULT
                     }
                     cartBarView.visible()
@@ -182,9 +176,9 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
                 }
 
                 Status.ERROR -> {
-                    if(quantityChanged){
+                    if (quantityChanged) {
                         dismissLoading()
-                    }else{
+                    } else {
                         viewFlipper.displayedChild = CHILD_CONNECTION_ERROR
                     }
                     handleError(resource.error)
@@ -232,41 +226,14 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
         }
 
         setToolbarItemCount(itemCount.orZero())
-
-//        when (cartType) {
-//            FoodListFragment.TAG -> {
-                cartItemsDetailList.forEach { cartItemDetails ->
-                    val item = CartItem(
-                        itemDetails = cartItemDetails,
-                        callback = this,
-                        fragmentTag = FoodListFragment.TAG
-                    )
-                    cartAdapter.add(item)
-                }
-
-
-//            LaundryFragment.TAG -> {
-//                cartItemsDetailList.forEach { cartItemDetails ->
-//                    val item = CartItem(
-//                        itemDetails = cartItemDetails,
-//                        callback = this,
-//                        fragmentTag = LaundryFragment.TAG
-//                    )
-//                    cartAdapter.add(item)
-//                }
-//            }
-//
-//            else -> {
-//                cartItemsDetailList.forEach { cartItemDetails ->
-//                    val item = CartItem(
-//                        itemDetails = cartItemDetails,
-//                        callback = this,
-//                        fragmentTag = MassageListFragment.TAG
-//                    )
-//                    cartAdapter.add(item)
-//                }
-//            }
-
+        cartItemsDetailList.forEach { cartItemDetails ->
+            val item = CartItem(
+                itemDetails = cartItemDetails,
+                callback = this,
+                fragmentTag = FoodListFragment.TAG
+            )
+            cartAdapter.add(item)
+        }
         changeCartItems()
     }
 
@@ -303,25 +270,6 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
         } else {
             cartItem.quantity = cartItem.quantity?.minus(1)
         }
-        //Find and change cartItem
-//        for (i in 0 until cartAdapter.groupCount) {
-//            val group = cartAdapter.getGroupAtAdapterPosition(i) as CartItem
-//
-//            if (group.itemDetails.id == cartItem.id) {
-//                if (!laundryItem        //Either not a laundry case
-//                    || (laundryItem     //Or laundry case and of same type i.e only iron or wash&iron
-//                            && checkSameCategoryItem(   //same category checked to differentiate between iron &wash iron item
-//                        cartItem,            // since id is same for both
-//                        group.itemDetails
-//                    ))
-//                ) {
-//                    group.itemDetails.quantity = cartItem.quantity
-//                    cartAdapter.notifyItemChanged(i, QuantityChangedPayload)
-//                }
-//                break
-//            }
-//        }
-//        changeCartItems(serviceCategoryItem = cartItem)
     }
 
     override fun onDecreaseCartItemClicked(
@@ -345,32 +293,6 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
         } else {
             cartItem.itemDetails.quantity = cartItem.itemDetails.quantity?.plus(1)
         }
-//        //Find and change cartItem
-//        for (i in 0 until cartAdapter.groupCount) {
-//            val group = cartAdapter.getGroupAtAdapterPosition(i) as CartItem
-//
-//            if (group.itemDetails.id == serviceCategoryItem.id) {
-//                if (!laundryItem        //Either not a laundry case
-//                    || (laundryItem     //Or laundry case and of same type i.e only iron or wash&iron
-//                            && checkSameCategoryItem(   //same category checked to differentiate between iron &wash iron item
-//                        serviceCategoryItem,            // since id is same for both
-//                        group.itemDetails
-//                    ))
-//                ) {
-//                    //Remove item if quantity is zero or update it
-//                    if (serviceCategoryItem.quantity == 0) {
-//                        cartAdapter.removeGroupAtAdapterPosition(i)
-//                        cartItemList.removeAt(i)
-//                    } else {
-//                        group.itemDetails.quantity = serviceCategoryItem.quantity
-//                        cartItemList[i].quantity = serviceCategoryItem.quantity
-//                    }
-//                    cartAdapter.notifyItemChanged(i, QuantityChangedPayload)
-//                }
-//                break
-//            }
-//        }
-//        changeCartItems(serviceCategoryItem = serviceCategoryItem)
     }
 
     private fun changeCartItems(
@@ -381,16 +303,6 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
 
         cartItemsDetailList.forEach {
             cartItemCount += it.quantity.orZero()
-
-//            // For laundry, price field is empty so check ironing and washIroning price
-//            if (cartType.equals(LaundryFragment.TAG)) {
-//                if (it.ironingPrice != null)
-//                    totalAmount += it.ironingPrice.orZero() * it.quantity
-//                else
-//                    totalAmount += it.washIroningPrice.orZero() * it.quantity
-//            } else {
-//                totalAmount += (it.price.orZero() * it.quantity)
-//            }
         }
 
         setToolbarItemCount(cartItemCount.orZero())
@@ -489,7 +401,7 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
     private fun getCartRequest(
     ): CartRequest {
         val roomNo = 111
-        val groupCode = "111"
+        val groupCode = "1618486040534"
         val cartItemDetailList = mutableListOf<CartItemDetail>()
 
         cartItemsDetailList.forEach { cartItem ->
@@ -507,19 +419,19 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
         )
     }
 
-    private fun showPopUpWindow(type:Int):PopupWindow{
-        val contentView = View.inflate(requireContext(),R.layout.layout_tax_popup, null)
+    private fun showPopUpWindow(type: Int): PopupWindow {
+        val contentView = View.inflate(requireContext(), R.layout.layout_tax_popup, null)
         val recyclerView = contentView.findViewById<RecyclerView>(R.id.rvPopup)
 
         popUpAdapter.clear()
         recyclerView.adapter = popUpAdapter
 
-        if (type == TAX_TYPE_FOOD){
+        if (type == TAX_TYPE_FOOD) {
             taxesResponse.foodTaxes?.forEach { taxes ->
                 val item = TaxesDetailPopUpItem(taxes)
                 popUpAdapter.add(item)
             }
-        }else{
+        } else {
             taxesResponse.liquorTaxes?.forEach { taxes ->
                 val item = TaxesDetailPopUpItem(taxes)
                 popUpAdapter.add(item)
@@ -533,11 +445,11 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
         )
     }
 
-    private fun setTaxVisibility(totalTax:Double,taxLabel:View,taxValue: View){
-        if (totalTax == 0.0){
+    private fun setTaxVisibility(totalTax: Double, taxLabel: View, taxValue: View) {
+        if (totalTax == 0.0) {
             taxLabel.gone()
             taxValue.gone()
-        }else{
+        } else {
             taxLabel.visible()
             taxValue.visible()
         }

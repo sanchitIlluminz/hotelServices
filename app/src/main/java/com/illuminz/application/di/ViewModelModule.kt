@@ -7,6 +7,7 @@ import com.core.di.ViewModelKey
 import com.illuminz.application.ui.cart.FoodCartViewModel
 import com.illuminz.application.ui.cart.LaundryCartViewModel
 import com.illuminz.application.ui.food.FoodViewModel
+import com.illuminz.application.ui.home.FeedbackViewModel
 import com.illuminz.application.ui.home.ServicesViewModel
 import com.illuminz.application.ui.housekeeping.HouseKeepingViewModel
 import com.illuminz.application.ui.laundry.LaundryViewModel
@@ -58,17 +59,22 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(FoodCartViewModel::class)
-    abstract fun foodCartViewModel(viewModelFood: FoodCartViewModel): ViewModel
+    abstract fun foodCartViewModel(viewModel: FoodCartViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(LaundryCartViewModel::class)
-    abstract fun laundryCartViewModel(viewModelFood: LaundryCartViewModel): ViewModel
+    abstract fun laundryCartViewModel(viewModel: LaundryCartViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(OrderListingViewModel::class)
-    abstract fun orderListingViewModel(viewModelFood: OrderListingViewModel): ViewModel
+    abstract fun orderListingViewModel(viewModel: OrderListingViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FeedbackViewModel::class)
+    abstract fun feedbackViewModel(viewModel: FeedbackViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

@@ -7,6 +7,7 @@ import com.core.utils.AppConstants
 import com.core.utils.SingleLiveEvent
 import com.illuminz.application.ui.cart.CartHandler
 import com.illuminz.data.models.common.Resource
+import com.illuminz.data.models.common.Status
 import com.illuminz.data.models.request.CartItemDetail
 import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.illuminz.data.models.response.ServiceCategoryDto
@@ -35,7 +36,7 @@ class FoodViewModel @Inject constructor(
 
 
     fun getFoodProducts(id: String, tag: String) {
-       if (foodProductsObserver.value == null){
+       if (foodProductsObserver.value == null || foodProductsObserver.value?.status == Status.ERROR){
            launch {
                foodList.clear()
                foodProductsObserver.value = Resource.loading()

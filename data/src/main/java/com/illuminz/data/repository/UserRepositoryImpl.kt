@@ -6,6 +6,7 @@ import com.illuminz.data.extensions.toApiError
 import com.illuminz.data.extensions.toApiFailure
 import com.illuminz.data.models.common.Resource
 import com.illuminz.data.models.request.CartRequest
+import com.illuminz.data.models.request.FeedbackRequest
 import com.illuminz.data.models.request.OrderListingRequest
 import com.illuminz.data.models.response.*
 import com.illuminz.data.remote.SocketManager
@@ -27,27 +28,28 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getServices(): Resource<List<ServiceDto>> {
         return try {
             val response = userApi.getServices()
-            if (response.isSuccessful){
+            if (response.isSuccessful) {
                 Resource.success(response.body()?.data)
-            }else{
+            } else {
                 Resource.error(response.toApiError())
             }
-        }catch (throwable:Throwable){
+        } catch (throwable: Throwable) {
             Resource.error(throwable.toApiFailure())
         }
     }
 
-    override suspend fun getServiceProduct(id: String, tag: String
+    override suspend fun getServiceProduct(
+        id: String, tag: String
     ): Resource<List<ServiceCategoryItemDto>> {
 //    return Resource.success()
-    return try {
-            val response = userApi.getServiceProducts(id,tag)
-            if (response.isSuccessful){
+        return try {
+            val response = userApi.getServiceProducts(id, tag)
+            if (response.isSuccessful) {
                 Resource.success(response.body()?.data)
-            }else{
+            } else {
                 Resource.error(response.toApiError())
             }
-        }catch (throwable:Throwable){
+        } catch (throwable: Throwable) {
             Resource.error(throwable.toApiFailure())
         }
     }
@@ -57,39 +59,39 @@ class UserRepositoryImpl @Inject constructor(
         tag: String
     ): Resource<List<ServiceCategoryDto>> {
         return try {
-            val response = userApi.getFoodProducts(id,tag)
-            if (response.isSuccessful){
+            val response = userApi.getFoodProducts(id, tag)
+            if (response.isSuccessful) {
                 Resource.success(response.body()?.data)
-            }else{
+            } else {
                 Resource.error(response.toApiError())
             }
-        }catch (throwable:Throwable){
+        } catch (throwable: Throwable) {
             Resource.error(throwable.toApiFailure())
         }
     }
 
-    override suspend fun getFoodCart(cartRequest: CartRequest) :Resource<FoodCartResponse>{
-       return try {
-           val response = userApi.getFoodCart(cartRequest)
-           if (response.isSuccessful){
-               Resource.success(response.body()?.data)
-           }else{
-               Resource.error(response.toApiError())
-           }
-       }catch (throwable:Throwable){
-           Resource.error(throwable.toApiFailure())
-       }
+    override suspend fun getFoodCart(cartRequest: CartRequest): Resource<FoodCartResponse> {
+        return try {
+            val response = userApi.getFoodCart(cartRequest)
+            if (response.isSuccessful) {
+                Resource.success(response.body()?.data)
+            } else {
+                Resource.error(response.toApiError())
+            }
+        } catch (throwable: Throwable) {
+            Resource.error(throwable.toApiFailure())
+        }
     }
 
     override suspend fun getLaundryCart(cartRequest: CartRequest): Resource<LaundryCartResponse> {
         return try {
             val response = userApi.getLaundryCart(cartRequest)
-            if (response.isSuccessful){
+            if (response.isSuccessful) {
                 Resource.success(response.body()?.data)
-            }else{
+            } else {
                 Resource.error(response.toApiError())
             }
-        }catch (throwable:Throwable){
+        } catch (throwable: Throwable) {
             Resource.error(throwable.toApiFailure())
         }
     }
@@ -97,12 +99,12 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun saveFoodOrder(cartRequest: CartRequest): Resource<SaveFoodOrderResponse> {
         return try {
             val response = userApi.saveFoodOrder(cartRequest)
-            if (response.isSuccessful){
+            if (response.isSuccessful) {
                 Resource.success(response.body()?.data)
-            }else{
+            } else {
                 Resource.error(response.toApiError())
             }
-        }catch (throwable:Throwable){
+        } catch (throwable: Throwable) {
             Resource.error(throwable.toApiFailure())
         }
     }
@@ -110,12 +112,12 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun saveLaundryOrder(cartRequest: CartRequest): Resource<SaveLaundryOrderResponse> {
         return try {
             val response = userApi.saveLaundryOrder(cartRequest)
-            if (response.isSuccessful){
+            if (response.isSuccessful) {
                 Resource.success(response.body()?.data)
-            }else{
+            } else {
                 Resource.error(response.toApiError())
             }
-        }catch (throwable:Throwable){
+        } catch (throwable: Throwable) {
             Resource.error(throwable.toApiFailure())
         }
     }
@@ -129,12 +131,54 @@ class UserRepositoryImpl @Inject constructor(
 //                orderType = orderListingRequest.orderType?.or(0),
 //                page = orderListingRequest.page?.or(-1)
             )
-            if (response.isSuccessful){
+            if (response.isSuccessful) {
                 Resource.success(response.body()?.data)
-            }else{
+            } else {
                 Resource.error(response.toApiError())
             }
-        }catch (throwable:Throwable){
+        } catch (throwable: Throwable) {
+            Resource.error(throwable.toApiFailure())
+        }
+    }
+
+    override suspend fun getUserInfo(room: Int, groupCode: String): Resource<GuestInfoResponse> {
+        return try {
+            val response = userApi.getUserInfo(
+                roomNumber = room,
+                groupCode = groupCode
+            )
+            if (response.isSuccessful) {
+                Resource.success(response.body()?.data)
+            } else {
+                Resource.error(response.toApiError())
+            }
+        } catch (throwable: Throwable) {
+            Resource.error(throwable.toApiFailure())
+        }
+    }
+
+    override suspend fun getuserfeedback(room: Int, groupCode: String): Resource<FeedbackResponse> {
+        return try {
+            val response = userApi.getUserFeedback(room, groupCode)
+            if (response.isSuccessful) {
+                Resource.success(response.body()?.data)
+            } else {
+                Resource.error(response.toApiError())
+            }
+        } catch (throwable: Throwable) {
+            Resource.error(throwable.toApiFailure())
+        }
+    }
+
+    override suspend fun submitFeedback(feedbackRequest: FeedbackRequest): Resource<FeedbackResponse> {
+        return try {
+            val response = userApi.submitFeedback(feedbackRequest)
+            if (response.isSuccessful) {
+                Resource.success(response.body()?.data)
+            } else {
+                Resource.error(response.toApiError())
+            }
+        } catch (throwable: Throwable) {
             Resource.error(throwable.toApiFailure())
         }
     }

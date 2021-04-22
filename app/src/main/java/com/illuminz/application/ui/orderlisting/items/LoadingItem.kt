@@ -1,4 +1,4 @@
-package com.illuminz.application.ui.orderlisting
+package com.illuminz.application.ui.orderlisting.items
 
 import com.illuminz.application.R
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder

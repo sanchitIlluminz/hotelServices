@@ -20,11 +20,13 @@ import com.illuminz.application.ui.massage.SearchMassageDialogFragment
 import com.illuminz.application.ui.nearbyplaces.ImageDialogFragment
 import com.illuminz.application.ui.nearbyplaces.NearbyFragment
 import com.illuminz.application.ui.nearbyplaces.NearbyGalleryFragment
+import com.illuminz.application.ui.orderlisting.OrderListingFragment
 import com.illuminz.application.ui.orderlisting.OrdersFragment
 import com.illuminz.application.ui.roomcleaning.RoomCleaningFragment
 import com.illuminz.application.ui.transport.TransportDialog
 import com.illuminz.application.ui.transport.TransportFragment
 import com.illuminz.application.ui.payment.PaymentMethodFragment
+import com.illuminz.application.ui.pickUpLuggage.PickLuggageFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -101,6 +103,12 @@ abstract class FragmentBindingModule {
 
     @ContributesAndroidInjector
     abstract fun searchMassageDialogFragment() : SearchMassageDialogFragment
+
+    @ContributesAndroidInjector
+    abstract fun orderListingFragment() : OrderListingFragment
+
+    @ContributesAndroidInjector
+    abstract fun pickLuggageFragment() : PickLuggageFragment
 
     @ContributesAndroidInjector
     abstract fun ordersFragment() : OrdersFragment

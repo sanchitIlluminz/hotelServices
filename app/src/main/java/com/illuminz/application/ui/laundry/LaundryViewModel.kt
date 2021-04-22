@@ -27,11 +27,11 @@ class LaundryViewModel @Inject constructor(
     private val searchItemObserver by lazy { SingleLiveEvent<Resource<List<ServiceCategoryItemDto>>>() }
     private val amountObserver by lazy { MutableLiveData<Resource<Pair<Int, Double>>>() }
 
+    private var originalList = mutableListOf<ServiceCategoryItemDto>()
     private var originalOnlyIronList = mutableListOf<ServiceCategoryItemDto>()
     private var originalWashIronList = mutableListOf<ServiceCategoryItemDto>()
     private var onlyIronCartList = mutableListOf<ServiceCategoryItemDto>()
     private var washIronCartList = mutableListOf<ServiceCategoryItemDto>()
-    private var cartList = mutableListOf<ServiceCategoryItemDto>()
 
     private var searchProductJob: Job? = null
 
@@ -39,73 +39,51 @@ class LaundryViewModel @Inject constructor(
     fun getAmountObserver(): LiveData<Resource<Pair<Int, Double>>> = amountObserver
     fun getSearchObserver(): LiveData<Resource<List<ServiceCategoryItemDto>>> = searchItemObserver
 
-    fun getLaundryDetails(serviceId: String, serviceTag: String, laundryType: Int) {
-        /*launch {
+    fun getLaundryDetails(serviceId: String, serviceTag: String) {
+        launch {
+            originalList.clear()
+            originalWashIronList.clear()
+            originalOnlyIronList.clear()
             laundryObserver.value = Resource.loading()
             val resource = userRepository.getServiceProduct(serviceId, serviceTag)
-            laundryList.clear()
-            laundryList.addAll(resource.data.orEmpty())
-            laundryObserver.value = resource
-        }*/
 
-        //Check details for which laundry type is needed
-        if (laundryType == AppConstants.LAUNDRY_ONLY_IRON) {
-            //Check if case of back button
-            if (originalOnlyIronList.size == 0) {
-                launch {
-                    laundryObserver.value = Resource.loading()
-                    val response = userRepository.getServiceProduct(serviceId, serviceTag)
-                    originalOnlyIronList.clear()
+            originalList.addAll(resource.data.orEmpty())
 
-                    response.data?.forEach { serviceCategoryItem ->
-                        val itemDto =
-                            serviceCategoryItem.copy(
-                                ironingPrice = serviceCategoryItem.ironingPrice,
-                                laundryType = AppConstants.LAUNDRY_ONLY_IRON,
-                                washIroningPrice = null
-                            )
-                        originalOnlyIronList.add(itemDto)
-                    }
-                    response.data?.let { initialiseCartList(it) }
-                    updateOriginalList(AppConstants.LAUNDRY_ONLY_IRON)
-                    updateAllCartLists()
-                    laundryObserver.value = response
-                    updateLaundryPrice()
-                }
-            } else {    //Case of back button
-                updateOriginalList(AppConstants.LAUNDRY_ONLY_IRON)
-                updateAllCartLists()
-                laundryObserver.value = Resource.success()
-                updateLaundryPrice()
+            originalList.forEach { serviceCategoryItem ->
+                val onlyIronItem = serviceCategoryItem.copy(
+                    washIroningPrice = null,
+                    laundryType = AppConstants.LAUNDRY_ONLY_IRON
+                )
+                originalOnlyIronList.add(onlyIronItem)
+
+                val washIronItem = serviceCategoryItem.copy(
+                    ironingPrice = null,
+                    laundryType = AppConstants.LAUNDRY_WASH_IRON
+                )
+                originalWashIronList.add(washIronItem)
             }
-        } else {
-            //Case of both iron & wash
-            //Check if case of back button
-            if (originalWashIronList.size == 0) {
-                launch {
-                    laundryObserver.value = Resource.loading()
-                    val response = userRepository.getServiceProduct(serviceId, serviceTag)
-                    originalWashIronList.clear()
+            val savedCartItems = cartHandler.getCartList(AppConstants.CART_TYPE_LAUNDRY)
+            if (!savedCartItems.isNullOrEmpty()) {
+                updateList(savedCartItems)
+            }
+            laundryObserver.value = resource
+        }
+    }
 
-                    response.data?.forEach { serviceCategoryItem ->
-                        val itemDto = serviceCategoryItem.copy(
-                            washIroningPrice = serviceCategoryItem.washIroningPrice,
-                            ironingPrice = null,
-                            laundryType = AppConstants.LAUNDRY_WASH_IRON
-                        )
-                        originalWashIronList.add(itemDto)
-                    }
-                    response.data?.let { initialiseCartList(it) }
-                    updateOriginalList(AppConstants.LAUNDRY_WASH_IRON)
-                    updateAllCartLists()
-                    laundryObserver.value = response
-                    updateLaundryPrice()
+    private fun updateList(savedCartItems: List<CartItemDetail>) {
+        originalOnlyIronList.forEach { serviceCategoryItem ->
+            savedCartItems.forEach { savedItem ->
+                if ((savedItem.id == serviceCategoryItem.id) && (savedItem.type == serviceCategoryItem.laundryType)) {
+                    serviceCategoryItem.quantity = savedItem.quantity.orZero()
                 }
-            } else {       //Case of back button
-                updateOriginalList(AppConstants.LAUNDRY_WASH_IRON)
-                updateAllCartLists()
-                laundryObserver.value = Resource.success()
-                updateLaundryPrice()
+            }
+        }
+
+        originalWashIronList.forEach { serviceCategoryItem ->
+            savedCartItems.forEach { savedItem ->
+                if ((savedItem.id == serviceCategoryItem.id) && (savedItem.type == serviceCategoryItem.laundryType)) {
+                    serviceCategoryItem.quantity = savedItem.quantity.orZero()
+                }
             }
         }
     }
@@ -123,12 +101,10 @@ class LaundryViewModel @Inject constructor(
         searchProductJob = launch {
             withContext(Dispatchers.Default) {
                 val searchTextLowerCase = query.toLowerCase(Locale.US)
-                val allItemList = mutableListOf<ServiceCategoryItemDto>()
-
-                if (laundryType == AppConstants.LAUNDRY_ONLY_IRON) {
-                    allItemList.addAll(originalOnlyIronList)
+                val allItemList = if (laundryType == AppConstants.LAUNDRY_ONLY_IRON) {
+                    originalOnlyIronList
                 } else {
-                    allItemList.addAll(originalWashIronList)
+                    originalWashIronList
                 }
 
                 val searchedItems = allItemList.filter { laundry ->
@@ -154,179 +130,53 @@ class LaundryViewModel @Inject constructor(
                 }
             }
         }
+        updateLaundryPrice()
+        updateCartList(laundryItem.serviceCategoryItem)
     }
 
-    fun updateCartList(cartList: MutableList<ServiceCategoryItemDto>, laundryType: Int) {
-        if (laundryType == AppConstants.LAUNDRY_ONLY_IRON) {
-            onlyIronCartList.clear()
-            onlyIronCartList.addAll(cartList)
-        } else {
-            washIronCartList.clear()
-            washIronCartList.addAll(cartList)
-        }
-
+    fun updateCartList(laundryItem: ServiceCategoryItemDto) {
+        cartHandler.updateSavedLaundryCart(laundryItem)
         updateLaundryPrice()
     }
 
-    private fun updateLaundryPrice() {
+
+    fun updateLaundryPrice() {
         var price = 0.0
         var items = 0
 
-        onlyIronCartList.forEach { serviceCategoryItem ->
-            price += serviceCategoryItem.ironingPrice.orZero() * serviceCategoryItem.quantity.orZero()
-            items += serviceCategoryItem.quantity.orZero()
+        originalOnlyIronList.forEach { serviceCategoryItem ->
+            if (serviceCategoryItem.quantity != 0) {
+                price += serviceCategoryItem.ironingPrice.orZero() * serviceCategoryItem.quantity.orZero()
+                items += serviceCategoryItem.quantity.orZero()
+            }
         }
 
-        washIronCartList.forEach { serviceCategoryItem ->
-            price += serviceCategoryItem.washIroningPrice.orZero() * serviceCategoryItem.quantity.orZero()
-            items += serviceCategoryItem.quantity.orZero()
+        originalWashIronList.forEach { serviceCategoryItem ->
+            if (serviceCategoryItem.quantity != 0) {
+                price += serviceCategoryItem.washIroningPrice.orZero() * serviceCategoryItem.quantity.orZero()
+                items += serviceCategoryItem.quantity.orZero()
+            }
+
         }
 
         amountObserver.value =
             Resource.success(items.orZero() to price.orZero())
     }
 
-    fun getFinalCartList(): MutableList<ServiceCategoryItemDto> {
-        cartList.clear()
-        cartList.addAll(onlyIronCartList)
-        cartList.addAll(washIronCartList)
-        return cartList
-    }
-
-    fun addSavedCart(list: List<CartItemDetail>) {
-        cartHandler.addSavedCart(list, AppConstants.CART_TYPE_LAUNDRY)
-    }
-
-    private fun updateAllCartLists() {
-        cartList.clear()
-
-        val savedCartList = getSavedCartList()
-        val ironList = savedCartList?.filter { item -> item.type == AppConstants.LAUNDRY_ONLY_IRON }
-        val washList = savedCartList?.filter { item -> item.type == AppConstants.LAUNDRY_WASH_IRON }
-
-        if (ironList != null)
-            if (ironList.isEmpty()) {
-                onlyIronCartList.clear()
-            } else {
-                onlyIronCartList.removeAll { ironCartItem ->
-                    checkIfItemNotPresent(ironCartItem, ironList)
-                }
-            }
-
-        if (washList != null)
-            if (washList.isEmpty()) {
-                washIronCartList.clear()
-            } else {
-                washIronCartList.removeAll { ironWashCartItem ->
-                    checkIfItemNotPresent(ironWashCartItem, washList)
-                }
-            }
-
-        cartList.addAll(onlyIronCartList)
-        cartList.addAll(washIronCartList)
-    }
-
-    private fun checkIfItemNotPresent(
-        cartItem: ServiceCategoryItemDto,
-        savedCartList: List<CartItemDetail>
-    ): Boolean {
-        return savedCartList.find { it.id == cartItem.id } == null
-
-        /*var check = true
-
-        for (element in savedCartList) {
-            if (cartItem.id == element.id) {
-                check = false
-                break
-            } else {
-                check = true
-            }
-        }
-        return check*/
-    }
-
-    /**
-    Used to update list when back pressed from cart fragment
-     */
-    private fun updateOriginalList(type: Int) {
-        val savedCartList = getSavedCartList()
-
-        val originalList = if (type == AppConstants.LAUNDRY_ONLY_IRON)
-            originalOnlyIronList
-        else
-            originalWashIronList
-
-        // Set quantity of each item to default i.e 0
-        originalList.forEach { item ->
-            item.quantity = 0
-        }
-
-        // Update quantity of items from saved cart
-        savedCartList?.forEach { savedCartItem ->
-            originalList.forEach { item ->
-                if ((item.id == savedCartItem.id) &&
-                    (item.laundryType == savedCartItem.type)
-                ) {
-                    item.quantity = savedCartItem.quantity.orZero()
-                }
-            }
+    fun updateOriginalList() {
+        val savedCartItems = cartHandler.getCartList(AppConstants.CART_TYPE_LAUNDRY)
+        if (!savedCartItems.isNullOrEmpty()) {
+            updateList(savedCartItems)
         }
     }
 
-    private fun getSavedCartList(): List<CartItemDetail>? {
+    fun getSavedCartList(): List<CartItemDetail>? {
         return cartHandler.getCartList(AppConstants.CART_TYPE_LAUNDRY)
     }
 
     fun savedCartEmptyOrNull(): Boolean {
         val savedCartList = getSavedCartList()
         return savedCartList?.isEmpty() ?: true
-    }
-
-
-    /***
-     *  this method is used to add items to cart lists when savedCart has items
-     *  not used in case of back pressed
-     *  list - list containing all laundry items
-     */
-    private fun initialiseCartList(list: List<ServiceCategoryItemDto>) {
-        if (!savedCartEmptyOrNull()) {  //Check if savedCart has items
-            onlyIronCartList.clear()
-            washIronCartList.clear()
-
-            val savedList = getSavedCartList()
-
-            //Add saved items to individual cart lists of only iron and wash&iron
-            savedList?.forEach { savedItem ->
-                list.forEach { item ->
-                    if ((item.id == savedItem.id) && (savedItem.type == AppConstants.LAUNDRY_ONLY_IRON)) {
-                        val quantity = savedItem.quantity.orZero()
-                        val cartItem = ServiceCategoryItemDto(
-                            id = item.id,
-                            ironingPrice = item.ironingPrice,
-                            quantity = quantity,
-                            itemName = item.itemName,
-                            laundryType = AppConstants.LAUNDRY_ONLY_IRON
-                        )
-                        onlyIronCartList.add(cartItem)
-                    }
-                }
-
-                list.forEach { item ->
-                    if ((item.id == savedItem.id) && (savedItem.type == AppConstants.LAUNDRY_WASH_IRON)) {
-                        val quantity = savedItem.quantity.orZero()
-                        val cartItem = ServiceCategoryItemDto(
-                            id = item.id,
-                            washIroningPrice = item.washIroningPrice,
-                            quantity = quantity,
-                            itemName = item.itemName,
-                            laundryType = AppConstants.LAUNDRY_WASH_IRON
-                        )
-                        washIronCartList.add(cartItem)
-                    }
-                }
-            }
-            updateLaundryPrice()
-        }
     }
 
     fun getOnlyIronCartList(): MutableList<ServiceCategoryItemDto> {

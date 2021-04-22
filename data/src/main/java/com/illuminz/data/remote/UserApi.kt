@@ -2,6 +2,7 @@ package com.illuminz.data.remote
 
 import com.illuminz.data.models.common.ApiResponse
 import com.illuminz.data.models.request.CartRequest
+import com.illuminz.data.models.request.FeedbackRequest
 import com.illuminz.data.models.response.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -42,4 +43,19 @@ interface UserApi {
 //        @Query("status") status:Int?,
 //        @Query("room") page:Int?
     ):Response<ApiResponse<OrderListingResponse>>
+
+    @GET("getguestinfo")
+    suspend fun getUserInfo(
+        @Query("roomNumber") roomNumber:Int,
+        @Query("groupCode") groupCode:String
+    ): Response<ApiResponse<GuestInfoResponse>>
+
+    @GET("getuserfeedback")
+    suspend fun getUserFeedback(
+        @Query("roomNumber") roomNumber:Int,
+        @Query("groupCode") groupCode:String
+    ):Response<ApiResponse<FeedbackResponse>>
+
+    @POST("postuserfeedback")
+    suspend fun submitFeedback(@Body feedbackRequest: FeedbackRequest): Response<ApiResponse<FeedbackResponse>>
 }

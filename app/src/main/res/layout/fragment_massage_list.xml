@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ViewFlipper
+    android:id="@+id/viewFlipper"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,65 +10,86 @@
     android:clickable="true"
     android:focusable="true"
     tools:context=".ui.massage.MassageListFragment">
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        app:navigationIcon="@drawable/ic_backarrow"
-        app:title="@string/spa_massage" />
-
-    <ImageView
-        android:id="@+id/ivSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignBaseline="@id/toolbar"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="24dp"
-        android:src="@drawable/ic_search" />
-
-    <ImageView
-        android:id="@+id/ivDivider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/toolbar"
-        android:background="@color/light_gray" />
-
-    <ViewFlipper
-        android:id="@+id/viewFlipper"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_marginTop="1dp">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMassage"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/app_margin">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/app_margin"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="6"
-            tools:listitem="@layout/items_massage" />
+            android:layout_alignParentTop="true"
+            app:navigationIcon="@drawable/ic_backarrow"
+            app:title="@string/spa_massage" />
 
-        <ProgressBar
+        <ImageView
+            android:id="@+id/ivSearch"
             android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignBaseline="@id/toolbar"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="24dp"
+            android:src="@drawable/ic_search" />
+
+        <ImageView
+            android:id="@+id/ivDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/toolbar"
+            android:background="@color/light_gray" />
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMassage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/app_margin"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="6"
+                tools:listitem="@layout/items_massage" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/background_gradient_screen_bottom" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRequest"
+            style="@style/AppButton.Unelivated.PrimaryButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:theme="@style/AppProgressBarAppColor" />
-    </ViewFlipper>
+            android:layout_marginTop="32dp"
+            android:text="Submit Request"
+            android:textSize="@dimen/text_medium"
+            android:layout_marginStart="@dimen/app_margin_1"
+            android:layout_marginEnd="@dimen/app_margin_1"
+            android:layout_alignParentBottom="true"
+            />
+    </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/background_gradient_screen_bottom" />
-
-    <com.illuminz.application.ui.custom.CartBarView
-        android:id="@+id/cartBarView"
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:nextTitle="@string/fragment_massage_list_schedule_my_appointment" />
-</RelativeLayout>
+        android:layout_gravity="center"
+        android:theme="@style/AppProgressBarAppColor" />
+    <com.illuminz.application.ui.custom.ErrorView
+        android:id="@+id/connectionErrorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:errorButtonText="@string/btn_retry"
+        app:errorButtonVisible="true"
+        app:errorMessage="@string/connection_error_message"
+        app:errorTitle="@string/connection_error" />
+
+<!--    <com.illuminz.application.ui.custom.CartBarView-->
+<!--        android:id="@+id/cartBarView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        app:nextTitle="@string/fragment_massage_list_schedule_my_appointment" />-->
+</ViewFlipper>

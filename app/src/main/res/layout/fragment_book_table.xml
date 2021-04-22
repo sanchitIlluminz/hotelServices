@@ -224,35 +224,35 @@
                     android:text="@string/choose_an_available_time_slot"
                     android:layout_below="@id/tvSelectGuestLabel"/>
 
-                <com.illuminz.application.ui.custom.AddMenuItemView
-                    android:id="@+id/quantityView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/llQuantity"-->
+<!--                <com.illuminz.application.ui.custom.AddMenuItemView-->
+<!--                    android:id="@+id/quantityView"-->
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    android:paddingTop="1dp"-->
-<!--                    android:paddingBottom="1dp"-->
-<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:clickable="true"-->
+<!--                    android:focusable="true"-->
 <!--                    android:layout_alignParentEnd="true"-->
-<!--                    >-->
+<!--                    android:layout_centerVertical="true"/>-->
+                <LinearLayout
+                    android:id="@+id/llQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_alignParentEnd="true"
+                    >
 
-<!--                    <ImageButton-->
-<!--                        android:id="@+id/ibMinus"-->
-<!--                        android:layout_width="40dp"-->
-<!--                        android:layout_height="40dp"-->
-<!--                        android:background="@drawable/background_minus"-->
-<!--                        android:src="@drawable/ic_min"-->
-<!--                        android:clickable="true"-->
-<!--                        android:focusable="true"-->
-<!--                        android:scaleType="center"-->
-<!--                        />-->
+                    <ImageButton
+                        android:id="@+id/ibMinus"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/background_minus"
+                        android:src="@drawable/ic_min"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:scaleType="center"
+                        />
 <!--                    <TextView-->
 <!--                        android:id="@+id/tvGuestNumber"-->
 <!--                        android:layout_width="60dp"-->
@@ -265,17 +265,34 @@
 <!--                        android:gravity="center"-->
 <!--                        android:fontFamily="@font/inter_regular"-->
 <!--                        tools:text="12"/>-->
+                    <com.robinhood.ticker.TickerView
+                        android:id="@+id/quantityTicker"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="@color/ticker_text_color"
+                        android:textSize="@dimen/text_large"
+                        android:visibility="visible"
+                        tools:visibility="visible"
+                        app:ticker_defaultCharacterList="number"
+                        tools:text="5"/>
 
-<!--                    <ImageButton-->
-<!--                        android:id="@+id/ibPlus"-->
-<!--                        android:layout_width="40dp"-->
-<!--                        android:layout_height="40dp"-->
-<!--                        android:src="@drawable/ic_plus"-->
-<!--                        android:background="@drawable/background_minus"-->
-<!--                        android:clickable="true"-->
-<!--                        android:focusable="true"/>-->
+                    <ImageButton
+                        android:id="@+id/ibPlus"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_plus"
+                        android:background="@drawable/background_minus"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
-<!--                </LinearLayout>-->
+                </LinearLayout>
             </RelativeLayout>
 
             <ImageView

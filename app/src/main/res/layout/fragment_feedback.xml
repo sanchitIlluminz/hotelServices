@@ -1,116 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewFlipper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.home.FeedbackFragment"
-    >
+    android:background="@color/white"
+    tools:context=".ui.home.FeedbackFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:navigationIcon="@drawable/ic_backarrow"
-        app:contentInsetStartWithNavigation="0dp"
-        app:title="@string/give_feedback"
-        android:layout_alignParentTop="true"
-        />
+        android:paddingBottom="@dimen/app_margin">
 
-    <View
-        android:id="@+id/ivDivider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/light_gray"
-        android:layout_below="@id/toolbar"/>
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_medium"
-        android:textSize="@dimen/text_large"
-        android:textColor="@color/text_color"
-        android:layout_marginStart="@dimen/app_margin_1"
-        android:layout_marginEnd="@dimen/app_margin_1"
-        android:text="@string/rate_your_experience_with_us"
-        android:layout_marginTop="@dimen/app_margin"
-        android:layout_below="@id/ivDivider"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFeedback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="horizontal"
-        tools:listitem="@layout/item_feedback_rating"
-        android:layout_marginStart="@dimen/app_margin_half"
-        android:layout_marginEnd="@dimen/app_margin"
-        tools:itemCount="5"
-        android:layout_marginTop="@dimen/app_margin"
-        android:layout_below="@id/tvTitle"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/stars"
-        android:fontFamily="@font/inter_regular"
-        android:textSize="@dimen/text_medium"
-        android:textColor="@color/text_color"
-        android:layout_below="@id/tvTitle"
-        android:layout_toEndOf="@id/rvFeedback"
-        android:layout_marginTop="44dp"
-        android:gravity="center_vertical"
-        app:drawableStartCompat="@drawable/ic_baseline_star_24"
-        android:drawablePadding="4dp"/>
-
-    <TextView
-        android:id="@+id/tvFeedbackQ"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_medium"
-        android:textSize="@dimen/text_large"
-        android:textColor="@color/text_color"
-        android:layout_marginStart="@dimen/app_margin_1"
-        android:layout_marginEnd="@dimen/app_margin_1"
-        android:text="@string/anything_that_can_be_improved"
-        android:layout_marginTop="36dp"
-        android:layout_below="@id/rvFeedback"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilFeedback"
-        style="@style/AppTextInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/app_margin_1"
-        android:layout_marginEnd="@dimen/app_margin_1"
-        android:layout_below="@id/tvFeedbackQ"
-        android:layout_marginTop="@dimen/app_margin"
-        android:layout_above="@id/btSubmitFeedback">
-
-        <com.core.ui.custom.ClearFocusTextInputEditText
-            android:id="@+id/etFeedback"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="160dp"
-            android:hint="@string/your_feedback_optional"
-            android:gravity="start"
-            android:ellipsize="end"
-            android:maxLength="500"
-            android:lineSpacingMultiplier="1.3"
-            android:theme="@style/AppTextInputEditText"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_alignParentTop="true"
+            app:contentInsetStartWithNavigation="0dp"
+            app:navigationIcon="@drawable/ic_backarrow"
+            app:title="@string/give_feedback" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btSubmitFeedback"
-        android:layout_width="match_parent"
+        <View
+            android:id="@+id/ivDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/toolbar"
+            android:background="@color/light_gray" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivDivider"
+            android:layout_marginStart="@dimen/app_margin_1"
+            android:layout_marginTop="@dimen/app_margin"
+            android:layout_marginEnd="@dimen/app_margin_1"
+            android:fontFamily="@font/inter_medium"
+            android:text="@string/rate_your_experience_with_us"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFeedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitle"
+            android:layout_marginStart="@dimen/app_margin_half"
+            android:layout_marginTop="@dimen/app_margin"
+            android:layout_marginEnd="@dimen/app_margin"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_feedback_rating" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitle"
+            android:layout_marginTop="44dp"
+            android:layout_toEndOf="@id/rvFeedback"
+            android:drawablePadding="4dp"
+            android:fontFamily="@font/inter_regular"
+            android:gravity="center_vertical"
+            android:text="@string/stars"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_medium"
+            app:drawableStartCompat="@drawable/ic_baseline_star_24" />
+
+        <TextView
+            android:id="@+id/tvFeedbackQ"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rvFeedback"
+            android:layout_marginStart="@dimen/app_margin_1"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="@dimen/app_margin_1"
+            android:fontFamily="@font/inter_medium"
+            android:text="@string/anything_that_can_be_improved"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilFeedback"
+            style="@style/AppTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/btSubmitFeedback"
+            android:layout_below="@id/tvFeedbackQ"
+            android:layout_marginStart="@dimen/app_margin_1"
+            android:layout_marginTop="@dimen/app_margin"
+            android:layout_marginEnd="@dimen/app_margin_1">
+
+            <com.core.ui.custom.ClearFocusTextInputEditText
+                android:id="@+id/etFeedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:hint="@string/your_feedback_optional"
+                android:lineSpacingMultiplier="1.3"
+                android:maxLength="500"
+                android:minHeight="160dp"
+                android:theme="@style/AppTextInputEditText" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btSubmitFeedback"
+            style="@style/AppButton.Unelivated.PrimaryButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/app_margin_1"
+            android:layout_marginEnd="@dimen/app_margin_1"
+            android:layout_marginBottom="@dimen/app_margin"
+            android:text="@string/submit_feedback" />
+    </RelativeLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        style="@style/AppButton.Unelivated.PrimaryButton"
-        android:text="@string/submit_feedback"
-        android:layout_marginBottom="@dimen/app_margin"
-        android:layout_marginStart="@dimen/app_margin_1"
-        android:layout_marginEnd="@dimen/app_margin_1"
-        />
+        android:layout_gravity="center"
+        android:theme="@style/AppProgressBarAppColor" />
 
-</RelativeLayout>
+    <com.illuminz.application.ui.custom.ErrorView
+        android:id="@+id/connectionErrorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:errorButtonText="@string/btn_retry"
+        app:errorButtonVisible="true"
+        app:errorMessage="@string/connection_error_message"
+        app:errorTitle="@string/connection_error" />
+
+</ViewFlipper>

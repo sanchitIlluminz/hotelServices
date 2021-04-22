@@ -1,7 +1,10 @@
 package com.illuminz.data.models.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class TaxesDto(
     @field:SerializedName("taxTitle")
     val taxTitle: String? = null,
@@ -14,4 +17,4 @@ data class TaxesDto(
 
     @field:SerializedName("debit")
     val debit: Double? = null
-)
+):Parcelable

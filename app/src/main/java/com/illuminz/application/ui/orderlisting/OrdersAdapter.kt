@@ -1,12 +1,9 @@
 package com.illuminz.application.ui.orderlisting
 
-import android.content.Context
-import com.core.extensions.isSameDay
-import com.illuminz.application.ui.food.items.FoodItem
 import com.illuminz.application.ui.housekeeping.items.HouseKeepingItem
-import com.illuminz.data.models.response.FoodCartResponse
+import com.illuminz.application.ui.orderlisting.items.LoadingItem
+import com.illuminz.application.ui.orderlisting.items.OrderItem
 import com.illuminz.data.models.response.SaveFoodOrderResponse
-import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -38,14 +35,11 @@ class OrdersAdapter() : GroupAdapter<GroupieViewHolder>() {
             setLoading(false)
         }
         val orderItems = mutableListOf<Item>()
-        items.forEachIndexed { index, serviceCategoryItem ->
-                orderItems.add(HouseKeepingItem(title = serviceCategoryItem._id))
-
+        items.forEachIndexed { index, order ->
+                orderItems.add(OrderItem(title = order._id.toString(), orderResponse = order.orderDetail))
         }
         addAll(orderItems)
     }
-
-
-
 //    interface CallBack : TransfersFilterItem.CallBack
+
 }

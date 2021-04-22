@@ -52,6 +52,9 @@ class LaundryListFragment : DaggerBaseFragment(), LaundryItem.Callback {
 
     private var onlyIronCartList = mutableListOf<ServiceCategoryItemDto>()
     private var washIronCartList = mutableListOf<ServiceCategoryItemDto>()
+
+    private var onlyIronList = mutableListOf<ServiceCategoryItemDto>()
+    private var washIronList = mutableListOf<ServiceCategoryItemDto>()
     private var laundryItemList = mutableListOf<ServiceCategoryItemDto>()
 
     private val viewModel by lazy {
@@ -63,6 +66,7 @@ class LaundryListFragment : DaggerBaseFragment(), LaundryItem.Callback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initialise()
+        setBasicData()
         setObservers()
     }
 
@@ -76,9 +80,9 @@ class LaundryListFragment : DaggerBaseFragment(), LaundryItem.Callback {
 
 
 
-        if (requireContext().isNetworkActiveWithMessage()) {
-            viewModel.getLaundryDetails(serviceId, serviceTag, laundryType)
-        }
+//        if (requireContext().isNetworkActiveWithMessage()) {
+//            viewModel.getLaundryDetails(serviceId, serviceTag)
+//        }
     }
 
     private fun setObservers() {
@@ -90,7 +94,7 @@ class LaundryListFragment : DaggerBaseFragment(), LaundryItem.Callback {
 
                 Status.SUCCESS -> {
                     viewFlipper.displayedChild = FLIPPER_CHILD_RESULT
-                    initialiseCartList()
+//                    initialiseCartList()
                    setBasicData()
                 }
 
@@ -107,9 +111,9 @@ class LaundryListFragment : DaggerBaseFragment(), LaundryItem.Callback {
         when (laundryType) {
             AppConstants.LAUNDRY_ONLY_IRON -> {
                 laundryAdapter.clear()
-
-                val laundryList = viewModel.getOnlyIronList()
-                laundryList.forEach { serviceCategoryItem ->
+                onlyIronList.clear()
+                onlyIronList.addAll(viewModel.getOnlyIronList())
+                onlyIronList.forEach { serviceCategoryItem ->
                     laundryAdapter.add(
                         LaundryItem(
                             serviceCategoryItem = serviceCategoryItem,
@@ -124,9 +128,9 @@ class LaundryListFragment : DaggerBaseFragment(), LaundryItem.Callback {
 
             AppConstants.LAUNDRY_WASH_IRON -> {
                 laundryAdapter.clear()
-
-                val laundryList = viewModel.getWashIronList()
-                laundryList.forEach { serviceCategoryItem ->
+                washIronList.clear()
+                washIronList.addAll(viewModel.getWashIronList())
+                washIronList.forEach { serviceCategoryItem ->
                     laundryAdapter.add(
                         LaundryItem(
                             serviceCategoryItem = serviceCategoryItem,
@@ -143,120 +147,19 @@ class LaundryListFragment : DaggerBaseFragment(), LaundryItem.Callback {
         }
     }
 
-
     override fun onIncreaseLaundryItemClicked(laundryItem: LaundryItem) {
-        //Update laundrylist in class
-        laundryItemList.forEach { serviceCategoryItem ->
-            if ((serviceCategoryItem.id == laundryItem.serviceCategoryItem.id) &&
-                (serviceCategoryItem.laundryType == laundryItem.serviceCategoryItem.laundryType)
-            ) {
-                serviceCategoryItem.quantity = laundryItem.serviceCategoryItem.quantity
-            }
-        }
-
-        //Update laundrylist in viewmodel
-        viewModel.updateOriginalLaundryList(laundryItem)
-
-        //Update cartList both locally and in viewmodel
-        var laundryType = -1
-
-        val cartList = if (laundryItem.laundryType == AppConstants.LAUNDRY_ONLY_IRON) {
-            laundryType = AppConstants.LAUNDRY_ONLY_IRON
-            onlyIronCartList
-        } else {
-            laundryType = AppConstants.LAUNDRY_WASH_IRON
-            washIronCartList
-        }
-
-        changeLocalCartList(
-            serviceCategoryItemDto = laundryItem.serviceCategoryItem,
-            cartList = cartList
-        )
-        viewModel.updateCartList(
-            cartList = cartList,
-            laundryType = laundryType
-        )
+        viewModel.updateCartList(laundryItem.serviceCategoryItem)
     }
 
     override fun onDecreaseLaundryItemClicked(laundryItem: LaundryItem) {
-        //Update laundrylist in class
-        laundryItemList.forEach { serviceCategoryItem ->
-            if ((serviceCategoryItem.id == laundryItem.serviceCategoryItem.id) &&
-                (serviceCategoryItem.laundryType == laundryItem.serviceCategoryItem.laundryType)
-            ) {
-                serviceCategoryItem.quantity = laundryItem.serviceCategoryItem.quantity
-            }
-        }
-
-        //Update laundrylist in viewmodel
-        viewModel.updateOriginalLaundryList(laundryItem)
-
-        //Update cartList both locally and in viewmodel
-        var laundryType = -1
-
-        val cartList = if (laundryItem.laundryType == AppConstants.LAUNDRY_ONLY_IRON) {
-            laundryType = AppConstants.LAUNDRY_ONLY_IRON
-            onlyIronCartList
-        } else {
-            laundryType = AppConstants.LAUNDRY_WASH_IRON
-            washIronCartList
-        }
-
-        changeLocalCartList(
-            serviceCategoryItemDto = laundryItem.serviceCategoryItem,
-            cartList = cartList
-        )
-
-        viewModel.updateCartList(
-            cartList = cartList,
-            laundryType = laundryType
-        )
-    }
-
-    /**
-    cartlist for individual fragment is maintained here while
-    Final cartList is maintained in the viewmodel
-
-    params
-    serviceCategoryDto - item whose quantity is changed
-    cartList - individual fragment cart list
-     */
-    private fun changeLocalCartList(
-        serviceCategoryItemDto: ServiceCategoryItemDto,
-        cartList: MutableList<ServiceCategoryItemDto>
-    ) {
-        //Check if item is already present in list or not
-        val newItem = cartList.find {   serviceCategoryItem ->
-            (serviceCategoryItem.id == serviceCategoryItemDto.id)
-        }
-
-        when (newItem) {
-            null -> {
-                // Add item to list
-                cartList.add(serviceCategoryItemDto)
-            }
-            else -> {
-                // Changes to item in list
-                for (i in 0 until cartList.size) {
-                    if (cartList[i].id == serviceCategoryItemDto.id) {
-                        //Remove item if quantity is zero else update quantity
-                        if (serviceCategoryItemDto.quantity == 0) {
-                            cartList.removeAt(i)
-                            break
-                        } else {
-                            cartList[i].quantity = serviceCategoryItemDto.quantity
-                        }
-                    }
-                }
-            }
-        }
+        viewModel.updateCartList(laundryItem.serviceCategoryItem)
     }
 
     fun getLaundryType(): Int = laundryType
 
     fun updateLaundryAdapter(laundryItem: LaundryItem) {
         val itemCount = laundryAdapter.itemCount
-
+//
         for (i in 0 until itemCount) {
             val group = laundryAdapter.getGroupAtAdapterPosition(i)
             if (group is LaundryItem && group.serviceCategoryItem.id == laundryItem.serviceCategoryItem.id) {
@@ -264,37 +167,5 @@ class LaundryListFragment : DaggerBaseFragment(), LaundryItem.Callback {
                 laundryAdapter.notifyItemChanged(i, QuantityChangedPayload)
             }
         }
-
-        //Update CartList locally and in viewmodel
-        var laundryType:Int = -1
-
-        val cartList = if (laundryItem.laundryType == AppConstants.LAUNDRY_ONLY_IRON) {
-            laundryType = AppConstants.LAUNDRY_ONLY_IRON
-            onlyIronCartList
-        } else {
-            laundryType = AppConstants.LAUNDRY_WASH_IRON
-            washIronCartList
-        }
-
-        changeLocalCartList(
-            serviceCategoryItemDto = laundryItem.serviceCategoryItem,
-            cartList = cartList
-        )
-        viewModel.updateCartList(
-            cartList = cartList,
-            laundryType = laundryType
-        )
     }
-
-    private fun initialiseCartList(){
-       if (!viewModel.savedCartEmptyOrNull()){
-            if ((laundryType == AppConstants.LAUNDRY_ONLY_IRON) && (onlyIronCartList.size!=0)){
-                onlyIronCartList.addAll(viewModel.getOnlyIronCartList())
-            }else if ((laundryType == AppConstants.LAUNDRY_WASH_IRON) && (washIronCartList.size!=0)){
-                washIronCartList.addAll(viewModel.getWashIronCartList())
-            }
-       }
-    }
-
-
 }

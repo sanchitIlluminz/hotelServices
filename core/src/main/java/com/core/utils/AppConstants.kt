@@ -86,4 +86,8 @@ object AppConstants {
     const val FRAGMENT_TYPE_NEARBY = "FRAGMENT_TYPE_NEARBY"
     const val FRAGMENT_TYPE_GYM = "FRAGMENT_TYPE_GYM"
 
+    const val ORDER_TYPE_FOOD = 1
+    const val ORDER_TYPE_LAUNDRY = 2
+    const val ORDER_TYPE_OTHERS = 3
+
 }

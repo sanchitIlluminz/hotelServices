@@ -20,7 +20,7 @@ import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.dialog_confirm.*
 import kotlinx.android.synthetic.main.fragment_book_table.*
 
-class BookTableFragment : DaggerBaseFragment(), AddMenuItemView.Callback {
+class BookTableFragment : DaggerBaseFragment(){
     companion object {
         const val TAG = "BookTableFragment"
 
@@ -139,7 +139,6 @@ class BookTableFragment : DaggerBaseFragment(), AddMenuItemView.Callback {
             activity?.onBackPressed()
         }
 
-        quantityView.setCallback(this)
 
         btConfirm.setOnClickListener {
 //            ConfirmDialog.newInstance(
@@ -165,18 +164,18 @@ class BookTableFragment : DaggerBaseFragment(), AddMenuItemView.Callback {
             }
         }
 
-//        ibMinus.setOnClickListener {
-//            if (guestNumber>1){
-//                guestNumber = guestNumber.minus(1)
-//                tvGuestNumber.setText(guestNumber.toString())
-//            }
-//        }
-//
-//        ibPlus.setOnClickListener {
-//                guestNumber =guestNumber.plus(1)
-//                tvGuestNumber.setText(guestNumber.toString())
-//
-//        }
+        ibMinus.setOnClickListener {
+            if (guestNumber>1){
+                guestNumber = guestNumber.minus(1)
+                quantityTicker.setText(guestNumber.toString())
+            }
+        }
+
+        ibPlus.setOnClickListener {
+                guestNumber =guestNumber.plus(1)
+                quantityTicker.setText(guestNumber.toString())
+
+        }
 
         hourAdapter.setOnItemClickListener { _, view ->
             rvHour.smoothScrollToPosition(rvHour.getChildLayoutPosition(view))
@@ -226,11 +225,4 @@ class BookTableFragment : DaggerBaseFragment(), AddMenuItemView.Callback {
         }
     }
 
-    override fun onIncreaseMenuItemQuantityClicked() {
-        guestNumber += 1
-    }
-
-    override fun onDecreaseMenuItemQuantityClicked() {
-        guestNumber -= 1
-    }
 }

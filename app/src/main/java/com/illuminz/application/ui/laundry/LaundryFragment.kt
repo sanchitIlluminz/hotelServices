@@ -12,16 +12,20 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.illuminz.application.R
 import com.illuminz.application.ui.cart.LaundryCartFragment
 import com.illuminz.application.ui.custom.CartBarView
+import com.illuminz.application.ui.custom.ErrorView
 import com.illuminz.application.ui.laundry.items.LaundryItem
 import com.illuminz.data.models.common.Status
-import com.illuminz.data.models.request.CartItemDetail
 import kotlinx.android.synthetic.main.fragment_laundry.*
 import kotlinx.android.synthetic.main.fragment_laundry.toolbar
 
 class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callback,
-    CartBarView.Callback {
+    CartBarView.Callback, ErrorView.ErrorButtonClickListener  {
     companion object {
         const val TAG = "LaundryFragment"
+
+        private const val FLIPPER_CHILD_RESULT = 0
+        private const val FLIPPER_CHILD_CONNECTION_ERROR = 2
+        private const val FLIPPER_CHILD_LOADING = 1
 
         private const val KEY_SERVICE_ID = "KEY_SERVICE_ID"
         private const val KEY_service_TAG = "KEY_TAG"
@@ -59,14 +63,12 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
         serviceId = requireArguments().getString(KEY_SERVICE_ID).orEmpty()
         serviceTag = requireArguments().getString(KEY_service_TAG).orEmpty()
 
-        viewpager.adapter = LaundryViewPager(childFragmentManager, lifecycle, serviceId, serviceTag)
-
-        TabLayoutMediator(tabLayout, viewpager) { tab, position ->
-            when (position) {
-                0 -> tab.text = "Ironing"
-                else -> tab.text = "Wash & Iron"
-            }
-        }.attach()
+        if (viewModel.getLaundryObserver().value?.isSuccess() == true) {
+            setBaiscData()
+        } else {
+            if (requireContext().isNetworkActiveWithMessage())
+                viewModel.getLaundryDetails(serviceId, serviceTag)
+        }
     }
 
     private fun setObservers() {
@@ -85,6 +87,37 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
                 }
             }
         })
+
+        viewModel.getLaundryObserver().observe(viewLifecycleOwner, Observer { resource ->
+            when (resource.status) {
+                Status.LOADING -> {
+                    viewFlipper.displayedChild = FLIPPER_CHILD_LOADING
+                }
+                Status.SUCCESS -> {
+                    viewFlipper.displayedChild = FLIPPER_CHILD_RESULT
+                    setBaiscData()
+                }
+                Status.ERROR -> {
+                    viewFlipper.displayedChild = FLIPPER_CHILD_CONNECTION_ERROR
+                    handleError(resource.error)
+                }
+            }
+        })
+    }
+
+    private fun setBaiscData() {
+        if (!viewModel.savedCartEmptyOrNull()) {
+            viewModel.updateOriginalList()
+            viewModel.updateLaundryPrice()
+        }
+        viewpager.adapter = LaundryViewPagerAdapter(childFragmentManager, lifecycle, serviceId, serviceTag)
+
+        TabLayoutMediator(tabLayout, viewpager) { tab, position ->
+            when (position) {
+                0 -> tab.text = getString(R.string.laundry_tab_title_ironing)
+                else -> tab.text = getString(R.string.laundry_tab_title_wash_iron)
+            }
+        }.attach()
     }
 
     private fun setListeners() {
@@ -106,42 +139,47 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
         }
 
         cartBarView.setCallback(this)
+
+        connectionErrorView.setErrorButtonClickListener(this)
     }
 
-    private fun getLaundryDetails() {
-        if (isNetworkActiveWithMessage()) {
-            viewModel.getLaundryDetails(serviceId, serviceTag, -1)
-        }
-    }
+//    private fun getLaundryDetails() {
+//        if (isNetworkActiveWithMessage()) {
+//            viewModel.getLaundryDetails(serviceId, serviceTag, -1)
+//        }
+//    }
 
     override fun onCartBarClick() {
-        val cartList = viewModel.getFinalCartList()
-        val list = arrayListOf<CartItemDetail>()
-
-        cartList.forEach { cartItem ->
-            if (cartItem.ironingPrice != null) {
-                val item = CartItemDetail(
-                    id = cartItem.id,
-                    type = cartItem.laundryType,
-                    quantity = cartItem.quantity
-                )
-                list.add(item)
-            }
-
-            if (cartItem.washIroningPrice != null) {
-                val item = CartItemDetail(
-                    id = cartItem.id,
-                    type = cartItem.laundryType,
-                    quantity = cartItem.quantity
-                )
-                list.add(item)
-            }
-        }
-
-        viewModel.addSavedCart(list)
+//        val cartList = viewModel.getFinalCartList()
+        val list = viewModel.getSavedCartList()
+//
+//        cartList.forEach { cartItem ->
+//            if (cartItem.ironingPrice != null) {
+//                val item = CartItemDetail(
+//                    id = cartItem.id,
+//                    type = cartItem.laundryType,
+//                    quantity = cartItem.quantity
+//                )
+//                list.add(item)
+//            }
+//
+//            if (cartItem.washIroningPrice != null) {
+//                val item = CartItemDetail(
+//                    id = cartItem.id,
+//                    type = cartItem.laundryType,
+//                    quantity = cartItem.quantity
+//                )
+//                list.add(item)
+//            }
+//        }
+//
+//        viewModel.addSavedCart(list)
 
         if (parentFragmentManager.findFragmentByTag(LaundryCartFragment.TAG) == null) {
-            val fragment = LaundryCartFragment.newInstance(TAG, list)
+            val fragment = LaundryCartFragment.newInstance(
+                TAG
+//                , list as ArrayList<CartItemDetail>?
+            )
             parentFragmentManager.beginTransaction()
                 .setCustomAnimations(AnimationDirection.End)
                 .replace(R.id.fragmentContainer, fragment)
@@ -151,6 +189,7 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
     }
 
     override fun onIncreaseSearchItemClicked(laundryItem: LaundryItem) {
+        viewModel.updateOriginalLaundryList(laundryItem)
         val fragmentList = childFragmentManager.fragments
         fragmentList.forEach { fragment ->
             if (fragment is LaundryListFragment && fragment.getLaundryType() == laundryItem.laundryType) {
@@ -160,11 +199,17 @@ class LaundryFragment : DaggerBaseFragment(), SearchLaundryDialogFragment.Callba
     }
 
     override fun onDecreaseSearchItemClicked(laundryItem: LaundryItem) {
+        viewModel.updateOriginalLaundryList(laundryItem)
         val fragmentList = childFragmentManager.fragments
         fragmentList.forEach { fragment ->
             if (fragment is LaundryListFragment && fragment.getLaundryType() == laundryItem.laundryType) {
                 fragment.updateLaundryAdapter(laundryItem)
             }
         }
+    }
+
+    override fun onErrorButtonClicked() {
+        if (requireContext().isNetworkActiveWithMessage())
+            viewModel.getLaundryDetails(serviceId, serviceTag)
     }
 }

@@ -3,6 +3,4 @@
     android:shape="rectangle">
     <solid
         android:color="@color/background_item_count"/>
-
-
 </shape>

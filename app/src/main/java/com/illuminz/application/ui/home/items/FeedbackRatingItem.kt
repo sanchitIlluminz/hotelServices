@@ -6,7 +6,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_feedback_rating.view.*
 
 class FeedbackRatingItem(
-    private var rating:Int,
+    var rating:Int,
     var selected:Boolean = false
 ) : Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {

@@ -2,6 +2,7 @@ package com.illuminz.application.ui.orderlisting
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.core.extensions.orZero
 import com.core.ui.base.BaseViewModel
 import com.illuminz.data.models.common.PagingResult
 import com.illuminz.data.models.common.Resource
@@ -15,41 +16,51 @@ import javax.inject.Inject
 
 class OrderListingViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : BaseViewModel(){
+) : BaseViewModel() {
     private var getOrdersJob: Job? = null
     private var hasNext = false
     private var pageNo = 1
+    private var recordsPerPage = -1
+    private var totalRecords = 0
+    private var recordsLoaded = 0
 
     private val ordersObserver by lazy {
         MutableLiveData<Resource<PagingResult<OrderListingResponse>>>()
     }
 
-    fun getWalletObserver(): LiveData<Resource<PagingResult<OrderListingResponse>>> =
+    fun getOrdersObserver(): LiveData<Resource<PagingResult<OrderListingResponse>>> =
         ordersObserver
 
-    fun getOrdersListing(resetPage: Boolean = false) {
+    fun getOrdersListing(resetPage: Boolean = false, orderType: Int) {
         getOrdersJob?.cancel()
+
         getOrdersJob = launch {
-            if (resetPage) {
-                pageNo = 1
-                setHasNext(false)
-            }
             val isFirstPage = pageNo == 1
             ordersObserver.value = Resource.loading(
                 PagingResult(isFirstPage)
             )
-            val request = OrderListingRequest(room = 111,
-                groupCode = "111",
-                orderType = 0,
+
+            val request = OrderListingRequest(
+                room = 111,
+                groupCode = "1618486040534",
+                orderType = orderType,
                 status = -1,
-                page = pageNo)
+                page = pageNo
+            )
             val resource = userRepository.getOrderListing(request)
             if (resource.status == Status.SUCCESS) {
-                if (resource.data?.page == 0 || resource.data?.page == pageNo) {
-                    setHasNext(false)
-                } else {
-                    setHasNext(true)
+                resource.data?.let {
+                    totalRecords = it.totalRecords.orZero()
+                    pageNo = it.page.orZero()
+                    recordsPerPage = it.perPage.orZero()
+                    recordsLoaded += it.data?.size.orZero()
                 }
+                if (recordsLoaded<totalRecords){
+                    setHasNext(true)
+                }else{
+                    setHasNext(false)
+                }
+
                 val result = PagingResult(isFirstPage, resource.data)
                 ordersObserver.value = Resource.success(result)
             } else {
@@ -59,14 +70,49 @@ class OrderListingViewModel @Inject constructor(
                         PagingResult(isFirstPage)
                     )
             }
+
+//            if (resetPage) {
+//                pageNo = 1
+//                setHasNext(false)
+//            }
+//            val isFirstPage = pageNo == 1
+//            ordersObserver.value = Resource.loading(
+//                PagingResult(isFirstPage)
+//            )
+//            val request = OrderListingRequest(room = 111,
+//                groupCode = "111",
+//                orderType = orderType,
+//                status = -1,
+//                page = pageNo)
+//            val resource = userRepository.getOrderListing(request)
+//            if (resource.status == Status.SUCCESS) {
+//                if (resource.data?.page == 0 || resource.data?.page == pageNo) {
+//                    setHasNext(false)
+//                } else {
+//                    setHasNext(true)
+//                }
+//                resource.data?.let {
+//                    totalRecords = it.totalRecords.orZero()
+//                    pageNo = it.page.orZero()
+//                    recordsPerPage = it.perPage.orZero()
+//                }
+//                val result = PagingResult(isFirstPage, resource.data)
+//                ordersObserver.value = Resource.success(result)
+//            } else {
+//                ordersObserver.value =
+//                    Resource.error(
+//                        resource.error,
+//                        PagingResult(isFirstPage)
+//                    )
+//            }
         }
     }
 
     private fun setHasNext(value: Boolean) {
         hasNext = value
-        if (hasNext) {
-            pageNo += 1
-        }
+//        if (hasNext) {
+//            pageNo += 1
+//        }
     }
 
     fun isValidForPaging(): Boolean =

@@ -16,10 +16,12 @@ import com.core.utils.MealType
 import com.illuminz.application.R
 import com.illuminz.application.ui.cart.FoodCartFragment
 import com.illuminz.application.ui.custom.CartBarView
+import com.illuminz.application.ui.custom.ErrorView
 import com.illuminz.application.ui.food.items.*
 import com.illuminz.application.utils.QuantityChangedPayload
 import com.illuminz.data.models.common.Status
 import com.illuminz.data.models.request.CartItemDetail
+import com.illuminz.data.models.response.BuffetDto
 import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.illuminz.data.models.response.ServiceCategoryDto
 import com.xwray.groupie.GroupAdapter
@@ -30,7 +32,8 @@ import kotlinx.android.synthetic.main.fragment_food_list.*
 class FoodListFragment(
 
 ) : DaggerBaseFragment(), FoodItem.Callback,
-    VegNonVegItem.Callback, CartBarView.Callback, SearchFoodDialogFragment.Callback {
+    VegNonVegItem.Callback, CartBarView.Callback, SearchFoodDialogFragment.Callback,
+    ErrorView.ErrorButtonClickListener {
     companion object {
         const val TAG = "FoodListFragment"
 
@@ -40,16 +43,18 @@ class FoodListFragment(
 
         private const val KEY_ID = "KEY_ID"
         private const val KEY_TAG = "KEY_TAG"
+        private const val KEY_BUFFET = "KEY_BUFFET"
 
-        private const val FLIPPER_CHILD_RESULT = 2
+        private const val FLIPPER_CHILD_RESULT = 0
         private const val FLIPPER_CHILD_CONNECTION_ERROR = 2
-        private const val FLIPPER_CHILD_LOADING = 0
+        private const val FLIPPER_CHILD_LOADING = 1
 
-        fun newInstance(serviceId: String, serviceTag: String): FoodListFragment {
+        fun newInstance(serviceId: String, serviceTag: String, buffet: ArrayList<BuffetDto>): FoodListFragment {
             val fragment = FoodListFragment()
             val arguments = Bundle()
             arguments.putString(KEY_ID, serviceId)
             arguments.putString(KEY_TAG, serviceTag)
+            arguments.putParcelableArrayList(KEY_BUFFET,buffet)
             fragment.arguments = arguments
             return fragment
         }
@@ -62,6 +67,8 @@ class FoodListFragment(
     private var serviceCategoryList = mutableListOf<ServiceCategoryDto>()
     private var cartList = mutableListOf<ServiceCategoryItemDto>()
     private var menuList = mutableListOf<MenuDialogItem>()
+
+    private var buffetList = mutableListOf<BuffetDto>()
 
     private var cartBarViewVisible = false
 
@@ -90,6 +97,8 @@ class FoodListFragment(
 
         serviceId = requireArguments().getString(KEY_ID).orEmpty()
         serviceTag = requireArguments().getString(KEY_TAG).orEmpty()
+        buffetList.clear()
+        buffetList.addAll(requireArguments().getParcelableArrayList<BuffetDto>(KEY_BUFFET).orEmpty())
 
         if (requireContext().isNetworkActiveWithMessage()) {
             viewModel.getFoodProducts(serviceId, serviceTag)
@@ -111,6 +120,8 @@ class FoodListFragment(
         }
 
         cartBarView.setCallback(this)
+
+        connectionErrorView.setErrorButtonClickListener(this)
     }
 
     private fun setObservers() {
@@ -329,18 +340,56 @@ class FoodListFragment(
 
     private fun addMealTimings(vegOnly: Boolean, nonVegOnly: Boolean) {
         val titleItem = TitleItem(title = "Your Buffet")
+        foodAdapter.add(titleItem)
 
-        val mealTimingItem = listOf(
-            FoodTimingItem(mealType = MealType.BREAKFAST, timing = "8:30 am - 10:20 am"),
-            FoodTimingItem(mealType = MealType.LUNCH, timing = "1:30 pm - 2:30 pm"),
-            FoodTimingItem(mealType = MealType.DINNER, timing = "8:40 pm - 11 pm")
-        )
+        buffetList.forEach { buffet ->
+           val item =  when(buffet.title){
+                "Breakfast" -> { FoodTimingItem(mealType = MealType.BREAKFAST, timing = getBuffetTiming(buffet))}
+                "Lunch" -> { FoodTimingItem(mealType = MealType.LUNCH, timing = getBuffetTiming(buffet))}
+                else -> { FoodTimingItem(mealType = MealType.DINNER, timing = getBuffetTiming(buffet))}
+            }
+            foodAdapter.add(item)
+        }
+
+//        val mealTimingItem = listOf(
+//            FoodTimingItem(mealType = MealType.BREAKFAST, timing = "8:30 am - 10:20 am"),
+//            FoodTimingItem(mealType = MealType.LUNCH, timing = "1:30 pm - 2:30 pm"),
+//            FoodTimingItem(mealType = MealType.DINNER, timing = "8:40 pm - 11 pm")
+//        )
         val mealTypeItem =
             VegNonVegItem(isVegOnly = vegOnly, isNonVegOnly = nonVegOnly, callback = this)
 
-        foodAdapter.add(titleItem)
-        foodAdapter.addAll(mealTimingItem)
+//        foodAdapter.addAll(mealTimingItem)
         foodAdapter.add(mealTypeItem)
+    }
+
+    private fun getBuffetTiming(buffetDto: BuffetDto): String {
+        var startHour = buffetDto.startTime?.div(60)
+        var endHour = buffetDto.endTime?.div(60)
+
+        val startMinutes = buffetDto.startTime?.orZero()?.rem(60)
+        val endMinutes = buffetDto.endTime?.orZero()?.rem(60)
+
+        val startMin = String.format("%02d",startMinutes)
+        val endMin = String.format("%02d",endMinutes)
+
+        val startTimePeriod = if (startHour.orZero() <12){
+            "am"
+        }else{
+            startHour = startHour?.minus(12)
+            "pm"
+        }
+
+        val endTimePeriod = if (endHour.orZero() <12){
+            "am"
+        }else{
+            if (endHour.orZero()!=12){
+                endHour = endHour?.minus(12)
+            }
+            "pm"
+        }
+
+        return "${startHour}:$startMin $startTimePeriod - ${endHour}:$endMin $endTimePeriod"
     }
 
     override fun onCartBarClick() {
@@ -513,6 +562,12 @@ class FoodListFragment(
                     title = "No Items Available", number = 0
                 )
             )
+        }
+    }
+
+    override fun onErrorButtonClicked() {
+        if (requireContext().isNetworkActiveWithMessage()) {
+            viewModel.getFoodProducts(serviceId, serviceTag)
         }
     }
 

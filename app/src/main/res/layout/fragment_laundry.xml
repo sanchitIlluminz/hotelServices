@@ -35,6 +35,7 @@
         android:background="@color/light_gray" />
 
     <ViewFlipper
+        android:id="@+id/viewFlipper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ivDivider">
@@ -88,5 +89,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:theme="@style/AppProgressBarAppColor" />
+
+        <com.illuminz.application.ui.custom.ErrorView
+            android:id="@+id/connectionErrorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:errorButtonText="@string/btn_retry"
+            app:errorButtonVisible="true"
+            app:errorMessage="@string/connection_error_message"
+            app:errorTitle="@string/connection_error" />
     </ViewFlipper>
 </RelativeLayout>

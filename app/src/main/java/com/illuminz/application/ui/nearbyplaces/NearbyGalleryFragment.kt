@@ -1,7 +1,13 @@
 package com.illuminz.application.ui.nearbyplaces
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.view.Window
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.core.ui.base.DaggerBaseFragment
 import com.illuminz.application.R
@@ -11,6 +17,8 @@ import com.illuminz.application.ui.nearbyplaces.items.GalleryImageHalfWidthItem
 import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import kotlinx.android.synthetic.main.dialog_confirm.*
+import kotlinx.android.synthetic.main.dialog_confirm.view.*
 import kotlinx.android.synthetic.main.fragment_nearby_gallery.*
 
 class NearbyGalleryFragment : DaggerBaseFragment() {
@@ -46,7 +54,11 @@ class NearbyGalleryFragment : DaggerBaseFragment() {
         }
 
         btnRequest.setOnClickListener {
-
+//            parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            showConfirmationDialog(
+                "Thank you",
+                "we will call you in next 5 mins"
+            )
         }
     }
 
@@ -79,5 +91,30 @@ class NearbyGalleryFragment : DaggerBaseFragment() {
 //                adapter.add(item)
 //            }
 //        }
+    }
+
+    private fun showConfirmationDialog(title: String, subtitle: String) {
+        val dialog = context?.let { Dialog(it) }
+
+        dialog?.run {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            val contentView = View.inflate(requireContext(), R.layout.dialog_confirm, null)
+            setContentView(contentView)
+
+            window?.apply {
+                setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                setGravity(Gravity.CENTER)
+            }
+
+            contentView.tvTitle.text = title
+            contentView.tvSubtitle.text = subtitle
+
+            btnOkay.setOnClickListener {
+                dismiss()
+                parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            }
+            show()
+        }
     }
 }

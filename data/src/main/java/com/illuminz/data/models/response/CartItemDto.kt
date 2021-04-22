@@ -1,7 +1,10 @@
 package com.illuminz.data.models.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class CartItemDto(
     @field:SerializedName("itemType")
     val itemType: Int? = null,
@@ -32,4 +35,4 @@ data class CartItemDto(
 
     @field:SerializedName("cartTotal")
     val cartTotal: Double? = null
-)
+):Parcelable

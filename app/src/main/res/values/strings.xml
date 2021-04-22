@@ -142,4 +142,7 @@
     <string name="cart_fragment_liquor_taxes">Liquor taxes</string>
     <string name="fragment_title_gym">Gym</string>
     <string name="btn_retry">Retry</string>
+
+    <string name="laundry_tab_title_ironing">Ironing</string>
+    <string name="laundry_tab_title_wash_iron"><![CDATA[Wash & Iron]]></string>
 </resources>

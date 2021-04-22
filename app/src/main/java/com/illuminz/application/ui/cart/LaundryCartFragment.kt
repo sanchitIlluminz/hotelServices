@@ -22,9 +22,8 @@ import com.illuminz.application.R
 import com.illuminz.application.ui.cart.items.CartItem
 import com.illuminz.application.ui.cart.items.TaxesDetailPopUpItem
 import com.illuminz.application.ui.custom.CartBarView
-import com.illuminz.application.ui.food.FoodListFragment
 import com.illuminz.application.ui.laundry.LaundryFragment
-import com.illuminz.application.ui.massage.MassageListFragment
+import com.illuminz.application.utils.QuantityChangedPayload
 import com.illuminz.data.models.common.Status
 import com.illuminz.data.models.request.CartItemDetail
 import com.illuminz.data.models.request.CartRequest
@@ -36,7 +35,6 @@ import kotlinx.android.synthetic.main.dialog_confirm.*
 import kotlinx.android.synthetic.main.fragment_cart.*
 
 class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Callback {
-
     companion object {
         const val TAG = "CartFragment"
 
@@ -46,15 +44,18 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
         private const val KEY_TITLE = "KEY_TITLE"
         private const val KEY_CART_ITEMS = "KEY_CART_ITEMS"
 
-        private const val CHILD_LOADING = 0
-        private const val CHILD_CONNECTION_ERROR = 1
-        private const val CHILD_RESULT = 2
+        private const val CHILD_LOADING = 1
+        private const val CHILD_CONNECTION_ERROR = 2
+        private const val CHILD_RESULT = 0
 
-        fun newInstance(title: String, list: ArrayList<CartItemDetail>): LaundryCartFragment {
+        fun newInstance(
+            title: String
+//                        list: ArrayList<CartItemDetail>?
+        ): LaundryCartFragment {
             val fragment = LaundryCartFragment()
             val arguments = Bundle()
             arguments.putString(KEY_TITLE, title)
-            arguments.putParcelableArrayList(KEY_CART_ITEMS, list)
+//            arguments.putParcelableArrayList(KEY_CART_ITEMS, list)
             fragment.arguments = arguments
             return fragment
         }
@@ -73,10 +74,11 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
 
     private lateinit var cartType: String
 
+    private val changedItemList = mutableListOf<CartItemDto>()
+
     private var quantityIncreasedCase = false
     private var quantityDecreasedCase = false
 
-    private var changedCartItem: CartItem? = null
 
     private val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[LaundryCartViewModel::class.java]
@@ -93,26 +95,22 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
 
     private fun initialise() {
         cartType = requireArguments().getString(KEY_TITLE).orEmpty()
-        cartItemRequestList.addAll(
-            requireArguments().getParcelableArrayList(KEY_CART_ITEMS) ?: emptyList()
-        )
+
+        viewModel.getSavedCart()?.let { cartItemRequestList.addAll(it) }
 
         tvLiquorTaxes.gone()
         tvLiquorTaxesLabel.gone()
         tvFoodTaxesLabel.text = "Taxes"
 
         val roomNo = 111
-        val groupCode = "111"
+        val groupCode = "1618486040534"
         val cartItemList = mutableListOf<CartItemDetail>()
-
-        cartItemRequestList.forEach { cartItem ->
-            cartItemList.add(cartItem)
-        }
 
         val cartRequest = CartRequest(
             room = roomNo,
             groupCode = groupCode,
-            itemList = cartItemList
+//            itemList = cartItemList
+            itemList = cartItemRequestList
         )
 
         cartAdapter = GroupAdapter()
@@ -176,6 +174,9 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
 
                 Status.SUCCESS -> {
                     viewFlipper.displayedChild = CHILD_RESULT
+                    if (quantityChanged) {
+                        viewModel.updateCartList(changedItemList[0])
+                    }
                     cartBarView.visible()
                     setBasicData(resource.data)
                 }
@@ -183,7 +184,7 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
                 Status.ERROR -> {
                     viewFlipper.displayedChild = CHILD_CONNECTION_ERROR
                     handleError(resource.error)
-                    updateCartList()
+//                    updateCartList()
                 }
             }
         })
@@ -209,81 +210,19 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
         }
 
         setToolbarItemCount(itemCount.orZero())
-
-        when (cartType) {
-            FoodListFragment.TAG -> {
-                cartItemsDetailList.forEach { cartItemDetails ->
-                    val item = CartItem(
-                        itemDetails = cartItemDetails,
-                        callback = this,
-                        fragmentTag = FoodListFragment.TAG
-                    )
-                    cartAdapter.add(item)
-                }
-            }
-
-            LaundryFragment.TAG -> {
-                cartItemsDetailList.forEach { cartItemDetails ->
-                    val item = CartItem(
-                        itemDetails = cartItemDetails,
-                        callback = this,
-                        fragmentTag = LaundryFragment.TAG
-                    )
-                    cartAdapter.add(item)
-                }
-            }
-
-            else -> {
-                cartItemsDetailList.forEach { cartItemDetails ->
-                    val item = CartItem(
-                        itemDetails = cartItemDetails,
-                        callback = this,
-                        fragmentTag = MassageListFragment.TAG
-                    )
-                    cartAdapter.add(item)
-                }
-            }
+        cartItemsDetailList.forEach { cartItemDetails ->
+            val item = CartItem(
+                itemDetails = cartItemDetails,
+                callback = this,
+                fragmentTag = LaundryFragment.TAG
+            )
+            cartAdapter.add(item)
         }
 
         changeCartItems()
     }
 
-    private fun updateCartList() {
-        val quantityChange = when {
-            quantityIncreasedCase -> -1
-            quantityDecreasedCase -> 1
-            else -> 0
-        }
-
-        cartItemsDetailList.forEach { item ->
-            if (item.id == changedCartItem?.itemDetails?.id) {
-                item.quantity = item.quantity?.plus(quantityChange)
-            }
-        }
-    }
-
     override fun onCartBarClick() {
-//
-//        if (requireContext().isNetworkActiveWithMessage()){
-//            val roomNo = 111
-//            val groupCode = "111"
-//            val itemList = mutableListOf<FoodRequestDto>()
-//
-//            cartItemList.forEach { serviceCategoryItemDto ->
-//                val foodRequestDto = FoodRequestDto(
-//                    id = serviceCategoryItemDto.id,
-//                    quantity = serviceCategoryItemDto.quantity
-//                )
-//                itemList.add(foodRequestDto)
-//            }
-//
-//            val foodCartRequest = FoodCartRequest(
-//                room = roomNo,
-//                groupCode = groupCode,
-//                itemList = itemList
-//            )
-//            viewModel.getFoodCart(foodCartRequest)
-//        }
         if (requireContext().isNetworkActiveWithMessage()) {
             viewModel.saveLaundryCart(getCartRequest())
         }
@@ -296,31 +235,15 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
         quantityChanged = true
         quantityDecreasedCase = false
         quantityIncreasedCase = true
+        changedItemList.clear()
+        changedItemList.add(cartItem)
         if (requireContext().isNetworkActiveWithMessage()) {
             viewModel.getLaundryCart(getCartRequest())
 //            viewModel.getFoodCart(getCartRequest(quantityChange = -1, changedItemId = cartItem.id))
         } else {
             cartItem.quantity = cartItem.quantity?.minus(1)
+            cartAdapter.notifyDataSetChanged()
         }
-        //Find and change cartItem
-//        for (i in 0 until cartAdapter.groupCount) {
-//            val group = cartAdapter.getGroupAtAdapterPosition(i) as CartItem
-//
-//            if (group.itemDetails.id == cartItem.id) {
-//                if (!laundryItem        //Either not a laundry case
-//                    || (laundryItem     //Or laundry case and of same type i.e only iron or wash&iron
-//                            && checkSameCategoryItem(   //same category checked to differentiate between iron &wash iron item
-//                        cartItem,            // since id is same for both
-//                        group.itemDetails
-//                    ))
-//                ) {
-//                    group.itemDetails.quantity = cartItem.quantity
-//                    cartAdapter.notifyItemChanged(i, QuantityChangedPayload)
-//                }
-//                break
-//            }
-//        }
-//        changeCartItems(serviceCategoryItem = cartItem)
     }
 
     override fun onDecreaseCartItemClicked(
@@ -330,6 +253,8 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
         quantityChanged = true
         quantityDecreasedCase = true
         quantityIncreasedCase = false
+        changedItemList.clear()
+        changedItemList.add(cartItem.itemDetails)
         if (requireContext().isNetworkActiveWithMessage()) {
             if (cartItem.itemDetails.quantity == 0) {
                 cartItemsDetailList.forEach { item ->
@@ -343,33 +268,8 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
 
         } else {
             cartItem.itemDetails.quantity = cartItem.itemDetails.quantity?.plus(1)
+            cartAdapter.notifyDataSetChanged()
         }
-//        //Find and change cartItem
-//        for (i in 0 until cartAdapter.groupCount) {
-//            val group = cartAdapter.getGroupAtAdapterPosition(i) as CartItem
-//
-//            if (group.itemDetails.id == serviceCategoryItem.id) {
-//                if (!laundryItem        //Either not a laundry case
-//                    || (laundryItem     //Or laundry case and of same type i.e only iron or wash&iron
-//                            && checkSameCategoryItem(   //same category checked to differentiate between iron &wash iron item
-//                        serviceCategoryItem,            // since id is same for both
-//                        group.itemDetails
-//                    ))
-//                ) {
-//                    //Remove item if quantity is zero or update it
-//                    if (serviceCategoryItem.quantity == 0) {
-//                        cartAdapter.removeGroupAtAdapterPosition(i)
-//                        cartItemList.removeAt(i)
-//                    } else {
-//                        group.itemDetails.quantity = serviceCategoryItem.quantity
-//                        cartItemList[i].quantity = serviceCategoryItem.quantity
-//                    }
-//                    cartAdapter.notifyItemChanged(i, QuantityChangedPayload)
-//                }
-//                break
-//            }
-//        }
-//        changeCartItems(serviceCategoryItem = serviceCategoryItem)
     }
 
     private fun changeCartItems(
@@ -380,16 +280,6 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
 
         cartItemsDetailList.forEach {
             cartItemCount += it.quantity.orZero()
-
-//            // For laundry, price field is empty so check ironing and washIroning price
-//            if (cartType.equals(LaundryFragment.TAG)) {
-//                if (it.ironingPrice != null)
-//                    totalAmount += it.ironingPrice.orZero() * it.quantity
-//                else
-//                    totalAmount += it.washIroningPrice.orZero() * it.quantity
-//            } else {
-//                totalAmount += (it.price.orZero() * it.quantity)
-//            }
         }
 
         setToolbarItemCount(cartItemCount.orZero())
@@ -482,7 +372,7 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
     private fun getCartRequest(
     ): CartRequest {
         val roomNo = 111
-        val groupCode = "111"
+        val groupCode = "1618486040534"
         val cartItemDetailList = mutableListOf<CartItemDetail>()
 
         cartItemsDetailList.forEach { cartItem ->

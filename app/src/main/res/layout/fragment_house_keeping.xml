@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".ui.housekeeping.HouseKeepingFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -23,11 +24,11 @@
     <ViewFlipper
         android:id="@+id/viewFlipper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -36,7 +37,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_house_keeping" />
+                tools:listitem="@layout/item_house_keeping"
+                android:layout_alignParentTop="true"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilHouseKeeping"
@@ -44,7 +46,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="52dp"
-                android:layout_marginEnd="@dimen/app_margin_1">
+                android:layout_marginEnd="@dimen/app_margin_1"
+                android:layout_below="@id/rvHouseKeeping">
 
                 <com.core.ui.custom.ClearFocusTextInputEditText
                     android:id="@+id/etHouseKeeping"
@@ -56,7 +59,19 @@
                     android:inputType="number"
                     android:theme="@style/AppTextInputEditText" />
             </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                style="@style/AppButton.Unelivated.PrimaryButton"
+                android:text="Request"
+                android:layout_marginBottom="@dimen/app_margin"
+                android:layout_marginStart="@dimen/app_margin_1"
+                android:layout_marginEnd="@dimen/app_margin_1"
+                />
+        </RelativeLayout>
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

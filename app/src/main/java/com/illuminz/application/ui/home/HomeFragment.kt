@@ -19,15 +19,20 @@ import com.core.utils.AppConstants
 import com.illuminz.application.R
 import com.illuminz.application.ui.bar.DrinksFragment
 import com.illuminz.application.ui.bookTable.BookTableFragment
+import com.illuminz.application.ui.custom.ErrorView
 import com.illuminz.application.ui.food.FoodListFragment
 import com.illuminz.application.ui.home.items.*
 import com.illuminz.application.ui.housekeeping.HouseKeepingFragment
 import com.illuminz.application.ui.laundry.LaundryFragment
 import com.illuminz.application.ui.massage.MassageListFragment
 import com.illuminz.application.ui.nearbyplaces.NearbyFragment
+import com.illuminz.application.ui.orderlisting.OrderListingFragment
 import com.illuminz.application.ui.orderlisting.OrdersFragment
+import com.illuminz.application.ui.pickUpLuggage.PickLuggageFragment
 import com.illuminz.application.ui.roomcleaning.RoomCleaningFragment
 import com.illuminz.data.models.common.Status
+import com.illuminz.data.models.response.BuffetDto
+import com.illuminz.data.models.response.GuestInfoResponse
 import com.illuminz.data.models.response.ServiceDto
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -35,12 +40,12 @@ import kotlinx.android.synthetic.main.dialog_confirm.*
 import kotlinx.android.synthetic.main.dialog_contact.*
 import kotlinx.android.synthetic.main.dialog_contact.btnOkay
 import kotlinx.android.synthetic.main.dialog_contact.tvTitle
-import kotlinx.android.synthetic.main.dialog_drink.*
 import kotlinx.android.synthetic.main.dialog_drink.btConfirm
 import kotlinx.android.synthetic.main.dialog_extend_stay.*
 import kotlinx.android.synthetic.main.dialog_transport.*
 import kotlinx.android.synthetic.main.fragment_home.*
-class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
+
+class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback, ErrorView.ErrorButtonClickListener  {
     companion object {
         const val TAG = "HomeFragment"
 
@@ -54,6 +59,12 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
         private const val NEARBY = "places"
         private const val TRANSPORT = "transport"
         private const val GYM = "gym"
+        private const val LUGGAGE = "LUGGAGE"
+        private const val ORDERS = "ORDERS"
+
+        private const val FLIPPER_CHILD_RESULT = 0
+        private const val FLIPPER_CHILD_CONNECTION_ERROR = 2
+        private const val FLIPPER_CHILD_LOADING = 1
 
         fun newInstance(): HomeFragment {
             return HomeFragment()
@@ -62,7 +73,10 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
 
     private lateinit var adapter: GroupAdapter<GroupieViewHolder>
 
+    private lateinit var guestInfoResponse: GuestInfoResponse
+
     private var serviceList = mutableListOf<ServiceDto>()
+
 
     private val viewModel by lazy {
         ViewModelProvider(requireActivity(), viewModelFactory)[ServicesViewModel::class.java]
@@ -77,26 +91,25 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
         setObservers()
     }
 
-
     private fun initialise() {
         adapter = GroupAdapter()
         val layoutManager = (rvHome.layoutManager as GridLayoutManager)
         layoutManager.spanSizeLookup = adapter.spanSizeLookup
         rvHome.adapter = adapter
 
-        if (requireContext().isNetworkActiveWithMessage() && !viewModel.serviceListAvailable()) {
-            viewModel.getServices()
-        }
-        if (viewModel.serviceListAvailable()) {
-            setData(viewModel.getServiceList())
+        val a =  viewModel.getServiceObserver().value?.isSuccess()
+        if (requireContext().isNetworkActiveWithMessage() &&
+            viewModel.getServiceObserver().value?.isSuccess() != true) {
+            viewModel.getServices(111, "1618486040534")
+        }else{
+            viewModel.getServiceObserver().value?.data?.first?.let { setData(it) }
         }
     }
-
 
     private fun setListener() {
         btnFeedback.setOnClickListener {
 //            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            val fragment = FeedbackFragment.newInstance()
+            val fragment = FeedbackFragment.newInstance(111,"1618486040534")
             openFragment(fragment, FeedbackFragment.TAG)
         }
 
@@ -111,26 +124,29 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
             showContactDialog(list, 1)
         }
 
+        connectionErrorView.setErrorButtonClickListener(this)
+
         adapter.setOnItemClickListener { item, _ ->
 
             if (item is ServicesItem) {
                 when (item.serviceDto.tag) {
                     ORDER_FOOD -> {
+                        val buffetList = guestInfoResponse.buffet
                         val fragment = FoodListFragment.newInstance(
                             serviceId = item.serviceDto.id.orEmpty(),
-                            serviceTag = item.serviceDto.tag.orEmpty()
+                            serviceTag = item.serviceDto.tag.orEmpty(),
+                            buffet = buffetList as ArrayList<BuffetDto>
                         )
                         openFragment(fragment, FoodListFragment.TAG)
                     }
 
                     MASSAGE -> {
-//                        val fragment = MassageListFragment.newInstance(
-//                            serviceId = item.serviceDto.id.orEmpty(),
-//                            serviceTag = item.serviceDto.tag.orEmpty()
-//                        )
-//                        openFragment(fragment, MassageListFragment.TAG)
-                        val fragment = OrdersFragment.newInstance()
-                        openFragment(fragment, OrdersFragment.TAG)
+                        val fragment = MassageListFragment.newInstance(
+                            serviceId = item.serviceDto.id.orEmpty(),
+                            serviceTag = item.serviceDto.tag.orEmpty()
+                        )
+                        openFragment(fragment, MassageListFragment.TAG)
+
 
                     }
 
@@ -160,7 +176,7 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
                             serviceId = item.serviceDto.id.orEmpty(),
                             serviceTag = item.serviceDto.tag.orEmpty(),
                             fragmentType = AppConstants.FRAGMENT_TYPE_NEARBY
-                            )
+                        )
                         openFragment(fragment, NearbyFragment.TAG)
                     }
 
@@ -174,10 +190,10 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
                     }
 
                     GYM -> {
-                       val fragment = NearbyFragment.newInstance(
+                        val fragment = NearbyFragment.newInstance(
                             serviceId = item.serviceDto.id.orEmpty(),
                             serviceTag = item.serviceDto.tag.orEmpty(),
-                           fragmentType = AppConstants.FRAGMENT_TYPE_GYM
+                            fragmentType = AppConstants.FRAGMENT_TYPE_GYM
                         )
                         openFragment(fragment, NearbyFragment.TAG)
                     }
@@ -189,6 +205,16 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
                         )
                         openFragment(fragment, LaundryFragment.TAG)
                     }
+
+                    LUGGAGE -> {
+                        val fragment = PickLuggageFragment.newInstance()
+                        openFragment(fragment, PickLuggageFragment.TAG)
+                    }
+
+                    ORDERS -> {
+                        val fragment = OrdersFragment.newInstance()
+                        openFragment(fragment, OrdersFragment.TAG)
+                    }
                 }
             }
         }
@@ -198,19 +224,20 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
         viewModel.getServiceObserver().observe(viewLifecycleOwner, Observer { resource ->
             when (resource.status) {
                 Status.LOADING -> {
-                    showLoading()
+                   viewFlipper.displayedChild = FLIPPER_CHILD_LOADING
                 }
 
                 Status.SUCCESS -> {
-                    dismissLoading()
-                    resource.data?.let {
-                        serviceList.addAll(it)
-                        setData(it)
+                    viewFlipper.displayedChild = FLIPPER_CHILD_RESULT
+                    resource.data?.let { pairResponse ->    //Pair<List<ServiceDto>, GuestInfoResponse>
+                        pairResponse.second?.let { guestInfoResponse = it }
+                        serviceList.addAll(pairResponse.first)
+                        setData(pairResponse.first)
                     }
                 }
 
                 Status.ERROR -> {
-                    dismissLoading()
+                    viewFlipper.displayedChild = FLIPPER_CHILD_CONNECTION_ERROR
                     handleError(resource.error)
                 }
             }
@@ -219,33 +246,26 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
 
     private fun setData(list: List<ServiceDto>) {
         adapter.clear()
-        adapter.add(BookingDetailItem(this))
+        guestInfoResponse.userInfo?.let {  adapter.add(BookingDetailItem(this,it)) }
         adapter.add(ServiceTitleItem(getString(R.string.services)))
 
-        list.forEachIndexed{index, service ->
+        val luggageItem = ServiceDto(title = "Pick Luggage", tag = "LUGGAGE")
+        val ordersItem = ServiceDto(title = "ORDERS", tag = "ORDERS")
+
+        list.forEachIndexed { index, service ->
             val item = if (index < 6) {
-               ServicesItem(service)
+                ServicesItem(service)
             } else {
                 if (index == 6) {
                     adapter.add(ServiceTitleItem("MORE SERVICES"))
                 }
-                 MoreServicesItem(service)
+                MoreServicesItem(service)
             }
             adapter.add(item)
         }
 
-//        for (i in list.indices) {
-//            if (i < 6) {
-//                val item = ServicesItem(list[i])
-//                adapter.add(item)
-//            } else {
-//                if (i == 6) {
-//                    adapter.add(ServiceTitleItem("MORE SERVICES"))
-//                }
-//                val item = MoreServicesItem(list[i])
-//                adapter.add(item)
-//            }
-//        }
+        adapter.add(MoreServicesItem(luggageItem))
+        adapter.add(MoreServicesItem(ordersItem))
     }
 
     private fun openFragment(fragment: DaggerBaseFragment, tag: String) {
@@ -256,34 +276,6 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
                 .addToBackStack(tag)
                 .commit()
         }
-    }
-
-    private fun nearbyList(): ArrayList<String> {
-        val imageList = arrayListOf(
-            "https://2.bp.blogspot.com/-kIlA_BjfIqQ/T-CQ8WuaC7I/AAAAAAAAAkE/dTo_8UZxBBU/s1600/Mumbai+322.JPG",
-            "https://www.visittnt.com/blog/wp-content/uploads/2018/05/Marine-drive.jpg",
-            "https://lp-cms-production.imgix.net/2019-06/99ad019a84817e4bb5248d47c70dd1d2-chhatrapati-shivaji-terminus.jpg",
-            "https://static.toiimg.com/photo/61984337.cms",
-            "https://static.toiimg.com/photo/54599572.cms",
-            "https://www.fabhotels.com/blog/wp-content/uploads/2019/06/Haji-Ali-Dargah_600-1280x720.jpg",
-            "https://upload.wikimedia.org/wikipedia/commons/6/62/Mumbai_Dhobi_Ghat_Laundry_District.JPG",
-            "https://www.indianholiday.com/images/travel-destination/delhi.jpg",
-            "https://www.holidify.com/images/tooltipImages/MUNNAR.jpg"
-        )
-
-        return imageList
-    }
-
-    private fun gymList(): ArrayList<String> {
-        val imageList = arrayListOf(
-            "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/blog_posts/webmd-doctors/1800x1200_empty-gym.jpg",
-            "https://www.telegraph.co.uk/content/dam/luxury/2017/03/21/Gym_2_trans_NvBQzQNjv4BqgsaO8O78rhmZrDxTlQBjdGcv5yZLmao6LolmWYJrXns.jpg",
-            "https://blog.nasm.org/hubfs/cleangym%20%281%29.jpg",
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm1YU1rJ6caLIsbCAvfqLCcarmMyvFZISZZw&usqp=CAU",
-            "https://www.gannett-cdn.com/presto/2020/04/21/USAT/6d4af31f-c7f7-4ade-b570-515252b9c81e-XXX_fitness_center.jpg"
-        )
-
-        return imageList
     }
 
     private fun showContactDialog(menuList: List<ContactDialogItem>, type: Int) {
@@ -345,8 +337,7 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
             btConfirm.setOnClickListener {
                 dismiss()
                 showConfirmationDialog(
-                    "Thank you", "Our team will contact you \n" +
-                            "within 10 mins."
+                    "Thank you",""
                 )
             }
             ivClose.setOnClickListener {
@@ -358,17 +349,22 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
     }
 
     private fun getContactList(): List<ContactDialogItem> {
+        val receptionNumber = guestInfoResponse.settings?.reception_contact_number
+        val hotelNumber = guestInfoResponse.settings?.hotel_contact_number
+        val emergencyNumber = guestInfoResponse.settings?.emergency_contact_number
         return listOf(
-            ContactDialogItem(title = "Reception", value = "119"),
-            ContactDialogItem(title = "Hotel", value = "220"),
-            ContactDialogItem(title = "Emergency", value = "330")
+            ContactDialogItem(title = "Reception", value = receptionNumber.orEmpty()),
+            ContactDialogItem(title = "Hotel", value = hotelNumber.orEmpty()),
+            ContactDialogItem(title = "Emergency", value = emergencyNumber.orEmpty())
         )
     }
 
     private fun getWifiList(): List<ContactDialogItem> {
+        val name = guestInfoResponse.settings?.wifi_name
+        val password = guestInfoResponse.settings?.wifi_password
         return listOf(
-            ContactDialogItem(title = "Name", value = "EmpireWifi1"),
-            ContactDialogItem(title = "Password", value = "ANM230v1")
+            ContactDialogItem(title = "Name", value = name.orEmpty()),
+            ContactDialogItem(title = "Password", value = password.orEmpty())
         )
     }
 
@@ -414,8 +410,18 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback {
 
             btRequest.setOnClickListener {
                 dismiss()
+                showConfirmationDialog(
+                    "Thank you",
+                    "we will call you in next 5 mins")
             }
             show()
+        }
+    }
+
+    override fun onErrorButtonClicked() {
+        if (requireContext().isNetworkActiveWithMessage() &&
+            viewModel.getServiceObserver().value?.isSuccess() != true) {
+            viewModel.getServices(111, "1618486040534")
         }
     }
 }
