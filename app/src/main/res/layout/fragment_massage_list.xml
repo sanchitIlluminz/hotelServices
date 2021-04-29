@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ViewFlipper
-    android:id="@+id/viewFlipper"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewFlipper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:clickable="true"
     android:focusable="true"
     tools:context=".ui.massage.MassageListFragment">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/app_margin">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -38,17 +39,16 @@
             android:layout_below="@id/toolbar"
             android:background="@color/light_gray" />
 
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvMassage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:paddingBottom="@dimen/app_margin"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="6"
-                tools:listitem="@layout/items_massage" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMassage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivDivider"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/app_margin"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="6"
+            tools:listitem="@layout/items_massage" />
 
         <View
             android:layout_width="match_parent"
@@ -61,13 +61,12 @@
             style="@style/AppButton.Unelivated.PrimaryButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Submit Request"
-            android:textSize="@dimen/text_medium"
-            android:layout_marginStart="@dimen/app_margin_1"
-            android:layout_marginEnd="@dimen/app_margin_1"
             android:layout_alignParentBottom="true"
-            />
+            android:layout_marginStart="@dimen/app_margin_1"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="@dimen/app_margin_1"
+            android:text="Submit Request"
+            android:textSize="@dimen/text_medium" />
     </RelativeLayout>
 
     <ProgressBar
@@ -75,6 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:theme="@style/AppProgressBarAppColor" />
+
     <com.illuminz.application.ui.custom.ErrorView
         android:id="@+id/connectionErrorView"
         android:layout_width="wrap_content"
@@ -86,10 +86,10 @@
         app:errorMessage="@string/connection_error_message"
         app:errorTitle="@string/connection_error" />
 
-<!--    <com.illuminz.application.ui.custom.CartBarView-->
-<!--        android:id="@+id/cartBarView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        app:nextTitle="@string/fragment_massage_list_schedule_my_appointment" />-->
+    <!--    <com.illuminz.application.ui.custom.CartBarView-->
+    <!--        android:id="@+id/cartBarView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        app:nextTitle="@string/fragment_massage_list_schedule_my_appointment" />-->
 </ViewFlipper>

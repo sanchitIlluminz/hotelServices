@@ -61,8 +61,12 @@ class FeedbackFragment : DaggerBaseFragment() {
     }
 
     private fun initialise() {
-        roomNo = requireArguments().getInt(KEY_ROOM_NUMBER)
-        groupCode = requireArguments().getString(KEY_GROUP_CODE).orEmpty()
+//        roomNo = requireArguments().getInt(KEY_ROOM_NUMBER)
+//        groupCode = requireArguments().getString(KEY_GROUP_CODE).orEmpty()
+
+        val roomDetailHandler = viewModel.getRoomHandler()
+        roomNo = roomDetailHandler.roomDetails.roomNo
+        groupCode = roomDetailHandler.roomDetails.groupCode
 
         ratingAdapter = GroupAdapter()
         rvFeedback.adapter = ratingAdapter
@@ -72,19 +76,24 @@ class FeedbackFragment : DaggerBaseFragment() {
             viewModel.getFeedback(roomNo, groupCode)
         }
 //        viewModel.getFeedback(roomNo, groupCode)
-
-    }
-
-    private fun setBasicData(feedbackResponse: FeedbackResponse) {
         val item = listOf(
             FeedbackRatingItem(rating = 1),
             FeedbackRatingItem(rating = 2),
             FeedbackRatingItem(rating = 3),
             FeedbackRatingItem(rating = 4),
-            FeedbackRatingItem(rating = 5)
+            FeedbackRatingItem(rating = 5,selected = true)
         )
 
         ratingAdapter.addAll(item)
+        selectedFeedbackRatingItem =  ratingAdapter.getItem(4) as FeedbackRatingItem
+        selectedFeedbackRatingItem?.selected = true
+        ratingAdapter.notifyItemChanged(4)
+    }
+
+    private fun setBasicData(feedbackResponse: FeedbackResponse) {
+        selectedFeedbackRatingItem?.selected = false
+        ratingAdapter.notifyItemChanged(4)
+
         val rating = feedbackResponse.rating
         etFeedback.setText(feedbackResponse.comment)
         feedbackId = feedbackResponse.id.orEmpty()

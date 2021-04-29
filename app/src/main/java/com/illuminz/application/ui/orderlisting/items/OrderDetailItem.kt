@@ -13,19 +13,18 @@ import kotlinx.android.synthetic.main.item_order_detail.view.*
 class OrderDetailItem(
     var cartItem: CartItemDto
 ) : Item() {
-
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.apply {
 
             tvTitle.text = "${cartItem.quantity}X ${cartItem.itemName}"
             val price =
                 if (cartItem.laundryType == null) {
-                    cartItem.price.orZero()
+                    cartItem.price.orZero()*cartItem.quantity.orZero()
                 } else {
                     if (cartItem.laundryType == AppConstants.LAUNDRY_ONLY_IRON)
-                        cartItem.ironingPrice.orZero()
+                        cartItem.ironingPrice.orZero()*cartItem.quantity.orZero()
                     else
-                        cartItem.washIroningPrice.orZero()
+                        cartItem.washIroningPrice.orZero()*cartItem.quantity.orZero()
                 }
 
             tvPrice.text = CurrencyFormatter.format(amount = price)

@@ -50,7 +50,9 @@
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="6"
-                    tools:listitem="@layout/item_laundry" />
+                    tools:listitem="@layout/item_order_detail"
+                    android:paddingStart="@dimen/app_margin"
+                    android:paddingEnd="@dimen/app_margin"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -119,24 +121,24 @@
                         tools:text="300" />
 
                     <TextView
-                        android:id="@+id/tvLiquorTaxesLabel"
+                        android:id="@+id/tvTaxesLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tvServiceChargesLabel"
                         android:layout_alignParentStart="true"
                         android:layout_marginTop="12dp"
                         android:fontFamily="@font/inter_regular"
-                        android:text="@string/cart_fragment_liquor_taxes"
+                        android:text="Tax"
                         android:textColor="@color/color_price"
                         android:textSize="@dimen/text_large"
                         app:drawableEndCompat="@drawable/ic_info_24" />
 
                     <TextView
-                        android:id="@+id/tvLiquorTaxes"
+                        android:id="@+id/tvTaxes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignTop="@id/tvLiquorTaxesLabel"
-                        android:layout_alignBottom="@id/tvLiquorTaxesLabel"
+                        android:layout_alignTop="@id/tvTaxesLabel"
+                        android:layout_alignBottom="@id/tvTaxesLabel"
                         android:layout_alignParentEnd="true"
                         android:fontFamily="@font/inter_regular"
                         android:textColor="@color/color_price"
@@ -147,7 +149,7 @@
                         android:id="@+id/ivDivider1"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_below="@id/tvLiquorTaxesLabel"
+                        android:layout_below="@id/tvTaxesLabel"
                         android:layout_marginTop="16dp"
                         android:background="@color/light_gray" />
 
@@ -170,7 +172,6 @@
                         android:layout_alignTop="@id/tvTotalAmountLabel"
                         android:layout_alignBottom="@id/tvTotalAmountLabel"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="24dp"
                         android:layout_marginBottom="0dp"
                         android:fontFamily="@font/inter_bold"
                         android:textColor="@color/text_color_food"

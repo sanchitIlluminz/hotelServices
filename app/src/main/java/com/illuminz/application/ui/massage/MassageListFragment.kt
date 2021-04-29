@@ -18,6 +18,8 @@ import com.illuminz.application.ui.custom.ErrorView
 import com.illuminz.application.ui.massage.items.MassageItem
 import com.illuminz.application.utils.QuantityChangedPayload
 import com.illuminz.data.models.common.Status
+import com.illuminz.data.models.request.CartItemDetail
+import com.illuminz.data.models.request.MassageRequest
 import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -72,12 +74,6 @@ class MassageListFragment : DaggerBaseFragment(), MassageItem.Callback,
     }
 
     private fun initialise() {
-//        toolbar.subtitle = "Timings: 10:30 AM - 8:00 PM"
-
-//        cartBarView.setItemPrice(totalPrice = 820.00,items = 4)
-//        cartBarView.gone()
-//        cartBarView.setCallback(this)
-
         btnRequest.gone()
 
         serviceId = requireArguments().getString(KEY_SERVICE_ID).orEmpty()
@@ -89,7 +85,6 @@ class MassageListFragment : DaggerBaseFragment(), MassageItem.Callback,
 
         massageAdapter = GroupAdapter()
         rvMassage.adapter = massageAdapter
-
     }
 
     private fun setListeners() {
@@ -103,13 +98,34 @@ class MassageListFragment : DaggerBaseFragment(), MassageItem.Callback,
         }
 
         btnRequest.setOnClickListener {
-            showConfirmationDialog(
-                "Request submitted",
-                ""
-            )
+            val massageRequest = getMassageRequest()
+            if (requireContext().isNetworkActiveWithMessage()){
+                viewModel.submitMassageRequest(massageRequest)
+            }
         }
 
         connectionErrorView.setErrorButtonClickListener(this)
+    }
+
+    private fun getMassageRequest(): MassageRequest {
+        val list = arrayListOf<CartItemDetail>()
+
+        for (i in 0 until cartList.size){
+            val item = CartItemDetail(
+                packageId = cartList[i].id,
+                quantity = cartList[i].quantity
+            )
+            list.add(item)
+        }
+
+        val roomDetailHandler = viewModel.getRoomHandler()
+        val roomNo = roomDetailHandler.roomDetails.roomNo
+        val groupCode = roomDetailHandler.roomDetails.groupCode
+        return MassageRequest(
+            roomNumber = roomNo,
+            groupCode = groupCode,
+            itemList = list
+        )
     }
 
     private fun setObservers() {
@@ -131,6 +147,27 @@ class MassageListFragment : DaggerBaseFragment(), MassageItem.Callback,
                 }
             }
         })
+
+        viewModel.getMassageRequestObserver().observe(viewLifecycleOwner, Observer { resource ->
+            when(resource.status){
+                Status.LOADING ->{
+                    showLoading()
+                }
+
+                Status.SUCCESS ->{
+                    dismissLoading()
+                    showConfirmationDialog(
+                        "Request submitted",
+                        ""
+                    )
+                }
+
+                Status.ERROR ->{
+                    dismissLoading()
+                    handleError(resource.error)
+                }
+            }
+        })
     }
 
     private fun setBasicData(list: List<ServiceCategoryItemDto>) {
@@ -140,8 +177,6 @@ class MassageListFragment : DaggerBaseFragment(), MassageItem.Callback,
         }
         massageList.addAll(list)
     }
-
-
 
     override fun onCartBarClick() {
         val list = arrayListOf<ServiceCategoryItemDto>()
@@ -154,15 +189,6 @@ class MassageListFragment : DaggerBaseFragment(), MassageItem.Callback,
             )
             list.add(item)
         }
-
-//        if (parentFragmentManager.findFragmentByTag(CartFragment.TAG) == null) {
-//            val fragment = CartFragment.newInstance(TAG, list)
-//            parentFragmentManager.beginTransaction()
-//                .setCustomAnimations(AnimationDirection.End)
-//                .add(R.id.fragmentContainer, fragment)
-//                .addToBackStack(null)
-//                .commit()
-//        }
     }
 
     override fun onIncreaseMassageItemClicked(massageItem: MassageItem) {
@@ -238,14 +264,6 @@ class MassageListFragment : DaggerBaseFragment(), MassageItem.Callback,
             itemCount += serviceCategoryItem.quantity
             totalPrice += (serviceCategoryItem.price.orZero() * serviceCategoryItem.quantity)
         }
-
-        // Set visibilty and data of cartBar
-//        if (cartList.size != 0) {
-//            cartBarView.visible()
-//            cartBarView.setItemPrice(totalPrice = totalPrice, items = itemCount)
-//        } else {
-//            cartBarView.gone()
-//        }
     }
 
     private fun showConfirmationDialog(title: String, subtitle: String) {

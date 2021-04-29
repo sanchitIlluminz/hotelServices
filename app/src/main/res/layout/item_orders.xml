@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="@dimen/app_margin_1"
+    android:paddingStart="@dimen/app_margin"
+    android:paddingEnd="@dimen/app_margin">
+    <TextView
+        android:id="@+id/tvItemCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_semi_bold"
+        android:textColor="@color/text_color_food"
+        android:textSize="@dimen/text_large"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/app_margin_1"
+        tools:text="3 items" />
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_regular"
+        android:textColor="@color/color_price"
+        android:textSize="@dimen/text_medium"
+        android:layout_below="@id/tvItemCount"
+        android:layout_alignParentStart="true"
+        tools:text="12:47" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_semi_bold"
+        android:textColor="@color/text_color_food"
+        android:textSize="@dimen/text_large"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/app_margin_1"
+        tools:text="500" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOrderItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_below="@id/tvTime"
+        android:layout_marginTop="@dimen/app_margin_half_1"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_food_order"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvOrderStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/rvOrderItem"
+        tools:text="Preparing"
+        android:fontFamily="@font/inter_regular"
+        android:textSize="@dimen/text_medium"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/ic_preparing_order"
+        android:layout_marginTop="@dimen/app_margin"
+        android:drawablePadding="@dimen/app_margin_half"
+        android:lineSpacingMultiplier="1.25"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvPreparationTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rvOrderItem"
+        tools:text="ETA 15 min"
+        android:fontFamily="@font/inter_semi_bold"
+        android:textSize="@dimen/text_default"
+        android:layout_toEndOf="@id/tvOrderStatus"
+        android:layout_alignBaseline="@id/tvOrderStatus"
+        android:textColor="@color/text_color"
+        android:background="@color/colorPrimary"
+        android:lineSpacingMultiplier="1.25"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_marginStart="@dimen/app_margin_half_1"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnDetails"
+        style="@style/AppButton.Unelivated.PrimaryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Detail"
+        android:textSize="@dimen/text_medium"
+        android:layout_marginTop="4dp"
+        android:layout_alignParentEnd="true"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:layout_below="@id/rvOrderItem"
+        />
+
+    <View
+        android:id="@+id/ivDivider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/btnDetails"
+        android:layout_marginTop="@dimen/app_margin"
+        android:background="@color/light_gray" />
+</RelativeLayout>

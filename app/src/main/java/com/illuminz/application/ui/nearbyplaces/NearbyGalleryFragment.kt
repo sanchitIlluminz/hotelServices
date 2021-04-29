@@ -8,12 +8,16 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.core.extensions.isNetworkActiveWithMessage
 import com.core.ui.base.DaggerBaseFragment
 import com.illuminz.application.R
 import com.illuminz.application.ui.nearbyplaces.items.GalleryDetailsItem
 import com.illuminz.application.ui.nearbyplaces.items.GalleryImageFullWidthItem
 import com.illuminz.application.ui.nearbyplaces.items.GalleryImageHalfWidthItem
+import com.illuminz.data.models.common.Status
 import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
@@ -36,6 +40,10 @@ class NearbyGalleryFragment : DaggerBaseFragment() {
         }
     }
 
+    private val viewModel by lazy {
+        ViewModelProvider(this,viewModelFactory)[NearbyViewModel::class.java]
+    }
+
     private lateinit var serviceCategoryItem: ServiceCategoryItemDto
 
     private lateinit var adapter: GroupAdapter<GroupieViewHolder>
@@ -46,20 +54,7 @@ class NearbyGalleryFragment : DaggerBaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initialise()
         setListeners()
-    }
-
-    private fun setListeners() {
-        toolbar.setNavigationOnClickListener {
-            requireActivity().onBackPressed()
-        }
-
-        btnRequest.setOnClickListener {
-//            parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            showConfirmationDialog(
-                "Thank you",
-                "we will call you in next 5 mins"
-            )
-        }
+        setObservers()
     }
 
     private fun initialise() {
@@ -74,23 +69,55 @@ class NearbyGalleryFragment : DaggerBaseFragment() {
 
         adapter.add(GalleryDetailsItem(serviceCategoryItem = serviceCategoryItem))
 
-        serviceCategoryItem.gallery?.forEachIndexed { index, image ->
+        serviceCategoryItem.gallery?.forEachIndexed { index, gallery ->
             val item = if (index % 3 == 0) {
-                GalleryImageFullWidthItem(image = image)
+                GalleryImageFullWidthItem(image = gallery.thumbnailPath.orEmpty())
             } else {
-                GalleryImageHalfWidthItem(image = image)
+                GalleryImageHalfWidthItem(image = gallery.thumbnailPath.orEmpty())
             }
             adapter.add(item)
         }
-//        for (i in 0 until imageList.size) {
-//            if (i % 3 == 0) {
-//                val item = GalleryImageFullWidthItem(image = imageList[i])
-//                adapter.add(item)
-//            } else {
-//                val item = GalleryImageHalfWidthItem(image = imageList[i])
-//                adapter.add(item)
-//            }
-//        }
+    }
+
+    private fun setListeners() {
+        toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
+        btnRequest.setOnClickListener {
+            if (requireContext().isNetworkActiveWithMessage()){
+                val roomDetailHandler = viewModel.getRoomHandler()
+                val roomNo = roomDetailHandler.roomDetails.roomNo
+                val groupCode = roomDetailHandler.roomDetails.groupCode
+                viewModel.submitCabRequest(
+                    roomNumber = roomNo,
+                    groupCode = groupCode,
+                    destination = serviceCategoryItem.title.orEmpty()
+                )
+            }
+        }
+    }
+
+    private fun setObservers() {
+        viewModel.getCabObserver().observe(viewLifecycleOwner, Observer { resource ->
+            when (resource.status) {
+                Status.LOADING -> {
+                    showLoading()
+                }
+
+                Status.SUCCESS -> {
+                    dismissLoading()
+                    showConfirmationDialog(
+                        "Thank you",
+                        "we will call you in next 5 mins")
+                }
+
+                Status.ERROR -> {
+                    dismissLoading()
+                    handleError(resource.error)
+                }
+            }
+        })
     }
 
     private fun showConfirmationDialog(title: String, subtitle: String) {
@@ -117,4 +144,6 @@ class NearbyGalleryFragment : DaggerBaseFragment() {
             show()
         }
     }
+
+
 }

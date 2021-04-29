@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="@dimen/app_margin">
+    android:paddingTop="@dimen/app_margin_half"
+    android:paddingBottom="@dimen/app_margin_half">
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:fontFamily="@font/inter_medium"
         android:lineSpacingMultiplier="1.2"
         android:maxLength="100"

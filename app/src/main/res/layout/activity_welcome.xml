@@ -4,74 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.welcome.WelcomeActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".ui.welcome.WelcomeActivity">
+
     <ImageView
         android:id="@+id/ivImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_imagemain"/>
+        android:src="@drawable/ic_imagemain" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_logo"
         android:layout_above="@id/llWelcome"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_logo" />
 
     <LinearLayout
         android:id="@+id/llWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/grey_dark"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@color/grey_dark"
-        android:padding="40dp"
-        android:layout_centerInParent="true">
+        android:padding="40dp">
 
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/inter_bold"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_xs"
-        tools:text="Hi, Ms.Monica" />
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/inter_bold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_xs"
+            tools:text="Hi, Ms.Monica" />
 
-    <TextView
-        android:id="@+id/tvMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="32dp"
-        android:fontFamily="@font/inter_medium"
-        android:gravity="center_horizontal"
-        android:textColor="@color/white"
-        tools:text="Have a nice stay at Empire Hotels"
-        />
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="32dp"
+            android:fontFamily="@font/inter_medium"
+            android:gravity="center_horizontal"
+            android:textColor="@color/white"
+            tools:text="Have a nice stay at Empire Hotels" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnExplore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:backgroundTint="@color/dialog_button_color"
-        android:minHeight="50dp"
-        android:text="@string/let_s_explore"
-        android:fontFamily="@font/inter_bold"
-        android:textSize="@dimen/text_large"
-        android:textColor="@color/dialog_title_color"
-        app:cornerRadius="6dp"
-        android:paddingTop="14dp"
-        android:paddingBottom="14dp"
-        android:paddingStart="40dp"
-        android:paddingEnd="40dp"
-        />
-
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnExplore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_bold"
+            android:minHeight="50dp"
+            android:paddingStart="40dp"
+            android:paddingTop="14dp"
+            android:paddingEnd="40dp"
+            android:paddingBottom="14dp"
+            android:text="@string/let_s_explore"
+            android:textColor="@color/dialog_title_color"
+            android:textSize="@dimen/text_large"
+            app:backgroundTint="@color/dialog_button_color"
+            app:cornerRadius="6dp" />
     </LinearLayout>
-
 </RelativeLayout>

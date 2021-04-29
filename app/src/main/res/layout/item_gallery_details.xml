@@ -26,37 +26,37 @@
         android:layout_below="@id/tvTitle"
         android:layout_marginTop="@dimen/app_margin_half_1"/>
 
-    <TextView
-        android:id="@+id/tvAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_bold"
-        android:textSize="@dimen/text_medium"
-        android:textColor="@color/text_color_2"
-        tools:text="Address: Gate of India Mumbai"
-        android:layout_below="@id/tvDescription"
-        android:layout_marginTop="8dp"/>
+<!--    <TextView-->
+<!--        android:id="@+id/tvAddress"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/inter_bold"-->
+<!--        android:textSize="@dimen/text_medium"-->
+<!--        android:textColor="@color/text_color_2"-->
+<!--        tools:text="Address: Gate of India Mumbai"-->
+<!--        android:layout_below="@id/tvDescription"-->
+<!--        android:layout_marginTop="8dp"/>-->
 
-    <TextView
-        android:id="@+id/tvHeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_bold"
-        android:textSize="@dimen/text_medium"
-        android:textColor="@color/text_color_2"
-        tools:text="Address: Gate of India Mumbai"
-        android:layout_below="@id/tvAddress"
-        android:layout_marginTop="8dp"/>
+<!--    <TextView-->
+<!--        android:id="@+id/tvHeight"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/inter_bold"-->
+<!--        android:textSize="@dimen/text_medium"-->
+<!--        android:textColor="@color/text_color_2"-->
+<!--        tools:text="Address: Gate of India Mumbai"-->
+<!--        android:layout_below="@id/tvAddress"-->
+<!--        android:layout_marginTop="8dp"/>-->
 
 
-    <TextView
-        android:id="@+id/tvOpened"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_bold"
-        android:textSize="@dimen/text_medium"
-        android:textColor="@color/text_color_2"
-        tools:text="Address: Gate of India Mumbai"
-        android:layout_below="@id/tvHeight"
-        android:layout_marginTop="8dp"/>
+<!--    <TextView-->
+<!--        android:id="@+id/tvOpened"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/inter_bold"-->
+<!--        android:textSize="@dimen/text_medium"-->
+<!--        android:textColor="@color/text_color_2"-->
+<!--        tools:text="Address: Gate of India Mumbai"-->
+<!--        android:layout_below="@id/tvHeight"-->
+<!--        android:layout_marginTop="8dp"/>-->
 </RelativeLayout>

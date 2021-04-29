@@ -5,6 +5,7 @@ import com.core.extensions.orZero
 import com.core.ui.base.BaseViewModel
 import com.core.utils.AppConstants
 import com.core.utils.SingleLiveEvent
+import com.illuminz.application.ui.home.RoomDetailsHandler
 import com.illuminz.data.models.common.Resource
 import com.illuminz.data.models.request.CartItemDetail
 import com.illuminz.data.models.request.CartRequest
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 class LaundryCartViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val cartHandler: CartHandler
+    private val cartHandler: CartHandler,
+    private val roomDetailsHandler: RoomDetailsHandler
 ) : BaseViewModel() {
     private val laundryCartObserver by lazy { SingleLiveEvent<Resource<LaundryCartResponse>>() }
     private val saveCartObserver by lazy { SingleLiveEvent<Resource<SaveLaundryOrderResponse>>() }
@@ -62,4 +64,6 @@ class LaundryCartViewModel @Inject constructor(
         )
         cartHandler.updateSavedLaundryCart(serviceCategoryItemDto)
     }
+
+    fun getRoomHandler(): RoomDetailsHandler = roomDetailsHandler
 }

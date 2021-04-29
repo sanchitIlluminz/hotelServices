@@ -5,9 +5,7 @@ import com.google.gson.Gson
 import com.illuminz.data.extensions.toApiError
 import com.illuminz.data.extensions.toApiFailure
 import com.illuminz.data.models.common.Resource
-import com.illuminz.data.models.request.CartRequest
-import com.illuminz.data.models.request.FeedbackRequest
-import com.illuminz.data.models.request.OrderListingRequest
+import com.illuminz.data.models.request.*
 import com.illuminz.data.models.response.*
 import com.illuminz.data.remote.SocketManager
 import com.illuminz.data.remote.UserApi
@@ -19,6 +17,7 @@ class UserRepositoryImpl @Inject constructor(
     private val preferences: SharedPreferences,
     private val gson: Gson,
     private val socketManager: SocketManager
+
 ) : UserRepository {
     companion object {
         private const val KEY_PROFILE = "KEY_PROFILE"
@@ -125,10 +124,10 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getOrderListing(orderListingRequest: OrderListingRequest): Resource<OrderListingResponse> {
         return try {
             val response = userApi.getOrderListing(
-                room = 111,
-                groupCode = "111"
+                room = orderListingRequest.room,
+                groupCode = orderListingRequest.groupCode,
 //                status = orderListingRequest.status?.or(-1),
-//                orderType = orderListingRequest.orderType?.or(0),
+                orderType = orderListingRequest.orderType?.or(0)
 //                page = orderListingRequest.page?.or(-1)
             )
             if (response.isSuccessful) {
@@ -157,7 +156,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getuserfeedback(room: Int, groupCode: String): Resource<FeedbackResponse> {
+    override suspend fun getUserFeedback(room: Int, groupCode: String): Resource<FeedbackResponse> {
         return try {
             val response = userApi.getUserFeedback(room, groupCode)
             if (response.isSuccessful) {
@@ -173,6 +172,75 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun submitFeedback(feedbackRequest: FeedbackRequest): Resource<FeedbackResponse> {
         return try {
             val response = userApi.submitFeedback(feedbackRequest)
+            if (response.isSuccessful) {
+                Resource.success(response.body()?.data)
+            } else {
+                Resource.error(response.toApiError())
+            }
+        } catch (throwable: Throwable) {
+            Resource.error(throwable.toApiFailure())
+        }
+    }
+
+    override suspend fun getGymDetails(): Resource<List<ServiceCategoryItemDto>> {
+        return try {
+            val response = userApi.getGymDetail()
+            if (response.isSuccessful) {
+                Resource.success(response.body()?.data)
+            } else {
+                Resource.error(response.toApiError())
+            }
+        } catch (throwable: Throwable) {
+            Resource.error(throwable.toApiFailure())
+        }
+    }
+
+    override suspend fun getNearbyPlacesDetail(): Resource<List<ServiceCategoryItemDto>> {
+        return try {
+            val response = userApi.getNearbyPlacesDetail()
+            if (response.isSuccessful) {
+                Resource.success(response.body()?.data)
+            } else {
+                Resource.error(response.toApiError())
+            }
+        } catch (throwable: Throwable) {
+            Resource.error(throwable.toApiFailure())
+        }
+    }
+
+    override suspend fun submitMassageRequest(massageRequest: MassageRequest): Resource<Any> {
+        return try {
+            val response = userApi.submitMassageRequest(massageRequest)
+            if (response.isSuccessful) {
+                Resource.success(response.body()?.data)
+            } else {
+                Resource.error(response.toApiError())
+            }
+        } catch (throwable: Throwable) {
+            Resource.error(throwable.toApiFailure())
+        }
+    }
+
+    override suspend fun submitServiceRequest(serviceRequest: ServiceRequest): Resource<Any> {
+        return try {
+            val response = userApi.submitServiceRequest(serviceRequest)
+            if (response.isSuccessful) {
+                Resource.success(response.body()?.data)
+            } else {
+                Resource.error(response.toApiError())
+            }
+        } catch (throwable: Throwable) {
+            Resource.error(throwable.toApiFailure())
+        }
+    }
+
+    override suspend fun getServiceRequest(
+        roomNumber: Int,
+        groupCode: String,
+        requestType: Int
+    ): Resource<ServiceRequestResponse> {
+        return try {
+            val response = userApi.getServiceRequest(roomNumber, groupCode, requestType)
             if (response.isSuccessful) {
                 Resource.success(response.body()?.data)
             } else {

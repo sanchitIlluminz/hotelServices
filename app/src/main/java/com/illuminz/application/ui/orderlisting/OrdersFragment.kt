@@ -39,18 +39,18 @@ class OrdersFragment : DaggerBaseFragment(), OrderClickListener {
             when (position) {
                 0 -> tab.text = "Food"
                 1 -> tab.text = "Laundry"
-                else -> tab.text = "Others"
+                else -> tab.text = "Requests"
             }
         }.attach()
     }
 
-    override fun openOrderDetail(orderResponse: FoodCartResponse) {
+    override fun openOrderDetail(orderResponse: FoodCartResponse, orderType: Int) {
         if (parentFragmentManager.findFragmentByTag(OrderDetailFragment.TAG) == null) {
             parentFragmentManager.beginTransaction()
                 .setCustomAnimations(AnimationDirection.End)
                 .replace(
                     R.id.fragmentContainer,
-                    OrderDetailFragment.newInstance(orderResponse),
+                    OrderDetailFragment.newInstance(orderResponse,orderType),
                     OrderDetailFragment.TAG
                 )
                 .addToBackStack(tag)

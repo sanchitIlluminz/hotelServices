@@ -7,6 +7,7 @@ import com.core.di.ViewModelKey
 import com.illuminz.application.ui.cart.FoodCartViewModel
 import com.illuminz.application.ui.cart.LaundryCartViewModel
 import com.illuminz.application.ui.food.FoodViewModel
+import com.illuminz.application.ui.gym.GymViewModel
 import com.illuminz.application.ui.home.FeedbackViewModel
 import com.illuminz.application.ui.home.ServicesViewModel
 import com.illuminz.application.ui.housekeeping.HouseKeepingViewModel
@@ -14,6 +15,7 @@ import com.illuminz.application.ui.laundry.LaundryViewModel
 import com.illuminz.application.ui.massage.MassageViewModel
 import com.illuminz.application.ui.nearbyplaces.NearbyViewModel
 import com.illuminz.application.ui.orderlisting.OrderListingViewModel
+import com.illuminz.application.ui.roomcleaning.RoomCleaningViewModel
 import com.illuminz.application.ui.welcome.WelcomeViewModel
 import dagger.Binds
 import dagger.Module
@@ -75,6 +77,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FeedbackViewModel::class)
     abstract fun feedbackViewModel(viewModel: FeedbackViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(GymViewModel::class)
+    abstract fun gymViewModel(viewModel: GymViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RoomCleaningViewModel::class)
+    abstract fun roomCleaningViewModel(viewModel: RoomCleaningViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

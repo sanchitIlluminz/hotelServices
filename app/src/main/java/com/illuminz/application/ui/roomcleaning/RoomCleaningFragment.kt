@@ -8,10 +8,14 @@ import android.view.*
 import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.core.extensions.isNetworkActiveWithMessage
 import com.core.ui.base.DaggerBaseFragment
 import com.illuminz.application.R
 import com.illuminz.application.ui.roomcleaning.items.PopupCleaningItem
+import com.illuminz.data.models.common.Status
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.dialog_confirm.*
@@ -30,6 +34,10 @@ class RoomCleaningFragment : DaggerBaseFragment() {
 
     private val scheduleTimings = listOf("10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM")
 
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory ) [RoomCleaningViewModel::class.java]
+    }
+
     private lateinit var cleaningPopup: PopupWindow
 
     override fun getLayoutResId(): Int = R.layout.fragment_room_cleaning
@@ -38,6 +46,30 @@ class RoomCleaningFragment : DaggerBaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initialise()
         setListeners()
+        setObservers()
+    }
+
+    private fun setObservers() {
+        viewModel.getRoomObserver().observe(viewLifecycleOwner, Observer { resource ->
+            when(resource.status){
+                Status.LOADING ->{
+                    showLoading()
+                }
+
+                Status.SUCCESS ->{
+                    dismissLoading()
+                    showConfirmationDialog(
+                        "Request submitted",
+                        "Our cleaning staff will arrive within 20 minutes."
+                    )
+                }
+
+                Status.ERROR ->{
+                    dismissLoading()
+                    handleError(resource.error)
+                }
+            }
+        })
     }
 
     private fun setListeners() {
@@ -71,10 +103,10 @@ class RoomCleaningFragment : DaggerBaseFragment() {
 //        }
 
         btOrderNow.setOnClickListener {
-            showConfirmationDialog(
-                "Request submitted",
-                "Our cleaning staff will arrive within 20 minutes."
-            )
+            if (requireContext().isNetworkActiveWithMessage()){
+                viewModel.submitCleaningRequest()
+            }
+
         }
     }
 

@@ -14,19 +14,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.core.extensions.isNetworkActiveWithMessage
 import com.core.extensions.setCustomAnimations
 import com.core.ui.base.DaggerBaseFragment
+import com.core.ui.custom.ClearFocusTextInputEditText
 import com.core.utils.AnimationDirection
-import com.core.utils.AppConstants
 import com.illuminz.application.R
 import com.illuminz.application.ui.bar.DrinksFragment
 import com.illuminz.application.ui.bookTable.BookTableFragment
 import com.illuminz.application.ui.custom.ErrorView
 import com.illuminz.application.ui.food.FoodListFragment
+import com.illuminz.application.ui.gym.GymFragment
 import com.illuminz.application.ui.home.items.*
 import com.illuminz.application.ui.housekeeping.HouseKeepingFragment
 import com.illuminz.application.ui.laundry.LaundryFragment
 import com.illuminz.application.ui.massage.MassageListFragment
 import com.illuminz.application.ui.nearbyplaces.NearbyFragment
-import com.illuminz.application.ui.orderlisting.OrderListingFragment
 import com.illuminz.application.ui.orderlisting.OrdersFragment
 import com.illuminz.application.ui.pickUpLuggage.PickLuggageFragment
 import com.illuminz.application.ui.roomcleaning.RoomCleaningFragment
@@ -77,6 +77,9 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback, ErrorView
 
     private var serviceList = mutableListOf<ServiceDto>()
 
+    private var roomNo = -1
+    private lateinit var groupCode:String
+
 
     private val viewModel by lazy {
         ViewModelProvider(requireActivity(), viewModelFactory)[ServicesViewModel::class.java]
@@ -97,10 +100,13 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback, ErrorView
         layoutManager.spanSizeLookup = adapter.spanSizeLookup
         rvHome.adapter = adapter
 
-        val a =  viewModel.getServiceObserver().value?.isSuccess()
+        val roomDetailHandler = viewModel.getRoomHandler()
+        roomNo = roomDetailHandler.roomDetails.roomNo
+        groupCode = roomDetailHandler.roomDetails.groupCode
+
         if (requireContext().isNetworkActiveWithMessage() &&
             viewModel.getServiceObserver().value?.isSuccess() != true) {
-            viewModel.getServices(111, "1618486040534")
+            viewModel.getServices(roomNo, groupCode)
         }else{
             viewModel.getServiceObserver().value?.data?.first?.let { setData(it) }
         }
@@ -109,7 +115,7 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback, ErrorView
     private fun setListener() {
         btnFeedback.setOnClickListener {
 //            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            val fragment = FeedbackFragment.newInstance(111,"1618486040534")
+            val fragment = FeedbackFragment.newInstance(roomNo, groupCode)
             openFragment(fragment, FeedbackFragment.TAG)
         }
 
@@ -132,10 +138,12 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback, ErrorView
                 when (item.serviceDto.tag) {
                     ORDER_FOOD -> {
                         val buffetList = guestInfoResponse.buffet
+                        val outletId = guestInfoResponse.settings?.outletId.orEmpty()
                         val fragment = FoodListFragment.newInstance(
                             serviceId = item.serviceDto.id.orEmpty(),
                             serviceTag = item.serviceDto.tag.orEmpty(),
-                            buffet = buffetList as ArrayList<BuffetDto>
+                            buffet = buffetList as ArrayList<BuffetDto>,
+                            outletId = outletId
                         )
                         openFragment(fragment, FoodListFragment.TAG)
                     }
@@ -174,8 +182,7 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback, ErrorView
                     NEARBY -> {
                         val fragment = NearbyFragment.newInstance(
                             serviceId = item.serviceDto.id.orEmpty(),
-                            serviceTag = item.serviceDto.tag.orEmpty(),
-                            fragmentType = AppConstants.FRAGMENT_TYPE_NEARBY
+                            serviceTag = item.serviceDto.tag.orEmpty()
                         )
                         openFragment(fragment, NearbyFragment.TAG)
                     }
@@ -190,12 +197,8 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback, ErrorView
                     }
 
                     GYM -> {
-                        val fragment = NearbyFragment.newInstance(
-                            serviceId = item.serviceDto.id.orEmpty(),
-                            serviceTag = item.serviceDto.tag.orEmpty(),
-                            fragmentType = AppConstants.FRAGMENT_TYPE_GYM
-                        )
-                        openFragment(fragment, NearbyFragment.TAG)
+                        val fragment = GymFragment.newInstance()
+                        openFragment(fragment, GymFragment.TAG)
                     }
 
                     LAUNDRY -> {
@@ -238,6 +241,26 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback, ErrorView
 
                 Status.ERROR -> {
                     viewFlipper.displayedChild = FLIPPER_CHILD_CONNECTION_ERROR
+                    handleError(resource.error)
+                }
+            }
+        })
+
+        viewModel.getCabObserver().observe(viewLifecycleOwner, Observer { resource ->
+            when (resource.status) {
+                Status.LOADING -> {
+                    showLoading()
+                }
+
+                Status.SUCCESS -> {
+                    dismissLoading()
+                    showConfirmationDialog(
+                        "Thank you",
+                        "we will call you in next 5 mins")
+                }
+
+                Status.ERROR -> {
+                    dismissLoading()
                     handleError(resource.error)
                 }
             }
@@ -409,10 +432,18 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback, ErrorView
             }
 
             btRequest.setOnClickListener {
+                val editText = dialog.findViewById<ClearFocusTextInputEditText>(R.id.etFeedback)
+                val destination = editText.text.toString()
+
                 dismiss()
-                showConfirmationDialog(
-                    "Thank you",
-                    "we will call you in next 5 mins")
+
+                if (requireContext().isNetworkActiveWithMessage()){
+                    viewModel.submitCabRequest(
+                        roomNumber = roomNo,
+                        groupCode = groupCode,
+                        destination = destination
+                        )
+                }
             }
             show()
         }
@@ -421,7 +452,7 @@ class HomeFragment : DaggerBaseFragment(), BookingDetailItem.Callback, ErrorView
     override fun onErrorButtonClicked() {
         if (requireContext().isNetworkActiveWithMessage() &&
             viewModel.getServiceObserver().value?.isSuccess() != true) {
-            viewModel.getServices(111, "1618486040534")
+            viewModel.getServices(roomNo, groupCode)
         }
     }
 }

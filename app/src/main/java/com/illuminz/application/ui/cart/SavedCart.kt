@@ -5,6 +5,6 @@ import com.illuminz.data.models.request.CartItemDetail
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class savedCart (
-    val items: MutableList<CartItemDetail> =  mutableListOf<CartItemDetail>()
-):Parcelable
+data class SavedCart(
+    val items: MutableList<CartItemDetail> = mutableListOf()
+) : Parcelable

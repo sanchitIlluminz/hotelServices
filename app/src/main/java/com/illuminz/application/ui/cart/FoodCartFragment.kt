@@ -100,8 +100,9 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
             requireArguments().getParcelableArrayList(KEY_CART_ITEMS) ?: emptyList()
         )
 
-        val roomNo = 111
-        val groupCode = "111"
+        val roomDetailHandler = viewModel.getRoomHandler()
+        val roomNo = roomDetailHandler.roomDetails.roomNo
+        val groupCode = roomDetailHandler.roomDetails.groupCode
         val cartItemList = mutableListOf<CartItemDetail>()
 
         cartItemRequestList.forEach { cartItem ->
@@ -400,8 +401,9 @@ class FoodCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem.Ca
 
     private fun getCartRequest(
     ): CartRequest {
-        val roomNo = 111
-        val groupCode = "1618486040534"
+        val roomDetailHandler = viewModel.getRoomHandler()
+        val roomNo = roomDetailHandler.roomDetails.roomNo
+        val groupCode = roomDetailHandler.roomDetails.groupCode
         val cartItemDetailList = mutableListOf<CartItemDetail>()
 
         cartItemsDetailList.forEach { cartItem ->

@@ -3,7 +3,9 @@ package com.illuminz.application.ui.massage
 import androidx.lifecycle.LiveData
 import com.core.ui.base.BaseViewModel
 import com.core.utils.SingleLiveEvent
+import com.illuminz.application.ui.home.RoomDetailsHandler
 import com.illuminz.data.models.common.Resource
+import com.illuminz.data.models.request.MassageRequest
 import com.illuminz.data.models.response.ServiceCategoryItemDto
 import com.illuminz.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
@@ -14,16 +16,19 @@ import java.util.*
 import javax.inject.Inject
 
 class MassageViewModel @Inject constructor(
-   val userRepository: UserRepository
+   val userRepository: UserRepository,
+   private val roomDetailsHandler: RoomDetailsHandler
 ): BaseViewModel() {
 
     private val massageListObserver by lazy { SingleLiveEvent<Resource<List<ServiceCategoryItemDto>>>() }
+    private val massageRequestObserver by lazy { SingleLiveEvent<Resource<Any>>() }
     private val searchItemObserver by lazy { SingleLiveEvent<Resource<List<ServiceCategoryItemDto>>>() }
     private var massageList = mutableListOf<ServiceCategoryItemDto>()
 
     private var searchMassageJob: Job? = null
 
     fun getMassageObserver(): LiveData<Resource<List<ServiceCategoryItemDto>>> = massageListObserver
+    fun getMassageRequestObserver(): LiveData<Resource<Any>> = massageRequestObserver
     fun getSearchObserver(): LiveData<Resource<List<ServiceCategoryItemDto>>> = searchItemObserver
 
     fun getMassageList(id:String,tag:String){
@@ -64,4 +69,15 @@ class MassageViewModel @Inject constructor(
             }
         }
     }
+
+    fun submitMassageRequest(massageRequest: MassageRequest){
+        launch {
+            massageRequestObserver.value = Resource.loading()
+            val response = userRepository.submitMassageRequest(massageRequest)
+            massageRequestObserver.value = response
+        }
+    }
+
+    fun getRoomHandler(): RoomDetailsHandler = roomDetailsHandler
+
 }

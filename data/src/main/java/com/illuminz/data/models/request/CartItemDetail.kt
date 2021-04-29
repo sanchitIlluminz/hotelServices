@@ -9,6 +9,9 @@ data class CartItemDetail(
     @field:SerializedName("id")
     val id:String? =null,
 
+    @field:SerializedName("packageId")
+    val packageId:String? =null,
+
     @field:SerializedName("quantity")
     var quantity:Int? =null,
 

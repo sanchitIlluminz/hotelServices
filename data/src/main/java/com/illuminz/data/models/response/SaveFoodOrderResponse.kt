@@ -1,6 +1,7 @@
 package com.illuminz.data.models.response
 
 import com.google.gson.annotations.SerializedName
+import org.threeten.bp.ZonedDateTime
 
 data class SaveFoodOrderResponse (
     @field:SerializedName("status")
@@ -20,6 +21,12 @@ data class SaveFoodOrderResponse (
 
     @field:SerializedName("groupCode")
     val groupCode:String? = null,
+
+    @field:SerializedName("createdAt")
+    val createdAt: ZonedDateTime? = null,
+
+    @field:SerializedName("updatedAt")
+    val updatedAt: ZonedDateTime? = null,
 
 
     @field:SerializedName("orderDetail")

@@ -8,20 +8,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.core.extensions.cannotScrollBottom
 import com.core.extensions.isNetworkActive
 import com.core.ui.base.DaggerBaseFragment
+import com.core.utils.AppConstants
 import com.illuminz.application.R
 import com.illuminz.application.ui.orderlisting.items.OrderItem
+import com.illuminz.application.ui.orderlisting.items.RequestOrderItem
 import com.illuminz.data.extensions.isConnectionError
 import com.illuminz.data.models.common.Status
+import com.illuminz.data.models.response.SaveFoodOrderResponse
+import com.illuminz.data.models.response.ServiceRequestDto
+import com.illuminz.data.models.response.ServiceRequestResponse
 import kotlinx.android.synthetic.main.fragment_order_listing.*
 
-class OrderListingFragment : DaggerBaseFragment() {
+class OrderListingFragment : DaggerBaseFragment(), OrderItem.Callback {
     companion object {
         const val TAG = "OrdersListingFragment"
 
-        private const val CHILD_WALLET_ITEMS = 0
-        private const val CHILD_LOADING = 1
-        private const val CHILD_CONNECTION_ERROR = 2
-        private const val CHILD_NO_ITEMS = 3
+        private const val FLIPPER_RESULT_ITEMS = 0
+        private const val FLIPPER_LOADING = 1
+        private const val FLIPPER_CONNECTION_ERROR = 2
+        private const val FLIPPER_NO_ITEMS = 3
 
         private const val ORDER_TYPE = "ORDER_TYPE"
 
@@ -50,16 +55,24 @@ class OrderListingFragment : DaggerBaseFragment() {
         setUpRecycler()
         setObservers()
         setListeners()
-        viewModel.getOrdersListing(orderType = orderType)
+        if (orderType != AppConstants.ORDER_TYPE_OTHERS) {
+            viewModel.getOrdersListing(orderType = orderType)
+        } else{
+            val roomDetailHandler = viewModel.getRoomHandler()
+            val roomNo = roomDetailHandler.roomDetails.roomNo
+            val groupCode = roomDetailHandler.roomDetails.groupCode
+            viewModel.getServiceRequest(roomNo, groupCode, AppConstants.SERVICE_REQUEST_TYPE_ALL)
+        }
+//
     }
 
     private fun setListeners() {
         adapter.setOnItemClickListener { item, view ->
-            if (item is OrderItem && item.orderResponse != null) {
-                val parent = parentFragment
-                if (parent is OrderClickListener){
-                    item.orderResponse?.let { parent.openOrderDetail(it) }
-                }
+//            if (item is OrderItem && item.orderResponse != null) {
+//                val parent = parentFragment
+//                if (parent is OrderClickListener) {
+//                    item.orderResponse?.orderDetail?.let { parent.openOrderDetail(it) }
+//                }
 //                if (parentFragmentManager.findFragmentByTag(OrderDetailFragment.TAG) == null) {
 //                    parentFragmentManager.beginTransaction()
 //                        .setCustomAnimations(AnimationDirection.End)
@@ -71,20 +84,18 @@ class OrderListingFragment : DaggerBaseFragment() {
 //                        .addToBackStack(tag)
 //                        .commit()
 //                }
-            }
+//            }
         }
     }
 
 
     private fun setUpRecycler() {
-        adapter = OrdersAdapter()
-        rvOrders.adapter = adapter
         rvOrders.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (recyclerView.cannotScrollBottom() &&
                     viewModel.isValidForPaging() &&
-                    requireActivity().isNetworkActive()
+                    requireActivity().isNetworkActive() && (orderType!=AppConstants.ORDER_TYPE_OTHERS)
                 ) {
                     viewModel.getOrdersListing(orderType = orderType)
                 }
@@ -94,6 +105,8 @@ class OrderListingFragment : DaggerBaseFragment() {
 
     private fun initialise() {
         orderType = requireArguments().getInt(ORDER_TYPE)
+        adapter = OrdersAdapter(this)
+        rvOrders.adapter = adapter
     }
 
     private fun setObservers() {
@@ -102,7 +115,7 @@ class OrderListingFragment : DaggerBaseFragment() {
             when (resource.status) {
                 Status.LOADING -> {
                     if (isFirstPage) {
-                        viewFlipper.displayedChild = CHILD_LOADING
+                        viewFlipper.displayedChild = FLIPPER_LOADING
                     } else {
                         adapter.setLoading(true)
                         rvOrders.scrollToPosition(adapter.getLoadingPosition())
@@ -110,16 +123,15 @@ class OrderListingFragment : DaggerBaseFragment() {
                 }
                 Status.SUCCESS -> {
                     val items = resource.data?.result?.data as MutableList
-
                     adapter.addItems(
                         isFirstPage,
                         items
                     )
                     if (adapter.itemCount == 0) {
-                        viewFlipper.displayedChild = CHILD_NO_ITEMS
+                        viewFlipper.displayedChild = FLIPPER_NO_ITEMS
 
                     } else {
-                        viewFlipper.displayedChild = CHILD_WALLET_ITEMS
+                        viewFlipper.displayedChild = FLIPPER_RESULT_ITEMS
 
                         if (isFirstPage) {
                             rvOrders.scrollToPosition(0)
@@ -134,19 +146,54 @@ class OrderListingFragment : DaggerBaseFragment() {
                     if (resource.isConnectionError()) {
                         if (isFirstPage) {
                             viewFlipper.displayedChild =
-                                CHILD_CONNECTION_ERROR
+                                FLIPPER_CONNECTION_ERROR
                         } else {
-                            viewFlipper.displayedChild = CHILD_WALLET_ITEMS
+                            viewFlipper.displayedChild = FLIPPER_RESULT_ITEMS
                             handleError(resource.error, view = view)
                         }
                     } else {
-                        viewFlipper.displayedChild = CHILD_WALLET_ITEMS
+                        viewFlipper.displayedChild = FLIPPER_RESULT_ITEMS
                         handleError(resource.error, view = view)
                     }
 //                    swipeRefreshLayout.isRefreshing = false
                 }
             }
         })
+
+        viewModel.getServiceResponseObserver().observe(viewLifecycleOwner, Observer { resource ->
+            when (resource.status) {
+                Status.LOADING -> {
+                    viewFlipper.displayedChild = FLIPPER_LOADING
+                }
+
+                Status.SUCCESS -> {
+                    viewFlipper.displayedChild = FLIPPER_RESULT_ITEMS
+                    resource.data?.let { setRequestData(it) }
+                }
+
+                Status.ERROR -> {
+                    FLIPPER_CONNECTION_ERROR
+                }
+            }
+        })
+    }
+
+    private fun setRequestData(serviceRequestResponse: ServiceRequestResponse) {
+        val list = mutableListOf<ServiceRequestDto>()
+        serviceRequestResponse.massageList?.let { list.addAll(it) }
+        serviceRequestResponse.serviceList?.let { list.addAll(it) }
+
+        list.forEach {
+            val item = RequestOrderItem(it)
+            adapter.add(item)
+        }
+    }
+
+    override fun onViewDetailsClicked(orderResponse: SaveFoodOrderResponse?) {
+        val parent = parentFragment
+        if (parent is OrderClickListener && orderResponse != null) {
+            orderResponse.orderDetail?.let { parent.openOrderDetail(it,orderType) }
+        }
     }
 
 }

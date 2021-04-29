@@ -31,7 +31,7 @@ data class ServiceCategoryItemDto(
     val distance: String? = null,
 
     @field:SerializedName("gallery")
-    val gallery: List<String>? = null,
+    val gallery: List<GalleryDto>? = null,
 
     @field:SerializedName("categoryName")
     val categoryName: String? = null,

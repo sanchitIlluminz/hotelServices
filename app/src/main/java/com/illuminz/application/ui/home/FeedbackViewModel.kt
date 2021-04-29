@@ -12,7 +12,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FeedbackViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val roomDetailsHandler: RoomDetailsHandler
 ): BaseViewModel() {
     private val submitFeedbackObserver by lazy { SingleLiveEvent<Resource<FeedbackResponse>>()}
     private val feedbackObserver by lazy { MutableLiveData<Resource<FeedbackResponse>>()}
@@ -23,7 +24,7 @@ class FeedbackViewModel @Inject constructor(
     fun getFeedback(room: Int, groupCode: String){
         launch {
             feedbackObserver.value = Resource.loading()
-            val resource = userRepository.getuserfeedback(room, groupCode)
+            val resource = userRepository.getUserFeedback(room, groupCode)
             feedbackObserver.value = resource
         }
     }
@@ -36,4 +37,5 @@ class FeedbackViewModel @Inject constructor(
         }
     }
 
+    fun getRoomHandler(): RoomDetailsHandler = roomDetailsHandler
 }

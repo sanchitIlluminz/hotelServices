@@ -22,5 +22,8 @@ data class SettingsDto(
     val wifi_name: String? = null,
 
     @SerializedName("wifi_password")
-    val wifi_password: String? = null
+    val wifi_password: String? = null,
+
+    @SerializedName("room_orders_outlet")
+    val outletId: String? = null
 )

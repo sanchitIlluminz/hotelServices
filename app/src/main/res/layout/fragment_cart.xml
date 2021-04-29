@@ -170,7 +170,7 @@
                         android:textSize="@dimen/text_large"
                         tools:text="300" />
 
-                    <ImageView
+                    <View
                         android:id="@+id/ivDivider1"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"

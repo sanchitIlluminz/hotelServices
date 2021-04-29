@@ -10,6 +10,7 @@ import com.illuminz.application.ui.cart.FoodCartFragment
 import com.illuminz.application.ui.cart.LaundryCartFragment
 import com.illuminz.application.ui.food.FoodListFragment
 import com.illuminz.application.ui.food.SearchFoodDialogFragment
+import com.illuminz.application.ui.gym.GymFragment
 import com.illuminz.application.ui.home.FeedbackFragment
 import com.illuminz.application.ui.housekeeping.HouseKeepingFragment
 import com.illuminz.application.ui.laundry.LaundryFragment
@@ -20,6 +21,7 @@ import com.illuminz.application.ui.massage.SearchMassageDialogFragment
 import com.illuminz.application.ui.nearbyplaces.ImageDialogFragment
 import com.illuminz.application.ui.nearbyplaces.NearbyFragment
 import com.illuminz.application.ui.nearbyplaces.NearbyGalleryFragment
+import com.illuminz.application.ui.orderlisting.OrderDetailFragment
 import com.illuminz.application.ui.orderlisting.OrderListingFragment
 import com.illuminz.application.ui.orderlisting.OrdersFragment
 import com.illuminz.application.ui.roomcleaning.RoomCleaningFragment
@@ -112,4 +114,10 @@ abstract class FragmentBindingModule {
 
     @ContributesAndroidInjector
     abstract fun ordersFragment() : OrdersFragment
+
+    @ContributesAndroidInjector
+    abstract fun gymFragment() : GymFragment
+
+    @ContributesAndroidInjector
+    abstract fun orderDetailFragment() : OrderDetailFragment
 }

@@ -38,22 +38,29 @@ class FoodListFragment(
         const val TAG = "FoodListFragment"
 
         private const val VEG = 1
-        private const val NON_VEG = 2
-        private const val ALL = 0
+        private const val NON_VEG = 0
+        private const val ALL = 2
 
-        private const val KEY_ID = "KEY_ID"
-        private const val KEY_TAG = "KEY_TAG"
+        private const val KEY_SERVICE_ID = "KEY_ID"
+        private const val KEY_SERVICE_TAG = "KEY_TAG"
         private const val KEY_BUFFET = "KEY_BUFFET"
+        private const val KEY_OUTLET_ID = "KEY_OUTLET_ID"
 
         private const val FLIPPER_CHILD_RESULT = 0
         private const val FLIPPER_CHILD_CONNECTION_ERROR = 2
         private const val FLIPPER_CHILD_LOADING = 1
 
-        fun newInstance(serviceId: String, serviceTag: String, buffet: ArrayList<BuffetDto>): FoodListFragment {
+        fun newInstance(
+            serviceId: String,
+            serviceTag: String,
+            buffet: ArrayList<BuffetDto>,
+            outletId: String
+        ): FoodListFragment {
             val fragment = FoodListFragment()
             val arguments = Bundle()
-            arguments.putString(KEY_ID, serviceId)
-            arguments.putString(KEY_TAG, serviceTag)
+            arguments.putString(KEY_SERVICE_ID, serviceId)
+            arguments.putString(KEY_SERVICE_TAG, serviceTag)
+            arguments.putString(KEY_OUTLET_ID, outletId)
             arguments.putParcelableArrayList(KEY_BUFFET,buffet)
             fragment.arguments = arguments
             return fragment
@@ -74,6 +81,7 @@ class FoodListFragment(
 
     private lateinit var serviceId: String
     private lateinit var serviceTag: String
+    private lateinit var outletId: String
 
     private val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[FoodViewModel::class.java]
@@ -95,8 +103,9 @@ class FoodListFragment(
         cartBarView.gone()
         btnMenu.gone()
 
-        serviceId = requireArguments().getString(KEY_ID).orEmpty()
-        serviceTag = requireArguments().getString(KEY_TAG).orEmpty()
+        serviceId = requireArguments().getString(KEY_SERVICE_ID).orEmpty()
+        serviceTag = requireArguments().getString(KEY_SERVICE_TAG).orEmpty()
+        outletId = requireArguments().getString(KEY_OUTLET_ID).orEmpty()
         buffetList.clear()
         buffetList.addAll(requireArguments().getParcelableArrayList<BuffetDto>(KEY_BUFFET).orEmpty())
 
@@ -150,10 +159,18 @@ class FoodListFragment(
         menuList.clear()
         foodAdapter.clear()
 
-        serviceCategoryList.addAll(list)
+
+//        serviceCategoryList.addAll(list)
+        list.forEach { item ->
+            if (item.outletId == outletId){
+                serviceCategoryList.add(item)
+            }
+        }
         serviceCategoryList.forEach { serviceCategoryItem ->
-            serviceCategoryItem.itemsArr?.forEach {
-                serviceCategoryItemList.add(it)
+            if (serviceCategoryItem.outletId == outletId){
+                serviceCategoryItem.itemsArr?.forEach {
+                    serviceCategoryItemList.add(it)
+                }
             }
         }
 
@@ -176,38 +193,40 @@ class FoodListFragment(
         addMealTimings(vegOnly = false,nonVegOnly = false)
 
         // Total items of type veg
-        val itemCount = getInitialItemCount(list = list, vegStatus = ALL)
+        val itemCount = getInitialItemCount(list = serviceCategoryList, vegStatus = ALL)
 
         // Add category name and items
-        list.forEachIndexed { index, serviceCategory ->
-            //Category
-            val title = serviceCategory.categoryName.orEmpty()
+        serviceCategoryList.forEachIndexed { index, serviceCategory ->
+            if (serviceCategory.outletId == outletId){
+                //Category
+                val title = serviceCategory.categoryName.orEmpty()
 
-            //With first title item count is also added
-            val itemCountFormatted = if (index == 0) {
-                resources.getQuantityString(
-                    R.plurals.category_count,
-                    itemCount,
-                    itemCount
+                //With first title item count is also added
+                val itemCountFormatted = if (index == 0) {
+                    resources.getQuantityString(
+                        R.plurals.category_count,
+                        itemCount,
+                        itemCount
+                    )
+                } else {
+                    null
+                }
+
+                val foodCategoryCount = serviceCategory.itemsArr?.size.orZero()
+                val titleItem = TitleItem(
+                    title = title,
+                    totalItemCount = itemCountFormatted,
+                    foodCategoryCount = foodCategoryCount
                 )
-            } else {
-                null
-            }
+                foodAdapter.add(titleItem)
 
-            val foodCategoryCount = serviceCategory.itemsArr?.size.orZero()
-            val titleItem = TitleItem(
-                title = title,
-                totalItemCount = itemCountFormatted,
-                foodCategoryCount = foodCategoryCount
-            )
-            foodAdapter.add(titleItem)
-
-            // Add items
-            serviceCategory.itemsArr?.forEach { categoryItem ->
-                if (categoryItem.vegStatus == VEG) {
+                // Add items
+                serviceCategory.itemsArr?.forEach { categoryItem ->
+//                if (categoryItem.vegStatus == VEG) {
                     val item = FoodItem(serviceCategoryItem = categoryItem, callback = this)
                     foodAdapter.add(item)
 //                    serviceCategoryItemList.add(categoryItem)
+//                }
                 }
             }
         }
@@ -520,9 +539,13 @@ class FoodListFragment(
     private fun getInitialItemCount(list: List<ServiceCategoryDto>, vegStatus: Int): Int {
         var count = 0
         list.forEach { serviceCategory ->
-            serviceCategory.itemsArr?.forEach { serviceCategoryItem ->
-                if (vegStatus == ALL || serviceCategoryItem.vegStatus == vegStatus) {
-                    count += 1
+            if (serviceCategory.outletId == outletId){
+                serviceCategory.itemsArr?.forEach { serviceCategoryItem ->
+                    if (vegStatus == ALL
+//                    || serviceCategoryItem.vegStatus == vegStatus
+                    ) {
+                        count += 1
+                    }
                 }
             }
         }
@@ -570,5 +593,4 @@ class FoodListFragment(
             viewModel.getFoodProducts(serviceId, serviceTag)
         }
     }
-
 }

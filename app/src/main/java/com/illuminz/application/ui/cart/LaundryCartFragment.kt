@@ -102,8 +102,9 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
         tvLiquorTaxesLabel.gone()
         tvFoodTaxesLabel.text = "Taxes"
 
-        val roomNo = 111
-        val groupCode = "1618486040534"
+        val roomDetailHandler = viewModel.getRoomHandler()
+        val roomNo = roomDetailHandler.roomDetails.roomNo
+        val groupCode = roomDetailHandler.roomDetails.groupCode
         val cartItemList = mutableListOf<CartItemDetail>()
 
         val cartRequest = CartRequest(
@@ -371,8 +372,9 @@ class LaundryCartFragment : DaggerBaseFragment(), CartBarView.Callback, CartItem
 
     private fun getCartRequest(
     ): CartRequest {
-        val roomNo = 111
-        val groupCode = "1618486040534"
+        val roomDetailHandler = viewModel.getRoomHandler()
+        val roomNo = roomDetailHandler.roomDetails.roomNo
+        val groupCode = roomDetailHandler.roomDetails.groupCode
         val cartItemDetailList = mutableListOf<CartItemDetail>()
 
         cartItemsDetailList.forEach { cartItem ->

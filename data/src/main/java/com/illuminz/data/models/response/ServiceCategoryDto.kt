@@ -9,6 +9,9 @@ data class ServiceCategoryDto(
    @field:SerializedName("_id")
    val id: String? = null,
 
+   @field:SerializedName("outletId")
+   val outletId: String? = null,
+
    @field:SerializedName("serviceId")
    val serviceId: String? = null,
 

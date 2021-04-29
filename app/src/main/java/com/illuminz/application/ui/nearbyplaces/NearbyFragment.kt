@@ -27,21 +27,18 @@ class NearbyFragment : DaggerBaseFragment() {
 
         private const val KEY_SERVICE_ID = "KEY_SERVICE_ID"
         private const val KEY_service_TAG = "KEY_TAG"
-        private const val KEY_FRAGMENT_TYPE = "KEY_FRAGMENT_TYPE"
 
         private const val FLIPPER_CHILD_RESULT = 0
         private const val FLIPPER_CHILD_LOADING = 1
 
         fun newInstance(
             serviceId: String,
-            serviceTag: String,
-            fragmentType: String
+            serviceTag: String
         ): NearbyFragment {
             val fragment = NearbyFragment()
             val arguments = Bundle()
             arguments.putString(KEY_SERVICE_ID, serviceId)
             arguments.putString(KEY_service_TAG, serviceTag)
-            arguments.putString(KEY_FRAGMENT_TYPE, fragmentType)
             fragment.arguments = arguments
             return fragment
         }
@@ -75,17 +72,17 @@ class NearbyFragment : DaggerBaseFragment() {
 
         serviceId = requireArguments().getString(KEY_SERVICE_ID).orEmpty()
         serviceTag = requireArguments().getString(KEY_service_TAG).orEmpty()
-        fragmentType = requireArguments().getString(KEY_FRAGMENT_TYPE).orEmpty()
 
-        val toolBarTitle = if (fragmentType == AppConstants.FRAGMENT_TYPE_NEARBY)
-            getString(R.string.nearby_places)
-        else
-            getString(R.string.fragment_title_gym)
+        val toolBarTitle = getString(R.string.nearby_places)
 
         toolbar.title = toolBarTitle
 
+//        if (requireContext().isNetworkActiveWithMessage() && viewModel.nearbyListEmpty()) {
+//            viewModel.getNearbyPlaces(serviceId, serviceTag)
+//        }
+
         if (requireContext().isNetworkActiveWithMessage() && viewModel.nearbyListEmpty()) {
-            viewModel.getNearbyPlaces(serviceId, serviceTag)
+            viewModel.getNearbyPlaces()
         }
     }
 
@@ -110,10 +107,7 @@ class NearbyFragment : DaggerBaseFragment() {
 
     private fun setBasicData(list: List<ServiceCategoryItemDto>) {
         adapter.clear()
-        val title = if (fragmentType == AppConstants.FRAGMENT_TYPE_NEARBY)
-            "Places to visit, Things to do, and more in Mumbai"
-        else
-            "You'll find something different in each of our clubs. Check out our favorites here"
+        val title = "Places to visit, Things to do, and more in Mumbai"
 
         adapter.add(NearbyTitleItem(title))
 
@@ -128,7 +122,7 @@ class NearbyFragment : DaggerBaseFragment() {
         }
 
         adapter.setOnItemClickListener { item, view ->
-            if (fragmentType == AppConstants.FRAGMENT_TYPE_NEARBY) {
+
                 if (item is NearbyItem) {
                     if (parentFragmentManager.findFragmentByTag(NearbyGalleryFragment.TAG) == null) {
                         parentFragmentManager.beginTransaction()
@@ -149,7 +143,6 @@ class NearbyFragment : DaggerBaseFragment() {
 //                ConfirmDialog.newInstance(getString(R.string.order_placed),
 //                    getString(R.string.order_will_be_delivered_in_time))
 //                    .show(childFragmentManager, ConfirmDialog.TAG)
-                }
             }
         }
     }

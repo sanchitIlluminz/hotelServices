@@ -3,6 +3,8 @@ package com.illuminz.data.remote
 import com.illuminz.data.models.common.ApiResponse
 import com.illuminz.data.models.request.CartRequest
 import com.illuminz.data.models.request.FeedbackRequest
+import com.illuminz.data.models.request.MassageRequest
+import com.illuminz.data.models.request.ServiceRequest
 import com.illuminz.data.models.response.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -38,8 +40,8 @@ interface UserApi {
     @GET("order/listing")
     suspend fun getOrderListing(
         @Query("room") room: Int?,
-        @Query("groupCode") groupCode:String?
-//        @Query("orderType") orderType:Int?,
+        @Query("groupCode") groupCode:String?,
+        @Query("orderType") orderType:Int?
 //        @Query("status") status:Int?,
 //        @Query("room") page:Int?
     ):Response<ApiResponse<OrderListingResponse>>
@@ -58,4 +60,23 @@ interface UserApi {
 
     @POST("postuserfeedback")
     suspend fun submitFeedback(@Body feedbackRequest: FeedbackRequest): Response<ApiResponse<FeedbackResponse>>
+
+    @GET("getgymdetail")
+    suspend fun getGymDetail(): Response<ApiResponse<List<ServiceCategoryItemDto>>>
+
+    @GET("getnearbyplaces")
+    suspend fun getNearbyPlacesDetail(): Response<ApiResponse<List<ServiceCategoryItemDto>>>
+
+    @POST("postspamassagerequest")
+    suspend fun submitMassageRequest(@Body massageRequest: MassageRequest):Response<ApiResponse<Any>>
+
+    @POST("postservicerequest")
+    suspend fun submitServiceRequest(@Body serviceRequest: ServiceRequest): Response<ApiResponse<Any>>
+
+    @GET("getservicerequest")
+    suspend fun getServiceRequest(
+        @Query("roomNumber") roomNumber :Int,
+        @Query("groupCode") groupCode :String,
+        @Query("requestType") requestType: Int
+    ): Response<ApiResponse<ServiceRequestResponse>>
 }

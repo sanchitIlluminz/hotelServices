@@ -90,4 +90,15 @@ object AppConstants {
     const val ORDER_TYPE_LAUNDRY = 2
     const val ORDER_TYPE_OTHERS = 3
 
+    const val SERVICE_REQUEST_TYPE_ROOM_CLEANING = 1
+    const val SERVICE_REQUEST_TYPE_CAB = 2
+
+    const val SERVICE_REQUEST_TYPE_ALL = 0
+
+    const val ORDER_STATUS_NEW = 0
+    const val ORDER_STATUS_ACCEPTED = 1
+    const val ORDER_STATUS_READY_TO_DELIVER = 2
+    const val ORDER_STATUS_DELIVERED = 3
+    const val ORDER_STATUS_CANCELLED = 4
+    const val ORDER_STATUS_PICKED = 5
 }

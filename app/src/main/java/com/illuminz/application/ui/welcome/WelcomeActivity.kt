@@ -102,6 +102,7 @@ class WelcomeActivity : AppCompatActivity() {
             )
             finish()
         }
+
     }
 
     private fun setBasicData() {

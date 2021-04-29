@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.core.ui.base.BaseViewModel
 import com.core.utils.AppConstants
 import com.core.utils.SingleLiveEvent
+import com.illuminz.application.ui.home.RoomDetailsHandler
 import com.illuminz.data.models.common.Resource
 import com.illuminz.data.models.request.CartRequest
 import com.illuminz.data.models.response.FoodCartResponse
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 class FoodCartViewModel  @Inject constructor(
     private val userRepository: UserRepository,
-    private val cartHandler: CartHandler
+    private val cartHandler: CartHandler,
+    private val roomDetailsHandler: RoomDetailsHandler
 ) : BaseViewModel() {
     private val foodCartObserver by lazy { SingleLiveEvent<Resource<FoodCartResponse>>() }
     private val saveCartObserver by lazy { SingleLiveEvent<Resource<SaveFoodOrderResponse>>() }
@@ -43,4 +45,6 @@ class FoodCartViewModel  @Inject constructor(
             saveCartObserver.value = response
         }
     }
+
+    fun getRoomHandler(): RoomDetailsHandler = roomDetailsHandler
 }
